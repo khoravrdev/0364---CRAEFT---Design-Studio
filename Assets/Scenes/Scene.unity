@@ -328,6 +328,7 @@ MonoBehaviour:
   m_sensitivityX: 0.25
   m_sensitivityY: 0.25
   m_sensitivityWheel: 0.1
+  Solid: {fileID: 1102368672}
 --- !u!1 &1102368672
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animate: 0
+  raycastHit: 0
 --- !u!1 &1232976828
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,7 +30,8 @@ public class Script : MonoBehaviour
 	float m_angle = 0.0f;
 	float m_angleStep = 0.0f;
 	
-
+	public bool raycastHit;
+	public bool enableOrbitCameraMode;
 	MeshCollider meshCollider;
 	void Start()
 	{
@@ -99,6 +100,8 @@ public class Script : MonoBehaviour
 		updateTexturingShader();
 
 		meshCollider = m_solid.GetComponent<MeshCollider>();
+		enableOrbitCameraMode = true;
+
 	}
 
 	void OnApplicationQuit()
@@ -120,7 +123,7 @@ public class Script : MonoBehaviour
 			m_solid.transform.localRotation = Quaternion.AngleAxis(m_angle, new Vector3(0, 1, 0));
 		}
 
-		if(Input.GetMouseButtonDown(0))
+		if(Input.GetMouseButton(0))
 		{	
 			OnMouseClick();
 		}
@@ -139,7 +142,7 @@ public class Script : MonoBehaviour
 		// Regenerate the solid's mesh.
 		updateMesh();
 
-	
+		Debug.Log(enableOrbitCameraMode + " MESA S|TO SCRIPT");
 	}
 
 	void updateMesh()
@@ -318,8 +321,10 @@ public class Script : MonoBehaviour
     {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 15f);
-		if(!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+		raycastHit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity);
+		if(!raycastHit)
 		{
+			enableOrbitCameraMode = true;
 			Debug.Log("KENO");
 			return;
 		}
@@ -329,7 +334,8 @@ public class Script : MonoBehaviour
 			Debug.Log("Oxi SOLID");
 			return;
 		}			
-
+		
+		enableOrbitCameraMode = false;
 		Debug.Log(hit.transform.gameObject.name);
 		m_generator.activateTool(1, true);
 		m_subtractiveTool.transform.position = hit.point;		
