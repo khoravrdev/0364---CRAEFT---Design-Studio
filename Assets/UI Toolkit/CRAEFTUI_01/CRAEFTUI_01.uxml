@@ -1,6 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI%20Toolkit/CRAEFTUI_01/Stylesheet_CRAEFT_01.uss?fileID=7433441132597879392&amp;guid=e032828b037e855418d0a04d8959a9af&amp;type=3#Stylesheet_CRAEFT_01" />
-    <engine:VisualElement name="MainWindow" style="flex-grow: 1; background-image: none; display: flex;">
+    <engine:VisualElement name="MainWindow" style="flex-grow: 1; background-image: none; display: flex; background-size: 100% 100%; background-position-y: top 0;">
         <engine:VisualElement name="CRAEFTLogo" style="flex-grow: 1; position: absolute; width: 89px; height: 92px; background-image: url(&quot;project://database/Assets/Images/Craeft%20Logo%20Final%20-%20white%20backgorund.png?fileID=2800000&amp;guid=d1944a5bc0960814eb5c8d06fdf86423&amp;type=3#Craeft Logo Final - white backgorund&quot;); top: 28px; left: 1808px;" />
         <engine:VisualElement name="LanguageIcon" style="flex-grow: 1; position: absolute; width: 60px; height: 60px; background-image: url(&quot;project://database/Assets/Images/LanguageIcon.png?fileID=2800000&amp;guid=59bfad401460b8d48a912e0154a71804&amp;type=3#LanguageIcon&quot;); top: 39px; left: 1725px;" />
         <engine:VisualElement name="DesignStudioWindow" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: none; display: none; opacity: 1;">
@@ -96,17 +96,18 @@
             </engine:VisualElement>
             <engine:VisualElement name="Footer" style="flex-grow: 0; width: 100%; height: 5%; background-color: rgba(243, 107, 109, 0.2);" />
         </engine:VisualElement>
+        <engine:VisualElement name="PotterySimulationWindow" style="flex-grow: 1; display: flex; background-image: none; overflow: visible; visibility: visible;">
+            <engine:VisualElement name="PotteryHeading" style="flex-grow: 0; width: 100%; height: 210px; background-color: rgba(243, 107, 109, 0.2);">
+                <engine:Label text="Pottery Simulation" name="HeadingText" style="flex-grow: 1; -unity-text-align: middle-center; font-size: 64px; -unity-font-style: bold; display: flex;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+        <engine:VisualElement name="BackgroundImage" style="flex-grow: 1; overflow: hidden; background-image: url(&quot;project://database/Assets/Images/BakGround/Background.png?fileID=2800000&amp;guid=3b97f1e2a6e6dbb458bde49a43fd46a1&amp;type=3#Background&quot;); background-position-y: top 0; position: absolute; height: 1470px; width: 2155px; flex-wrap: nowrap; visibility: hidden;" />
+        <engine:Button name="Burgerbutton" class="burger" style="position: absolute; top: 40px; left: 40px; height: 50px; width: 50px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" />
         <engine:VisualElement name="menuBar" class="menustyle MenuOptionsFont shootout">
             <engine:Button text="Home" name="Menu_HomeButton" />
             <engine:Button text="Visualization &#10;Toolbox" name="VisualizationToolboxButton" />
             <engine:Button text="Interactive &#10;Simulations" name="SimulationsButton" />
             <engine:Button text="Exit" name="Menu_ExitButton" />
-        </engine:VisualElement>
-        <engine:Button name="Burgerbutton" class="burger" style="position: absolute; top: 40px; left: 40px; height: 50px; width: 50px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" />
-        <engine:VisualElement name="PotterySimulationWindow" style="flex-grow: 1; display: flex;">
-            <engine:VisualElement name="Heading" style="flex-grow: 0; width: 100%; height: 210px; background-color: rgba(243, 107, 109, 0.2);">
-                <engine:Label text="Pottery Simulation" name="HeadingText" style="flex-grow: 1; -unity-text-align: middle-center; font-size: 64px; -unity-font-style: bold; display: flex;" />
-            </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

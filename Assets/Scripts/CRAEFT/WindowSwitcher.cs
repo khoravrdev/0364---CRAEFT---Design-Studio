@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System;
+using UnityEngine.SceneManagement;
 
 public class WindowSwitcher : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class WindowSwitcher : MonoBehaviour
 
     private VisualElement potterySimulatorWindow;
 
+    private VisualElement backgroundImage;
     // Button names (as defined in your UXML)
     private const string visualizationButtonName = "VisualizationToolboxButton";
     private const string simulationsButtonName = "SimulationsButton";
@@ -36,6 +38,8 @@ public class WindowSwitcher : MonoBehaviour
         simulationsWindow = root.Q<VisualElement>("SimulationsWindow");
         designStudioWindow = root.Q<VisualElement>("DesignStudioWindow");
         potterySimulatorWindow = root.Q<VisualElement>("PotterySimulationWindow");
+        backgroundImage = root.Q<VisualElement>("BackgroundImage");
+
         // Query for all buttons with the given names (even if they share the same name but different parents)
         List<Button> visualizationButtons = root.Query<Button>(visualizationButtonName).ToList();
         List<Button> simulationsButtons = root.Query<Button>(simulationsButtonName).ToList();
@@ -80,6 +84,15 @@ public class WindowSwitcher : MonoBehaviour
             potterySimulatorWindow.style.display = DisplayStyle.None;
        
         if (windowToShow != null)
+            if(windowToShow != potterySimulatorWindow)
+            {
+                if(SceneManager.GetSceneByName("Scene").isLoaded)
+                {
+                    SceneManager.UnloadSceneAsync("Scene");
+                    backgroundImage.style.height = 1440;
+                }
+               
+            }
             windowToShow.style.display = DisplayStyle.Flex;
     }
 
