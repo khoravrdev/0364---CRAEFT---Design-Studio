@@ -2,6 +2,7 @@ using UnityEngine;
 using RevolutionSolid;
 using System;
 
+
 public class Script : MonoBehaviour
 {
 	// The generated solid. This is a Unity game object. We regularly replace its mesh with a new
@@ -33,6 +34,9 @@ public class Script : MonoBehaviour
 	public bool raycastHit;
 	public bool enableOrbitCameraMode;
 	MeshCollider meshCollider;
+
+	public GameObject toolUIConnector;
+	private int toolIndex;
 	void Start()
 	{
 		m_solid = GameObject.Find("Solid");
@@ -101,6 +105,9 @@ public class Script : MonoBehaviour
 
 		meshCollider = m_solid.GetComponent<MeshCollider>();
 		enableOrbitCameraMode = true;
+		m_additiveTool.SetActive(false);
+		m_subtractiveTool.SetActive(false);
+		m_massPreservingTool.SetActive(false);
 
 	}
 
@@ -138,6 +145,7 @@ public class Script : MonoBehaviour
 		m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.GetComponent<Renderer>().localToWorldMatrix);
 		m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.GetComponent<Renderer>().localToWorldMatrix);
 		m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.GetComponent<Renderer>().localToWorldMatrix);
+		toolIndex = toolUIConnector.GetComponent<PotterySimulatorToolUIConnector>().toolIndex;
 
 		// Regenerate the solid's mesh.
 		updateMesh();
@@ -319,6 +327,7 @@ public class Script : MonoBehaviour
     {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 15f);
+		Vector3 objectToCenterSolidDirection;
 		raycastHit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity);
 		if(!raycastHit)
 		{
@@ -335,7 +344,30 @@ public class Script : MonoBehaviour
 		
 		enableOrbitCameraMode = false;
 		Debug.Log(hit.transform.gameObject.name);
-		m_generator.activateTool(1, true);
-		m_subtractiveTool.transform.position = hit.point;		
+		Vector3 solidXYPosition = new Vector3(m_solid.transform.position.x, m_solid.transform.position.y, m_subtractiveTool.transform.position.z);
+		if(toolIndex == 1)
+		{
+			objectToCenterSolidDirection = m_solid.transform.position - m_subtractiveTool.transform.position;
+			m_subtractiveTool.transform.position = hit.point + objectToCenterSolidDirection * 0.15f;
+			m_subtractiveTool.SetActive(true);
+			m_additiveTool.SetActive(false);
+			m_massPreservingTool.SetActive(false);
+
+		}
+		else if(toolIndex == 2)
+		{
+			m_additiveTool.transform.position = hit.point;
+			m_additiveTool.SetActive(true);
+			m_massPreservingTool.SetActive(false);
+			m_subtractiveTool.SetActive(false);
+		}
+		else if(toolIndex == 3)
+		{
+			m_massPreservingTool.transform.position = hit.point;
+			m_additiveTool.SetActive(false);
+			m_massPreservingTool.SetActive(true);
+			m_subtractiveTool.SetActive(false);
+		}
+				
     } 
 }

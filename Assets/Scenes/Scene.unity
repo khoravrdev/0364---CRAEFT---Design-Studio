@@ -359,6 +359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIDocument: {fileID: 0}
+  toolIndex: 0
 --- !u!4 &1072526422
 Transform:
   m_ObjectHideFlags: 0
@@ -476,6 +477,7 @@ MonoBehaviour:
   animate: 1
   raycastHit: 0
   enableOrbitCameraMode: 0
+  toolUIConnector: {fileID: 1072526420}
 --- !u!1 &1232976828
 GameObject:
   m_ObjectHideFlags: 0
