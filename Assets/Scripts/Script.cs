@@ -123,7 +123,7 @@ public class Script : MonoBehaviour
 			m_solid.transform.localRotation = Quaternion.AngleAxis(m_angle, new Vector3(0, 1, 0));
 		}
 
-		if(Input.GetMouseButton(0))
+		if(Input.GetMouseButtonDown(0))
 		{	
 			OnMouseClick();
 		}
@@ -141,8 +141,6 @@ public class Script : MonoBehaviour
 
 		// Regenerate the solid's mesh.
 		updateMesh();
-
-		Debug.Log(enableOrbitCameraMode + " MESA S|TO SCRIPT");
 	}
 
 	void updateMesh()
@@ -320,7 +318,7 @@ public class Script : MonoBehaviour
     void OnMouseClick()
     {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 15f);
+		Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 15f);
 		raycastHit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity);
 		if(!raycastHit)
 		{
