@@ -1,5 +1,6 @@
 using UnityEngine;
 using RevolutionSolid;
+using System;
 
 public class Script : MonoBehaviour
 {
@@ -28,7 +29,9 @@ public class Script : MonoBehaviour
 	// These are used for the solid animation, if enabled.
 	float m_angle = 0.0f;
 	float m_angleStep = 0.0f;
+	
 
+	MeshCollider meshCollider;
 	void Start()
 	{
 		m_solid = GameObject.Find("Solid");
@@ -94,6 +97,8 @@ public class Script : MonoBehaviour
 		// Setup parameters for the texturing shader. This should be called whenever you change the
 		// template (i.e. when you call Generator.setTemplate()).
 		updateTexturingShader();
+
+		meshCollider = m_solid.GetComponent<MeshCollider>();
 	}
 
 	void OnApplicationQuit()
@@ -115,6 +120,11 @@ public class Script : MonoBehaviour
 			m_solid.transform.localRotation = Quaternion.AngleAxis(m_angle, new Vector3(0, 1, 0));
 		}
 
+		if(Input.GetMouseButtonDown(0))
+		{	
+			OnMouseClick();
+		}
+
 		// Apply the key shortcuts used for this demo.
 		processKeyboard();
 
@@ -128,6 +138,8 @@ public class Script : MonoBehaviour
 
 		// Regenerate the solid's mesh.
 		updateMesh();
+
+	
 	}
 
 	void updateMesh()
@@ -160,7 +172,22 @@ public class Script : MonoBehaviour
 		mesh.normals = normals;
 		mesh.triangles = indices;
 
+		//Update mesh collider to fit the deformed gameobject
+		if(meshCollider == null)
+		{
+			meshCollider = (MeshCollider) m_solid.AddComponent(typeof(MeshCollider));
+		}
+		
+		else
+		{	
+			MeshFilter mf = m_solid.GetComponent<MeshFilter>();
+			Mesh sculptMesh = mf.mesh;
+			meshCollider.sharedMesh =  null;
+			meshCollider.sharedMesh = sculptMesh;
+		}	
+		
 		Debug.Log("Mesh updated: " + vertices.Length + " vertices, " + indices.Length / 3 + " triangles");
+
 	}
 
 	void updateTexturingShader()
@@ -286,4 +313,25 @@ public class Script : MonoBehaviour
 		{
 		}
 	}
+
+    void OnMouseClick()
+    {
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 15f);
+		if(!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+		{
+			Debug.Log("KENO");
+			return;
+		}
+
+		if(hit.collider.gameObject != m_solid)
+		{
+			Debug.Log("Oxi SOLID");
+			return;
+		}			
+
+		Debug.Log(hit.transform.gameObject.name);
+		m_generator.activateTool(1, true);
+		m_subtractiveTool.transform.position = hit.point;		
+    } 
 }

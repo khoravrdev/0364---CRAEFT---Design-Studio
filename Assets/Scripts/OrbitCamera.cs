@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class OrbitCamera : MonoBehaviour
 {
@@ -26,9 +27,12 @@ public class OrbitCamera : MonoBehaviour
 
 	void Update()
 	{
+			
 		if (Input.GetMouseButtonDown(0))
 		{
+				
 			m_lastMouse = Input.mousePosition;
+			
 		}
 		else if(Input.GetMouseButton(0))
 		{
@@ -60,5 +64,6 @@ public class OrbitCamera : MonoBehaviour
 
 		transform.position = m.GetColumn(3);
 		transform.rotation = m.rotation;
+
 	}
 }
