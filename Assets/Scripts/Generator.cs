@@ -850,6 +850,36 @@ namespace RevolutionSolid
 			NativeMethods.RevolutionSolid_getMesh(m_handle, vertices, normals, indices);
 		}
 
+		/// <summary>
+		/// Retrieve the generated mesh.
+		/// </summary>
+		/// <remarks>
+		/// This should only be called after a call to <see cref="generate"/>.<br/>
+		/// The lengths of the <paramref name="vertices"/> and <paramref name="normals"/> arrays are
+		/// the same. The length of the <paramref name="indices"/> array is 3*<paramref name="vertices"/>.Length.
+		/// Every 3 consecutive indices in the <paramref name="indices"/> array form a triangle.
+		/// Thus, the generated mesh has <paramref name="indices"/>.Length/3 triangles.
+		/// </remarks>
+		/// <param name="vertices">Array of vertices.</param>
+		/// <param name="normals">Array of unit length normal vectors (one for each vertex).</param>
+		/// <param name="texCoords">Array of texture coordinates (one for each vertex).</param>
+		/// <param name="indices">Array of triangle indices (3 consecutive indices form a triangle).</param>
+		/// <seealso cref="generate"/>
+		public void getMesh(out UnityEngine.Vector3[] vertices, out UnityEngine.Vector3[] normals, out UnityEngine.Vector2[] texCoords, out int[] indices)
+		{
+			int numVertices;
+			int numTriangles;
+
+			NativeMethods.RevolutionSolid_getMeshSize(m_handle, out numVertices, out numTriangles);
+
+			vertices = new UnityEngine.Vector3[numVertices];
+			normals = new UnityEngine.Vector3[numVertices];
+			texCoords = new UnityEngine.Vector2[numVertices];
+			indices = new int[numTriangles * 3];
+
+			NativeMethods.RevolutionSolid_getMeshEx(m_handle, vertices, normals, texCoords, indices);
+		}
+
 		IntPtr m_handle = IntPtr.Zero;
 	}
 }

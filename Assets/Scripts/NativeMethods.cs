@@ -144,6 +144,9 @@ namespace RevolutionSolid
 		internal static extern void RevolutionSolid_getMesh(IntPtr potteryGenerator, [Out] UnityEngine.Vector3[] vertices, [Out] UnityEngine.Vector3[] normals, [Out] int[] triangles);
 
 		[DllImport(DLL_FILENAME, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern void RevolutionSolid_getMeshEx(IntPtr potteryGenerator, [Out] UnityEngine.Vector3[] vertices, [Out] UnityEngine.Vector3[] normals, [Out] UnityEngine.Vector2[] texCoords, [Out] int[] triangles);
+
+		[DllImport(DLL_FILENAME, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern IntPtr Voxelizer_create();
 
 		[DllImport(DLL_FILENAME, CallingConvention = CallingConvention.Cdecl)]
