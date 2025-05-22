@@ -360,6 +360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIDocument: {fileID: 0}
   toolIndex: 0
+  mainScript: {fileID: 1102368672}
 --- !u!4 &1072526422
 Transform:
   m_ObjectHideFlags: 0

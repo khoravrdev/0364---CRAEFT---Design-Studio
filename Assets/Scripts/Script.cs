@@ -16,12 +16,12 @@ public class Script : MonoBehaviour
 	// The tool objects. These area sphere game objects. You can apply transformations to them, but
 	// only uniform scaling is currently supported. During runtime, move the spheres closer to the
 	// solid (by applying translation). When the spheres collide with the solid they will "carve" it.
-	GameObject m_subtractiveTool = null;
-	GameObject m_additiveTool = null;
-	GameObject m_massPreservingTool = null;
+	public GameObject m_subtractiveTool = null;
+	public GameObject m_additiveTool = null;
+	public GameObject m_massPreservingTool = null;
 
 	// The generator instance. Created in Start(), destroyed in OnApplicationQuit().
-	Generator m_generator = null;
+	public Generator m_generator = null;
 
 	// If true, apply rotation to the solid about its Y axis to emulate the solid being upon a
 	// turntable.
@@ -146,7 +146,6 @@ public class Script : MonoBehaviour
 		m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.GetComponent<Renderer>().localToWorldMatrix);
 		m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.GetComponent<Renderer>().localToWorldMatrix);
 		toolIndex = toolUIConnector.GetComponent<PotterySimulatorToolUIConnector>().toolIndex;
-
 		// Regenerate the solid's mesh.
 		updateMesh();
 	}
@@ -323,51 +322,51 @@ public class Script : MonoBehaviour
 		}
 	}
 
-    void OnMouseClick()
-    {
+	void OnMouseClick()
+	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 15f);
 		Vector3 objectToCenterSolidDirection;
 		raycastHit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity);
-		if(!raycastHit)
+		if (!raycastHit)
 		{
 			enableOrbitCameraMode = true;
-			Debug.Log("KENO");
 			return;
 		}
 
-		if(hit.collider.gameObject != m_solid)
+		if (hit.collider.gameObject != m_solid)
 		{
-			Debug.Log("Oxi SOLID");
 			return;
-		}			
-		
+		}
+
 		enableOrbitCameraMode = false;
 		Debug.Log(hit.transform.gameObject.name);
-		Vector3 solidXYPosition = new Vector3(m_solid.transform.position.x, m_solid.transform.position.y, m_subtractiveTool.transform.position.z);
-		if(toolIndex == 1)
-		{
-			objectToCenterSolidDirection = m_solid.transform.position - m_subtractiveTool.transform.position;
-			m_subtractiveTool.transform.position = hit.point + objectToCenterSolidDirection * 0.15f;
-			m_subtractiveTool.SetActive(true);
-			m_additiveTool.SetActive(false);
-			m_massPreservingTool.SetActive(false);
 
+		Vector3 solidXYPosition = new Vector3(m_solid.transform.position.x, m_solid.transform.position.y, m_subtractiveTool.transform.position.z);
+
+		if (toolIndex == 1)
+		{
+			objectToCenterSolidDirection = solidXYPosition - m_subtractiveTool.transform.position;
+			m_subtractiveTool.transform.position = hit.point - ray.direction * 0.15f;
+			m_subtractiveTool.SetActive(true);
+			m_additiveTool.SetActive(false);			
+			m_massPreservingTool.SetActive(false);
 		}
-		else if(toolIndex == 2)
+		else if (toolIndex == 2)
 		{
 			m_additiveTool.transform.position = hit.point;
 			m_additiveTool.SetActive(true);
 			m_massPreservingTool.SetActive(false);
 			m_subtractiveTool.SetActive(false);
 		}
-		else if(toolIndex == 3)
+		else if (toolIndex == 3)
 		{
 			m_massPreservingTool.transform.position = hit.point;
 			m_additiveTool.SetActive(false);
 			m_massPreservingTool.SetActive(true);
 			m_subtractiveTool.SetActive(false);
 		}
-				
+
+			
     } 
 }
