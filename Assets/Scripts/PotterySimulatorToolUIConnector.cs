@@ -13,6 +13,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
     private VisualElement resetObjectButton;
 
     private VisualElement cameraOrbitingButton;
+    private VisualElement subtractiveMultiToolButton;
     private VisualElement root;
 
     public int toolIndex;
@@ -37,7 +38,8 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             massPreservingToolButton = root.Q<Button>("MassPreservingTool");
             resetObjectButton = root.Q<Button>("ResetButton");
             cameraOrbitingButton = root.Q<Button>("OrbitingCameraButton");
-            toolIndex = 0;
+            subtractiveMultiToolButton = root.Q<Button>("SubtractiveMultiTool");
+            toolIndex = 4;
 
 
 
@@ -46,6 +48,11 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             massPreservingToolButton.RegisterCallback<ClickEvent>(OnClickMassPreservingToolButton);
             resetObjectButton.RegisterCallback<ClickEvent>(OnClickResetButton);
             cameraOrbitingButton.RegisterCallback<ClickEvent>(OnClickCameraOrbitingButton);
+            subtractiveMultiToolButton.RegisterCallback<ClickEvent>(OnClickSubtractiveMultiToolButton);
+
+            //Start by setting camera mode ON
+            camera.GetComponent<OrbitCamera>().enableCameraMode = true;
+            cameraOrbitingButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
         }
 
     }
@@ -66,9 +73,15 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             subtractiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
             additiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
             massPreservingToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+            subtractiveMultiToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
             mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+            mainScript.GetComponent<Script>().m_subtractiveTool1.transform.position = new Vector3(1000f, 0f, 0f);
+            mainScript.GetComponent<Script>().m_additiveTool.SetActive(false);
+            mainScript.GetComponent<Script>().m_subtractiveTool.SetActive(false);
+            mainScript.GetComponent<Script>().m_massPreservingTool.SetActive(false);
+            mainScript.GetComponent<Script>().m_subtractiveTool1.SetActive(false);
 
         }
     }
@@ -79,6 +92,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         subtractiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
         additiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
         massPreservingToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+        subtractiveMultiToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
 
@@ -96,6 +110,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         additiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
         subtractiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
         massPreservingToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+        subtractiveMultiToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
 
@@ -111,8 +126,27 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         massPreservingToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
         additiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
         subtractiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+        subtractiveMultiToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+
+        //If other button than orbit camera pressed resest values
+        camera.GetComponent<OrbitCamera>().enableCameraMode = false;
+        cameraOrbitingButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+    }
+
+    private void OnClickSubtractiveMultiToolButton(ClickEvent evt)
+    {
+        Debug.Log("Clicked Subtractive Multi tool");
+        toolIndex = 4;
+        subtractiveMultiToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
+        massPreservingToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+        additiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+        subtractiveToolButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
+
+        mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
 
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
