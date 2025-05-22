@@ -330,7 +330,6 @@ public class Script : MonoBehaviour
 		raycastHit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity);
 		if (!raycastHit)
 		{
-			enableOrbitCameraMode = true;
 			return;
 		}
 
@@ -339,7 +338,6 @@ public class Script : MonoBehaviour
 			return;
 		}
 
-		enableOrbitCameraMode = false;
 		Debug.Log(hit.transform.gameObject.name);
 
 		Vector3 solidXYPosition = new Vector3(m_solid.transform.position.x, m_solid.transform.position.y, m_subtractiveTool.transform.position.z);

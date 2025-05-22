@@ -361,6 +361,7 @@ MonoBehaviour:
   uIDocument: {fileID: 0}
   toolIndex: 0
   mainScript: {fileID: 1102368672}
+  camera: {fileID: 829961424}
 --- !u!4 &1072526422
 Transform:
   m_ObjectHideFlags: 0
@@ -475,6 +476,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5820ee0c56228fb4f8a86fa91bcca4b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_subtractiveTool: {fileID: 0}
+  m_additiveTool: {fileID: 0}
+  m_massPreservingTool: {fileID: 0}
   animate: 1
   raycastHit: 0
   enableOrbitCameraMode: 0
