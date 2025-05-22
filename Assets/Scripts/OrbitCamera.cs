@@ -27,15 +27,15 @@ public class OrbitCamera : MonoBehaviour
 	
 	public GameObject Solid;
 	bool raycastHitFromScript;
-	bool enableCameraMode;
-    void Start()
-    {
+	public bool enableCameraMode;
+	void Start()
+	{
 		raycastHitFromScript = Solid.GetComponent<Script>().raycastHit;
 		enableCameraMode = Solid.GetComponent<Script>().enableOrbitCameraMode;
+		enableCameraMode = false;
     }
     void Update()
 	{
-		enableCameraMode = Solid.GetComponent<Script>().enableOrbitCameraMode;
 		if(enableCameraMode == true)
 		{
 			if (Input.GetMouseButtonDown(0))
@@ -54,7 +54,7 @@ public class OrbitCamera : MonoBehaviour
 
 				m_elevation = Mathf.Clamp(m_elevation - dy * m_sensitivityY, -90.0f, 90.0f);
 			}
-
+		}
 			if (Input.mouseScrollDelta.y < 0.0f)
 			{
 				m_orbitRadius = Mathf.Clamp(m_orbitRadius * (1.0f - m_sensitivityWheel), 0.1f, 10.0f);
@@ -74,7 +74,7 @@ public class OrbitCamera : MonoBehaviour
 			transform.position = m.GetColumn(3);
 			transform.rotation = m.rotation;
 
-		}
+		
 	}
 
 }
