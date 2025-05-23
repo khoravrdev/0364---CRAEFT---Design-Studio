@@ -1,9 +1,12 @@
 using System.ComponentModel.Design.Serialization;
+using System.IO;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class PotterySimulatorToolUIConnector : MonoBehaviour
 {
@@ -18,6 +21,12 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
     private VisualElement subtractiveMultiToolButton;
     private VisualElement additiveMultiToolButton;
 
+    //Load template button and drop menu
+    private Button loadTemplateButton;
+    private DropdownField loadListTemplates;
+    //Save File button and text input
+    private VisualElement saveTemplateButton;
+    private TextField saveTemplateText;
 
     //Turntable buttons and slider
     private VisualElement turnTableToggle;
@@ -54,6 +63,12 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
 
             undoButton = root.Q<Button>("UndoButton");
 
+            saveTemplateButton = root.Q<Button>("SaveTemplate");
+            saveTemplateText = root.Q<TextField>("SavedFileName");
+
+            loadTemplateButton = root.Q<Button>("LoadTemplate");
+            loadListTemplates = root.Q<DropdownField>("ListTemplates");
+
             turnTableSpeed = root.Q<Slider>("TurntableSpeedSlider");
             turnTableToggle = root.Q<Toggle>("ToggleTurntableAnimation");
             toolIndex = 0;
@@ -62,7 +77,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             turnTableSpeed.RegisterCallback<FocusEvent>(evt =>
             {
                 camera.GetComponent<OrbitCamera>().enableCameraMode = false;
-                Debug.Log("Slider interaction started. isSliderIdle = false");
+    
             });
 
             // Detect when user releases the slider
@@ -74,11 +89,11 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
                     {
                         camera.GetComponent<OrbitCamera>().enableCameraMode = true;
                     }
-                    Debug.Log("Slider interaction ended. isSliderIdle = true");
+                    
                 }
             });
-           
-            
+
+
 
             subtractiveToolButton.RegisterCallback<ClickEvent>(OnClickSubtractiveToolButton);
             additiveToolButton.RegisterCallback<ClickEvent>(OnClickAdditiveToolButton);
@@ -90,18 +105,66 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
 
             undoButton.RegisterCallback<ClickEvent>(OnClickUndoButton);
 
+            saveTemplateButton.RegisterCallback<ClickEvent>(OnClickSaveTemplateButton);
+            //saveTemplateText.RegisterCallback<ChangeEvent<string>>(OnSaveTemplateTextChange);
+
+            //loadTemplateButton.RegisterCallback<ClickEvent>(OnClickLoadTemplateButton);
+            loadListTemplates.RegisterCallback<ChangeEvent<string>>(OnDropDownListChanged);
+
             turnTableToggle.RegisterCallback<ChangeEvent<bool>>(OnTurntableValueChange);
             turnTableSpeed.RegisterCallback<ChangeEvent<float>>(OnTurntableSpeedChange);
-    
+
             //Start by setting camera mode ON
             camera.GetComponent<OrbitCamera>().enableCameraMode = true;
             cameraOrbitingButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
+
+        }
+        PopulateDropdown();
+    }
+
+    private void OnDropDownListChanged(ChangeEvent<string> evt)
+    {
+        string selectedFile = evt.newValue;        
+        string fullPath = Path.Combine(Application.streamingAssetsPath, selectedFile);
+        mainScript.GetComponent<Script>().m_generator.setTemplate(fullPath);
+        mainScript.GetComponent<Script>().updateTexturingShader();
+        Debug.Log("Selected file: " + fullPath);
+    }
+    private void PopulateDropdown()
+    {
+        string[] files = Directory.GetFiles(Path.Combine(Application.streamingAssetsPath));
+        List<string> fileNames = new List<string>();
+
+        foreach (var file in files)
+        {
+             if (Path.GetExtension(file).Equals(".png", System.StringComparison.OrdinalIgnoreCase))
+            {
+                fileNames.Add(Path.GetFileName(file));
+            }           
         }
 
+        loadListTemplates.choices = fileNames;
+
+        if (fileNames.Count > 0)
+            loadListTemplates.value = fileNames[0]; // Select first by default
+        else
+            loadListTemplates.value = ""; // Empty state
+    }
+
+    private void OnClickSaveTemplateButton(ClickEvent evt)
+    {
+        if (!string.IsNullOrWhiteSpace(saveTemplateText.value))
+        {
+            mainScript.GetComponent<Script>().m_generator.saveAsTemplate(Application.streamingAssetsPath + "/" + saveTemplateText.value + ".png");
+            PopulateDropdown();
+
+            saveTemplateText.value = "";
+        }
     }
 
     private void OnClickUndoButton(ClickEvent evt)
     {
+        Debug.Log("Undo button pressed");
         mainScript.GetComponent<Script>().m_generator.popUndo();
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);

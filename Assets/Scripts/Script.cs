@@ -202,7 +202,7 @@ public class Script : MonoBehaviour
 		// Setup parameters for the texturing shader. This should be called whenever you change the
 		// template (i.e. when you call Generator.setTemplate()).
 		updateTexturingShader();
-
+		m_generator.clearUndoStack();
 		meshCollider = m_solid.GetComponent<MeshCollider>();
 		enableOrbitCameraMode = true;
 		m_additiveTool.SetActive(false);
@@ -354,7 +354,7 @@ public class Script : MonoBehaviour
 
 	}
 
-	void updateTexturingShader()
+	public void updateTexturingShader()
 	{
 		// Currently the DLL does not generate texture coordinates. Instead we rely on a tri-planar
 		// shader to generate texture coordinates and texture the object. The provided shader is
