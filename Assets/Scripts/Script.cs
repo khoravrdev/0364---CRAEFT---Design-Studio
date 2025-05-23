@@ -68,9 +68,11 @@ public class Script : MonoBehaviour
 	private int toolIndex;
 
 	public float raycastInterval = 0.5f; // Time in seconds between each raycast
-    private float nextRaycastTime = 0f;
+	private float nextRaycastTime = 0f;
 
 	public float subtractiveToolStrength;
+
+	private int undoStackCounter;
 	void Start()
 	{
 		m_solid = GameObject.Find("Solid");
@@ -83,7 +85,7 @@ public class Script : MonoBehaviour
 		// Set up debug logging for the DLL. Messages will be printed if something goes wrong (for
 		// example invalid argument passed to method). You should comment out this in release build.
 		Generator.setLoggingCallback(onMessage);
-
+		undoStackCounter = 0;
 		// Create the generator.
 		m_generator = new Generator();
 		m_voxelizer = new Voxelizer();
@@ -243,12 +245,12 @@ public class Script : MonoBehaviour
 		if (Input.GetMouseButton(0))
 		{
 			if (Time.time >= nextRaycastTime)
-            {
-                OnMouseClick();
-                nextRaycastTime = Time.time + raycastInterval;
-            }			
+			{
+				OnMouseClick();
+				nextRaycastTime = Time.time + raycastInterval;
+			}
 		}
-		
+
 		// Optional turntable animation.
 		if (m_turntableOn)
 		{
@@ -545,14 +547,23 @@ public class Script : MonoBehaviour
 				m_subtractiveTool1.SetActive(false);
 				m_additiveMultiTool.SetActive(true);
 			}
+			AddToUndoStack();
 		}
-		
-	} 
-	
-	IEnumerator DelayBetweenRayCasts()
-    {
-		Debug.Log("WAIT TIME"); 
-		yield return new WaitForSeconds(1.2f); // Wait for the specified time           
-        
-    }
+
+	}
+
+
+	//Add state into the undo stack. Right now we set standard number of 50 undos in the list but this may change with trial and error
+	private void AddToUndoStack()
+	{
+		if (undoStackCounter <= 50)
+		{
+			m_generator.pushUndo();
+		}
+		else
+		{
+			m_generator.clearUndoStack();
+			m_generator.pushUndo();
+		}
+	}
 }

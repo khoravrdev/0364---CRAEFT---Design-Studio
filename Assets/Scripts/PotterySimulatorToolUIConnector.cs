@@ -23,7 +23,8 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
     private VisualElement turnTableToggle;
     private VisualElement turnTableSpeed;
 
-
+    //Undo Button
+    private VisualElement undoButton;
     private VisualElement root;
 
     public int toolIndex;
@@ -51,6 +52,8 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             subtractiveMultiToolButton = root.Q<Button>("SubtractiveMultiTool");
             additiveMultiToolButton = root.Q<Button>("AdditiveMultiTool");
 
+            undoButton = root.Q<Button>("UndoButton");
+
             turnTableSpeed = root.Q<Slider>("TurntableSpeedSlider");
             turnTableToggle = root.Q<Toggle>("ToggleTurntableAnimation");
             toolIndex = 0;
@@ -63,12 +66,19 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             });
 
             // Detect when user releases the slider
-            turnTableSpeed.RegisterCallback<BlurEvent>(evt =>
+            root.RegisterCallback<PointerUpEvent>(evt =>
             {
-               camera.GetComponent<OrbitCamera>().enableCameraMode = true;
-                Debug.Log("Slider interaction ended. isSliderIdle = true");
+                if (camera.GetComponent<OrbitCamera>().enableCameraMode == false)
+                {
+                    if (cameraOrbitingButton.style.unityBackgroundImageTintColor == Color.gray)
+                    {
+                        camera.GetComponent<OrbitCamera>().enableCameraMode = true;
+                    }
+                    Debug.Log("Slider interaction ended. isSliderIdle = true");
+                }
             });
-
+           
+            
 
             subtractiveToolButton.RegisterCallback<ClickEvent>(OnClickSubtractiveToolButton);
             additiveToolButton.RegisterCallback<ClickEvent>(OnClickAdditiveToolButton);
@@ -78,6 +88,8 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             subtractiveMultiToolButton.RegisterCallback<ClickEvent>(OnClickSubtractiveMultiToolButton);
             additiveMultiToolButton.RegisterCallback<ClickEvent>(OnClickAdditiveMultiToolButton);
 
+            undoButton.RegisterCallback<ClickEvent>(OnClickUndoButton);
+
             turnTableToggle.RegisterCallback<ChangeEvent<bool>>(OnTurntableValueChange);
             turnTableSpeed.RegisterCallback<ChangeEvent<float>>(OnTurntableSpeedChange);
     
@@ -86,6 +98,21 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             cameraOrbitingButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
         }
 
+    }
+
+    private void OnClickUndoButton(ClickEvent evt)
+    {
+        mainScript.GetComponent<Script>().m_generator.popUndo();
+        mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_subtractiveTool1.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_additiveMultiTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_additiveTool.SetActive(false);
+        mainScript.GetComponent<Script>().m_subtractiveTool.SetActive(false);
+        mainScript.GetComponent<Script>().m_massPreservingTool.SetActive(false);
+        mainScript.GetComponent<Script>().m_subtractiveTool1.SetActive(false);
+        mainScript.GetComponent<Script>().m_additiveMultiTool.SetActive(false);
     }
 
     private void OnTurntableValueChange(ChangeEvent<bool> evt)
@@ -125,10 +152,12 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().m_subtractiveTool1.transform.position = new Vector3(1000f, 0f, 0f);
+            mainScript.GetComponent<Script>().m_additiveMultiTool.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().m_additiveTool.SetActive(false);
             mainScript.GetComponent<Script>().m_subtractiveTool.SetActive(false);
             mainScript.GetComponent<Script>().m_massPreservingTool.SetActive(false);
             mainScript.GetComponent<Script>().m_subtractiveTool1.SetActive(false);
+            mainScript.GetComponent<Script>().m_additiveMultiTool.SetActive(false);
 
         }
     }

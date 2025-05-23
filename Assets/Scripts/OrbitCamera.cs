@@ -36,15 +36,15 @@ public class OrbitCamera : MonoBehaviour
     }
     void Update()
 	{
-		if(enableCameraMode == true)
+		if (enableCameraMode == true)
 		{
 			if (Input.GetMouseButtonDown(0))
 			{
-				m_lastMouse = Input.mousePosition;			
+				m_lastMouse = Input.mousePosition;
 			}
-			else if(Input.GetMouseButton(0))
+			else if (Input.GetMouseButton(0))
 			{
-				
+
 				float dx = Input.mousePosition.x - m_lastMouse.x;
 				float dy = Input.mousePosition.y - m_lastMouse.y;
 
