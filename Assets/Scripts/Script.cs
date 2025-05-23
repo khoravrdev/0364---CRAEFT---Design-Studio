@@ -22,8 +22,11 @@ public class Script : MonoBehaviour
 	public GameObject m_massPreservingTool = null;
 
 	public GameObject m_subtractiveTool1 = null;
+	public GameObject m_additiveMultiTool = null;
 	int m_subtractiveTool1Id = 4;
+	int m_additiveMultiToolId = 5;
 	float m_subtractiveTool1VoxelSize = 0.005f;
+	float m_additiveMultiToolVoxelSize = 0.005f;
 
 	// The generator instance. Created in Start(), destroyed in OnApplicationQuit().
 	public Generator m_generator = null;
@@ -56,6 +59,7 @@ public class Script : MonoBehaviour
 		m_additiveTool = GameObject.Find("AdditiveTool");
 		m_massPreservingTool = GameObject.Find("MassPreservingTool");
 		m_subtractiveTool1 = GameObject.Find("SubtractiveTool1Tip");
+		m_additiveMultiTool = GameObject.Find("AdditiveMultiTool");
 		subtractiveToolStrength = 0.17f;
 		// Set up debug logging for the DLL. Messages will be printed if something goes wrong (for
 		// example invalid argument passed to method). You should comment out this in release build.
@@ -117,6 +121,37 @@ public class Script : MonoBehaviour
 			// the tool states to "active" (i.e. enabled). During runtime, press the "1" key on your
 			// keyboard to activate/deactivate the tool.
 			m_generator.addMultiTool(m_subtractiveTool1Id, voxelCenters, m_subtractiveTool1VoxelSize, m_subtractiveTool1.transform.localToWorldMatrix, ToolType.MultiSubtractive, true);
+		}
+
+		// Add additive multi tool 
+		if (m_additiveMultiTool != null)
+		{
+			Mesh mesh = m_additiveMultiTool.GetComponent<MeshFilter>().sharedMesh;
+
+			// Voxelize the mesh. Produce both a triangle mesh representing the voxels, which we
+			// will use for debugging and the voxel centers, which are used for collision detection.
+			// Note that if the voxelSize parameter is too small the method will take a long time to
+			// return. Extremely small values may lead to memory exhaustion and crashes...
+
+			m_voxelizer.voxelize(mesh.vertices, mesh.triangles, m_additiveMultiToolVoxelSize, VoxelizationFlags.BuildVoxels | VoxelizationFlags.BuildVoxelCenters);
+
+			// Retrieve voxelization results.
+
+			Vector3[] voxelCenters;
+			Vector3[] vertices;
+			Vector3[] normals;
+			int[] indices;
+
+			m_voxelizer.getVoxels(out vertices, out normals, out indices);
+			m_voxelizer.getVoxelCenters(out voxelCenters);
+
+			Debug.Log("Additive Multi Tool mesh voxelized. Voxel size: " + m_additiveMultiToolVoxelSize + ". Vertices: " + vertices.Length + ". Triangles: " + indices.Length / 3 + ". Occupied voxels: " + voxelCenters.Length + ".");
+
+			// Add the tool to the generator. The localToWorldMatrix is used for collision detection.
+			// We set the tool type to Subtractive (removes material on collision). Finally we set
+			// the tool states to "active" (i.e. enabled). During runtime, press the "1" key on your
+			// keyboard to activate/deactivate the tool.
+			m_generator.addMultiTool(m_additiveMultiToolId, voxelCenters, m_additiveMultiToolVoxelSize, m_additiveMultiTool.transform.localToWorldMatrix, ToolType.MultiAdditive, true);
 		}
 		// Note that you can add or remove tools during runtime. You can add as many tools as you
 		// want but keep in mind that tools consume CPU time when active (no CPU impact when the
@@ -209,6 +244,11 @@ public class Script : MonoBehaviour
 		if (m_subtractiveTool1 != null)
 		{
 			m_generator.setToolLocalToWorldMatrix(m_subtractiveTool1Id, m_subtractiveTool1.transform.localToWorldMatrix);
+		}
+
+		if (m_additiveMultiTool != null)
+		{
+			m_generator.setToolLocalToWorldMatrix(m_additiveMultiToolId, m_additiveMultiTool.transform.localToWorldMatrix);
 		}
 		toolIndex = toolUIConnector.GetComponent<PotterySimulatorToolUIConnector>().toolIndex;
 		// Regenerate the solid's mesh.
@@ -416,6 +456,7 @@ public class Script : MonoBehaviour
 				m_additiveTool.SetActive(false);
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool1.SetActive(false);
+				m_additiveMultiTool.SetActive(false);
 			}
 			else if (toolIndex == 2)
 			{
@@ -424,6 +465,7 @@ public class Script : MonoBehaviour
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool.SetActive(false);
 				m_subtractiveTool1.SetActive(false);
+				m_additiveMultiTool.SetActive(false);
 			}
 			else if (toolIndex == 3)
 			{
@@ -432,6 +474,7 @@ public class Script : MonoBehaviour
 				m_massPreservingTool.SetActive(true);
 				m_subtractiveTool.SetActive(false);
 				m_subtractiveTool1.SetActive(false);
+				m_additiveMultiTool.SetActive(false);
 			}
 			else if (toolIndex == 4)
 			{
@@ -441,6 +484,17 @@ public class Script : MonoBehaviour
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool.SetActive(false);
 				m_subtractiveTool1.SetActive(true);
+				m_additiveMultiTool.SetActive(false);
+			}
+			else if (toolIndex == 5)
+			{
+				m_additiveMultiTool.transform.position = hit.point;
+				m_additiveMultiTool.transform.rotation = Quaternion.LookRotation(objectToCenterSolidDirection);
+				m_additiveTool.SetActive(false);
+				m_massPreservingTool.SetActive(false);
+				m_subtractiveTool.SetActive(false);
+				m_subtractiveTool1.SetActive(false);
+				m_additiveMultiTool.SetActive(true);
 			}
 		}
 		

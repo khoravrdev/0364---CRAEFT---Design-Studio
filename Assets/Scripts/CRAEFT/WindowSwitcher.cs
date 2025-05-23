@@ -89,7 +89,9 @@ public class WindowSwitcher : MonoBehaviour
                 if(SceneManager.GetSceneByName("Scene").isLoaded)
                 {
                     SceneManager.UnloadSceneAsync("Scene");
-                    backgroundImage.style.height = 1540;
+                    backgroundImage.style.height = Length.Percent(100);
+                    backgroundImage.style.maxHeight = Length.Percent(100);
+                    backgroundImage.style.minHeight = Length.Percent(100);
                 }
                
             }

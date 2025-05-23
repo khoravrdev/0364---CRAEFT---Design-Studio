@@ -42,9 +42,11 @@ public class PotterySimulatorButton : MonoBehaviour
 
     private void OnClickPotteryButton(ClickEvent evt)
     {
-          SceneManager.LoadScene("Scene", LoadSceneMode.Additive);
-          windowSwitch.ShowWindow(potterySimulatorWindow);
-          backgroundImage.style.height = Length.Percent(13);
+        SceneManager.LoadScene("Scene", LoadSceneMode.Additive);
+        windowSwitch.ShowWindow(potterySimulatorWindow);
+        backgroundImage.style.height = Length.Percent(13);
+        backgroundImage.style.maxHeight = Length.Percent(13);
+        backgroundImage.style.minHeight = Length.Percent(13);
     }
 
     // Update is called once per frame
