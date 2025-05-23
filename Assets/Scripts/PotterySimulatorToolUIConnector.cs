@@ -1,4 +1,6 @@
 using System.ComponentModel.Design.Serialization;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -15,6 +17,12 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
     private VisualElement cameraOrbitingButton;
     private VisualElement subtractiveMultiToolButton;
     private VisualElement additiveMultiToolButton;
+
+
+    //Turntable buttons and slider
+    private VisualElement turnTableToggle;
+    private VisualElement turnTableSpeed;
+
 
     private VisualElement root;
 
@@ -42,8 +50,24 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             cameraOrbitingButton = root.Q<Button>("OrbitingCameraButton");
             subtractiveMultiToolButton = root.Q<Button>("SubtractiveMultiTool");
             additiveMultiToolButton = root.Q<Button>("AdditiveMultiTool");
+
+            turnTableSpeed = root.Q<Slider>("TurntableSpeedSlider");
+            turnTableToggle = root.Q<Toggle>("ToggleTurntableAnimation");
             toolIndex = 0;
 
+            // Detect when user starts interacting with the slider
+            turnTableSpeed.RegisterCallback<FocusEvent>(evt =>
+            {
+                camera.GetComponent<OrbitCamera>().enableCameraMode = false;
+                Debug.Log("Slider interaction started. isSliderIdle = false");
+            });
+
+            // Detect when user releases the slider
+            turnTableSpeed.RegisterCallback<BlurEvent>(evt =>
+            {
+               camera.GetComponent<OrbitCamera>().enableCameraMode = true;
+                Debug.Log("Slider interaction ended. isSliderIdle = true");
+            });
 
 
             subtractiveToolButton.RegisterCallback<ClickEvent>(OnClickSubtractiveToolButton);
@@ -54,6 +78,9 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             subtractiveMultiToolButton.RegisterCallback<ClickEvent>(OnClickSubtractiveMultiToolButton);
             additiveMultiToolButton.RegisterCallback<ClickEvent>(OnClickAdditiveMultiToolButton);
 
+            turnTableToggle.RegisterCallback<ChangeEvent<bool>>(OnTurntableValueChange);
+            turnTableSpeed.RegisterCallback<ChangeEvent<float>>(OnTurntableSpeedChange);
+    
             //Start by setting camera mode ON
             camera.GetComponent<OrbitCamera>().enableCameraMode = true;
             cameraOrbitingButton.style.unityBackgroundImageTintColor = new StyleColor(Color.gray);
@@ -61,10 +88,26 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTurntableValueChange(ChangeEvent<bool> evt)
     {
+        if (evt.newValue == true)
+        {
+            turnTableSpeed.visible = true;
+            mainScript.GetComponent<Script>().m_turntableOn = evt.newValue;
+        }
+        else if (evt.newValue == false)
+        {
+            turnTableSpeed.visible = false;
+            mainScript.GetComponent<Script>().m_turntableOn = evt.newValue;
 
+        }
+    }
+
+  
+
+    private void OnTurntableSpeedChange(ChangeEvent<float> evt)
+    {
+        mainScript.GetComponent<Script>().m_turntableSpeed = evt.newValue;
     }
 
     private void OnClickCameraOrbitingButton(ClickEvent evt)
@@ -103,7 +146,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool1.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_additiveMultiTool.transform.position = new Vector3(1000f, 0f, 0f);
-         //If other button than orbit camera pressed resest values
+        //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
         cameraOrbitingButton.style.unityBackgroundImageTintColor = new StyleColor(Color.white);
 

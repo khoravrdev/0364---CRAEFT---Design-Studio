@@ -569,6 +569,9 @@ MonoBehaviour:
   m_subtractiveTool1: {fileID: 0}
   m_additiveMultiTool: {fileID: 0}
   animate: 1
+  m_turntableOn: 1
+  m_turntableSpeed: 8
+  m_turntableAccelaration: 0.1
   raycastHit: 0
   enableOrbitCameraMode: 0
   toolUIConnector: {fileID: 1072526420}

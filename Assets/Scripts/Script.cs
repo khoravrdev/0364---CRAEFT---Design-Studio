@@ -37,8 +37,27 @@ public class Script : MonoBehaviour
 	public bool animate = true;
 
 	// These are used for the solid animation, if enabled.
-	float m_angle = 0.0f;
-	float m_angleStep = 0.0f;
+	//float m_angle = 0.0f;
+	//float m_angleStep = 0.0f;
+
+	// If true, apply rotation to the solid about its Y axis to emulate the solid being upon a
+	// turntable.
+	[SerializeField]
+	public bool m_turntableOn = true;
+
+	// Speed of the turntable animation (degrees per frame).
+	[SerializeField]
+	[Range(0.0f, 20.0f)]
+	public float m_turntableSpeed = 8.0f;
+
+	// Acceleration/deceleration.
+	[SerializeField]
+	[Range(0.0f, 1.0f)]
+	float m_turntableAccelaration = 0.1f;
+
+	// These are used for the turntable animation, if enabled.
+	float m_turntableAngle = 0.0f;
+	float m_turntableAngleStep = 0.0f;
 
 	public bool raycastHit;
 	public bool enableOrbitCameraMode;
@@ -187,8 +206,8 @@ public class Script : MonoBehaviour
 		m_additiveTool.SetActive(false);
 		m_subtractiveTool.SetActive(false);
 		m_massPreservingTool.SetActive(false);
-
-		
+		m_additiveMultiTool.SetActive(false);
+		m_subtractiveTool1.SetActive(false);
 
 	}
 
@@ -212,7 +231,7 @@ public class Script : MonoBehaviour
 	void Update()
 	{
 		// Optional animation.
-
+		/*
 		if (animate)
 		{
 			m_angleStep = Mathf.Min(m_angleStep + 0.01f, 10.0f);
@@ -220,7 +239,7 @@ public class Script : MonoBehaviour
 
 			m_solid.transform.localRotation = Quaternion.AngleAxis(m_angle, new Vector3(0, 1, 0));
 		}
-
+		*/
 		if (Input.GetMouseButton(0))
 		{
 			if (Time.time >= nextRaycastTime)
@@ -229,6 +248,36 @@ public class Script : MonoBehaviour
                 nextRaycastTime = Time.time + raycastInterval;
             }			
 		}
+		
+		// Optional turntable animation.
+		if (m_turntableOn)
+		{
+			// Gradually increase m_turntableAngleStep (i.e. angular velocity) until it reaches
+			// m_turntableSpeed. From there on, m_turntableAngleStep remains constant and equal to
+			// m_turntableSpeed. At each frame, increment m_turntableAngle by m_turntableAngleStep
+			// and use it as the rotation angle about the Y axis.
+
+			m_turntableAngleStep = Mathf.Min(m_turntableAngleStep + m_turntableAccelaration, m_turntableSpeed);
+			m_turntableAngle += m_turntableAngleStep;
+
+			if (m_solid != null)
+			{
+				m_solid.transform.localRotation = Quaternion.AngleAxis(m_turntableAngle, Vector3.up);
+			}
+		}
+		else if (m_turntableAngleStep > 0.0f)
+		{
+			// Deceleration, i.e. decrement m_turntableAngleStep until it becomes zero.
+
+			m_turntableAngleStep = Mathf.Max(m_turntableAngleStep - m_turntableAccelaration, 0.0f);
+			m_turntableAngle += m_turntableAngleStep;
+
+			if (m_solid != null)
+			{
+				m_solid.transform.localRotation = Quaternion.AngleAxis(m_turntableAngle, Vector3.up);
+			}
+		}
+
 
 		// Apply the key shortcuts used for this demo.
 		processKeyboard();
