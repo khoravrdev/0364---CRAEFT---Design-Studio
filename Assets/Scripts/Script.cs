@@ -73,6 +73,7 @@ public class Script : MonoBehaviour
 	public float subtractiveToolStrength;
 
 	private int undoStackCounter;
+	public int undo_stack_index;
 	void Start()
 	{
 		m_solid = GameObject.Find("Solid");
@@ -86,6 +87,7 @@ public class Script : MonoBehaviour
 		// example invalid argument passed to method). You should comment out this in release build.
 		Generator.setLoggingCallback(onMessage);
 		undoStackCounter = 0;
+		undo_stack_index = 50;
 		// Create the generator.
 		m_generator = new Generator();
 		m_voxelizer = new Voxelizer();
@@ -556,7 +558,7 @@ public class Script : MonoBehaviour
 	//Add state into the undo stack. Right now we set standard number of 50 undos in the list but this may change with trial and error
 	private void AddToUndoStack()
 	{
-		if (undoStackCounter <= 50)
+		if (undoStackCounter <= undo_stack_index)
 		{
 			m_generator.pushUndo();
 		}
