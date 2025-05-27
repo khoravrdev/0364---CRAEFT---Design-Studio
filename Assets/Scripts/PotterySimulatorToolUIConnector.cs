@@ -134,9 +134,10 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
     {
         string[] files = Directory.GetFiles(Path.Combine(Application.streamingAssetsPath));
         List<string> fileNames = new List<string>();
-
+    
         foreach (var file in files)
         {
+            Debug.Log("File name:" + file);
              if (Path.GetExtension(file).Equals(".png", System.StringComparison.OrdinalIgnoreCase))
             {
                 fileNames.Add(Path.GetFileName(file));
@@ -156,6 +157,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         if (!string.IsNullOrWhiteSpace(saveTemplateText.value))
         {
             mainScript.GetComponent<Script>().m_generator.saveAsTemplate(Application.streamingAssetsPath + "/" + saveTemplateText.value + ".png");
+            Debug.Log("Save template text:" + saveTemplateText.value);
             PopulateDropdown();
 
             saveTemplateText.value = "";

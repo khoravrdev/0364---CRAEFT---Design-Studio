@@ -443,12 +443,12 @@ public class Script : MonoBehaviour
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha8))
 		{
-			m_generator.setTemplate(Application.streamingAssetsPath + "/template.png");
+			//m_generator.setTemplate(Application.streamingAssetsPath + "/template.png");
 			updateTexturingShader();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha9))
 		{
-			m_generator.setTemplate(Application.streamingAssetsPath + "/customTemplate.png");
+			//m_generator.setTemplate(Application.streamingAssetsPath + "/customTemplate.png");
 			updateTexturingShader();
 		}
 		else if (Input.GetKeyDown(KeyCode.T))
@@ -456,7 +456,7 @@ public class Script : MonoBehaviour
 			// Save the current geometry as a file. Intended use is to create different "starting
 			// points" (during development), for the user to select from (in release build). The
 			// saved template can be loaded with Generator.setTemplate().
-			m_generator.saveAsTemplate(Application.streamingAssetsPath + "/customTemplate.png");
+			//m_generator.saveAsTemplate(Application.streamingAssetsPath + "/customTemplate.png");
 		}
 		else if (Input.GetKeyDown(KeyCode.V))
 		{
