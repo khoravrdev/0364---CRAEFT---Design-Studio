@@ -64,10 +64,11 @@
 
 .unity-button {
     background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
 }
 
-.unity-button:hover {
-    background-color: rgba(238, 172, 172, 0.09);
+.unity-button:hover:enabled {
+    background-color: rgba(243, 42, 0, 0.16);
 }
 
 .shootout {
