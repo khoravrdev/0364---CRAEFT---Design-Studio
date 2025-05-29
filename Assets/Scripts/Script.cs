@@ -2,6 +2,7 @@ using UnityEngine;
 using RevolutionSolid;
 using System;
 using System.Collections;
+using UnityEditor;
 
 
 public class Script : MonoBehaviour
@@ -21,13 +22,15 @@ public class Script : MonoBehaviour
 	public GameObject m_additiveTool = null;
 	public GameObject m_massPreservingTool = null;
 
-	public GameObject m_subtractiveTool1 = null;
-	public GameObject m_additiveMultiTool = null;
-	int m_subtractiveTool1Id = 4;
-	int m_additiveMultiToolId = 5;
-	float m_subtractiveTool1VoxelSize = 0.005f;
-	float m_additiveMultiToolVoxelSize = 0.005f;
-
+	public GameObject m_triangleTool = null;
+	public GameObject m_squareTool = null;
+	int m_triangleTool1Id = 4;
+	int m_squareToolId = 5;
+	float m_triangleTool1VoxelSize = 0.005f;
+	float m_squareToolVoxelSize = 0.005f;
+	//Triangle and Square gameObjects
+	public GameObject triangleToolFullObject;
+	public GameObject squareToolFullObject;
 	// The generator instance. Created in Start(), destroyed in OnApplicationQuit().
 	public Generator m_generator = null;
 	Voxelizer m_voxelizer = null;
@@ -80,8 +83,8 @@ public class Script : MonoBehaviour
 		m_subtractiveTool = GameObject.Find("SubtractiveTool");
 		m_additiveTool = GameObject.Find("AdditiveTool");
 		m_massPreservingTool = GameObject.Find("MassPreservingTool");
-		m_subtractiveTool1 = GameObject.Find("SubtractiveTool1Tip");
-		m_additiveMultiTool = GameObject.Find("AdditiveMultiTool");
+		m_triangleTool = GameObject.Find("TriangleToolTip");
+		m_squareTool = GameObject.Find("SquareToolTip");
 		subtractiveToolStrength = 0.17f;
 		// Set up debug logging for the DLL. Messages will be printed if something goes wrong (for
 		// example invalid argument passed to method). You should comment out this in release build.
@@ -116,16 +119,16 @@ public class Script : MonoBehaviour
 		m_massPreservingTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(3) ? new Color(1, 1, 0) : new Color(0.25f, 0.25f, 0);
 
 		// Add tool 1
-		if (m_subtractiveTool1 != null)
+		if (m_triangleTool != null)
 		{
-			Mesh mesh = m_subtractiveTool1.GetComponent<MeshFilter>().sharedMesh;
+			Mesh mesh = m_triangleTool.GetComponent<MeshFilter>().sharedMesh;
 
 			// Voxelize the mesh. Produce both a triangle mesh representing the voxels, which we
 			// will use for debugging and the voxel centers, which are used for collision detection.
 			// Note that if the voxelSize parameter is too small the method will take a long time to
 			// return. Extremely small values may lead to memory exhaustion and crashes...
 
-			m_voxelizer.voxelize(mesh.vertices, mesh.triangles, m_subtractiveTool1VoxelSize, VoxelizationFlags.BuildVoxels | VoxelizationFlags.BuildVoxelCenters);
+			m_voxelizer.voxelize(mesh.vertices, mesh.triangles, m_triangleTool1VoxelSize, VoxelizationFlags.BuildVoxels | VoxelizationFlags.BuildVoxelCenters);
 
 			// Retrieve voxelization results.
 
@@ -137,26 +140,26 @@ public class Script : MonoBehaviour
 			m_voxelizer.getVoxels(out vertices, out normals, out indices);
 			m_voxelizer.getVoxelCenters(out voxelCenters);
 
-			Debug.Log("SubtractiveTool1 mesh voxelized. Voxel size: " + m_subtractiveTool1VoxelSize + ". Vertices: " + vertices.Length + ". Triangles: " + indices.Length / 3 + ". Occupied voxels: " + voxelCenters.Length + ".");
+			Debug.Log("SubtractiveTool1 mesh voxelized. Voxel size: " + m_triangleTool1VoxelSize + ". Vertices: " + vertices.Length + ". Triangles: " + indices.Length / 3 + ". Occupied voxels: " + voxelCenters.Length + ".");
 
 			// Add the tool to the generator. The localToWorldMatrix is used for collision detection.
 			// We set the tool type to Subtractive (removes material on collision). Finally we set
 			// the tool states to "active" (i.e. enabled). During runtime, press the "1" key on your
 			// keyboard to activate/deactivate the tool.
-			m_generator.addMultiTool(m_subtractiveTool1Id, voxelCenters, m_subtractiveTool1VoxelSize, m_subtractiveTool1.transform.localToWorldMatrix, ToolType.MultiSubtractive, true);
+			m_generator.addMultiTool(m_triangleTool1Id, voxelCenters, m_triangleTool1VoxelSize, m_triangleTool.transform.localToWorldMatrix, ToolType.MultiSubtractive, true);
 		}
 
 		// Add additive multi tool 
-		if (m_additiveMultiTool != null)
+		if (m_squareTool != null)
 		{
-			Mesh mesh = m_additiveMultiTool.GetComponent<MeshFilter>().sharedMesh;
+			Mesh mesh = m_squareTool.GetComponent<MeshFilter>().sharedMesh;
 
 			// Voxelize the mesh. Produce both a triangle mesh representing the voxels, which we
 			// will use for debugging and the voxel centers, which are used for collision detection.
 			// Note that if the voxelSize parameter is too small the method will take a long time to
 			// return. Extremely small values may lead to memory exhaustion and crashes...
 
-			m_voxelizer.voxelize(mesh.vertices, mesh.triangles, m_additiveMultiToolVoxelSize, VoxelizationFlags.BuildVoxels | VoxelizationFlags.BuildVoxelCenters);
+			m_voxelizer.voxelize(mesh.vertices, mesh.triangles, m_squareToolVoxelSize, VoxelizationFlags.BuildVoxels | VoxelizationFlags.BuildVoxelCenters);
 
 			// Retrieve voxelization results.
 
@@ -168,13 +171,13 @@ public class Script : MonoBehaviour
 			m_voxelizer.getVoxels(out vertices, out normals, out indices);
 			m_voxelizer.getVoxelCenters(out voxelCenters);
 
-			Debug.Log("Additive Multi Tool mesh voxelized. Voxel size: " + m_additiveMultiToolVoxelSize + ". Vertices: " + vertices.Length + ". Triangles: " + indices.Length / 3 + ". Occupied voxels: " + voxelCenters.Length + ".");
+			Debug.Log("Additive Multi Tool mesh voxelized. Voxel size: " + m_squareToolVoxelSize + ". Vertices: " + vertices.Length + ". Triangles: " + indices.Length / 3 + ". Occupied voxels: " + voxelCenters.Length + ".");
 
 			// Add the tool to the generator. The localToWorldMatrix is used for collision detection.
 			// We set the tool type to Subtractive (removes material on collision). Finally we set
 			// the tool states to "active" (i.e. enabled). During runtime, press the "1" key on your
 			// keyboard to activate/deactivate the tool.
-			m_generator.addMultiTool(m_additiveMultiToolId, voxelCenters, m_additiveMultiToolVoxelSize, m_additiveMultiTool.transform.localToWorldMatrix, ToolType.MultiAdditive, true);
+			m_generator.addMultiTool(m_squareToolId, voxelCenters, m_squareToolVoxelSize, m_squareTool.transform.localToWorldMatrix, ToolType.MultiAdditive, true);
 		}
 		// Note that you can add or remove tools during runtime. You can add as many tools as you
 		// want but keep in mind that tools consume CPU time when active (no CPU impact when the
@@ -210,9 +213,8 @@ public class Script : MonoBehaviour
 		m_additiveTool.SetActive(false);
 		m_subtractiveTool.SetActive(false);
 		m_massPreservingTool.SetActive(false);
-		m_additiveMultiTool.SetActive(false);
-		m_subtractiveTool1.SetActive(false);
-
+		triangleToolFullObject.SetActive(false);
+		squareToolFullObject.SetActive(false);
 	}
 
 	void OnApplicationQuit()
@@ -294,14 +296,14 @@ public class Script : MonoBehaviour
 		m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.GetComponent<Renderer>().localToWorldMatrix);
 		m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.GetComponent<Renderer>().localToWorldMatrix);
 
-		if (m_subtractiveTool1 != null)
+		if (m_triangleTool != null)
 		{
-			m_generator.setToolLocalToWorldMatrix(m_subtractiveTool1Id, m_subtractiveTool1.transform.localToWorldMatrix);
+			m_generator.setToolLocalToWorldMatrix(m_triangleTool1Id, m_triangleTool.transform.localToWorldMatrix);
 		}
 
-		if (m_additiveMultiTool != null)
+		if (m_squareTool != null)
 		{
-			m_generator.setToolLocalToWorldMatrix(m_additiveMultiToolId, m_additiveMultiTool.transform.localToWorldMatrix);
+			m_generator.setToolLocalToWorldMatrix(m_squareToolId, m_squareTool.transform.localToWorldMatrix);
 		}
 		toolIndex = toolUIConnector.GetComponent<PotterySimulatorToolUIConnector>().toolIndex;
 		// Regenerate the solid's mesh.
@@ -508,8 +510,6 @@ public class Script : MonoBehaviour
 				m_subtractiveTool.SetActive(true);
 				m_additiveTool.SetActive(false);
 				m_massPreservingTool.SetActive(false);
-				m_subtractiveTool1.SetActive(false);
-				m_additiveMultiTool.SetActive(false);
 			}
 			else if (toolIndex == 2)
 			{
@@ -517,8 +517,6 @@ public class Script : MonoBehaviour
 				m_additiveTool.SetActive(true);
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool.SetActive(false);
-				m_subtractiveTool1.SetActive(false);
-				m_additiveMultiTool.SetActive(false);
 			}
 			else if (toolIndex == 3)
 			{
@@ -526,28 +524,29 @@ public class Script : MonoBehaviour
 				m_additiveTool.SetActive(false);
 				m_massPreservingTool.SetActive(true);
 				m_subtractiveTool.SetActive(false);
-				m_subtractiveTool1.SetActive(false);
-				m_additiveMultiTool.SetActive(false);
 			}
 			else if (toolIndex == 4)
 			{
-				m_subtractiveTool1.transform.position = hit.point;
-				m_subtractiveTool1.transform.rotation = Quaternion.LookRotation(objectToCenterSolidDirection);
+				/*
+				m_triangleTool.transform.position = hit.point;
+				m_triangleTool.transform.rotation = Quaternion.LookRotation(objectToCenterSolidDirection);
 				m_additiveTool.SetActive(false);
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool.SetActive(false);
-				m_subtractiveTool1.SetActive(true);
-				m_additiveMultiTool.SetActive(false);
+				m_triangleTool.SetActive(true);
+				m_squareTool.SetActive(false);
+				*/
+				
 			}
 			else if (toolIndex == 5)
 			{
-				m_additiveMultiTool.transform.position = hit.point;
-				m_additiveMultiTool.transform.rotation = Quaternion.LookRotation(objectToCenterSolidDirection);
+				m_squareTool.transform.position = hit.point;
+				m_squareTool.transform.rotation = Quaternion.LookRotation(objectToCenterSolidDirection);
 				m_additiveTool.SetActive(false);
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool.SetActive(false);
-				m_subtractiveTool1.SetActive(false);
-				m_additiveMultiTool.SetActive(true);
+				m_triangleTool.SetActive(false);
+				m_squareTool.SetActive(true);
 			}
 			AddToUndoStack();
 		}
@@ -568,4 +567,16 @@ public class Script : MonoBehaviour
 			m_generator.pushUndo();
 		}
 	}
+
+	public void EnableToolControls(GameObject tool)
+	{
+		tool.GetComponent<ToolController>().controlsEnabled = true;
+	}
+
+	public void DisableToolControl(GameObject tool)
+	{
+		tool.GetComponent<ToolController>().controlsEnabled = false;
+	}
+
+    
 }
