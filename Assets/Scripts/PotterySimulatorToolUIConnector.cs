@@ -121,7 +121,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             turnTableSpeed.RegisterCallback<ChangeEvent<float>>(OnTurntableSpeedChange);
 
             triangleTool.RegisterCallback<ClickEvent>(OnClickTriangleToolButton);
-            //squareTool.RegisterCallback<ClickEvent>(OnClickSquareToolButton);
+            squareTool.RegisterCallback<ClickEvent>(OnClickSquareToolButton);
 
 
             //Start by setting camera mode ON
@@ -140,20 +140,49 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
 
         mainScript.GetComponent<Script>().triangleToolFullObject.SetActive(true);
         mainScript.GetComponent<Script>().squareToolFullObject.SetActive(false);
-        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(0f, 0f, -1.0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(-1.0f, 0f, 0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(-1.0f, 0f, 0f);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+        subtractiveToolButton.style.backgroundColor = new StyleColor(Color.white);
+        additiveToolButton.style.backgroundColor = new StyleColor(Color.white);
+
         mainScript.GetComponent<Script>().EnableToolControls(mainScript.GetComponent<Script>().triangleToolFullObject);
 		mainScript.GetComponent<Script>().DisableToolControl(mainScript.GetComponent<Script>().squareToolFullObject);
-        root.Q<VisualElement>("PotterySimulationWindow")?.Focus();
+
+        mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+    
+
+        toolIndex = 4;
+    }
+    private void OnClickSquareToolButton(ClickEvent evt)
+    {
+        Debug.Log("Clicked square tool");
+        triangleTool.style.backgroundColor = new StyleColor(Color.white);
+        squareTool.style.backgroundColor = new StyleColor(Color.grey);
+        mainScript.GetComponent<Script>().triangleToolFullObject.SetActive(false);
+        mainScript.GetComponent<Script>().squareToolFullObject.SetActive(true);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(-1.0f, 0f, 0f);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(-1.0f, 0f, 0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+        subtractiveToolButton.style.backgroundColor = new StyleColor(Color.white);
+        additiveToolButton.style.backgroundColor = new StyleColor(Color.white);
+
+        mainScript.GetComponent<Script>().EnableToolControls(mainScript.GetComponent<Script>().squareToolFullObject);
+        mainScript.GetComponent<Script>().DisableToolControl(mainScript.GetComponent<Script>().triangleToolFullObject);
+        
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
 
-        //If other button than orbit camera pressed reset values
-        camera.GetComponent<OrbitCamera>().enableCameraMode = false;
-        cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
-
-        toolIndex = 4;
-
+        toolIndex = 5;
     }
 
     private void OnDropDownListChanged(ChangeEvent<string> evt)
@@ -205,8 +234,8 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_triangleTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_squareTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_additiveTool.SetActive(false);
         mainScript.GetComponent<Script>().m_subtractiveTool.SetActive(false);
         mainScript.GetComponent<Script>().m_massPreservingTool.SetActive(false);
@@ -308,12 +337,13 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         Debug.Log("Clicked Sub tool");
         subtractiveToolButton.style.backgroundColor = new StyleColor(Color.gray);
         additiveToolButton.style.backgroundColor = new StyleColor(Color.white);
-        massPreservingToolButton.style.backgroundColor = new StyleColor(Color.white);
-        subtractiveMultiToolButton.style.backgroundColor = new StyleColor(Color.white);
-        additiveMultiToolButton.style.backgroundColor = new StyleColor(Color.white);
+        triangleTool.style.backgroundColor = new StyleColor(Color.white);
+        squareTool.style.backgroundColor = new StyleColor(Color.white);
+        
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_squareTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
 
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
@@ -328,18 +358,19 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         toolIndex = 2;
         additiveToolButton.style.backgroundColor = new StyleColor(Color.gray);
         subtractiveToolButton.style.backgroundColor = new StyleColor(Color.white);
-        massPreservingToolButton.style.backgroundColor = new StyleColor(Color.white);
-        subtractiveMultiToolButton.style.backgroundColor = new StyleColor(Color.white);
-        additiveMultiToolButton.style.backgroundColor = new StyleColor(Color.white);
+        triangleTool.style.backgroundColor = new StyleColor(Color.white);
+        squareTool.style.backgroundColor = new StyleColor(Color.white);
+       
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_triangleTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_squareTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
         cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
     }
 
+    /*
     private void OnClickMassPreservingToolButton(ClickEvent evt)
     {
         Debug.Log("Clicked Mass tool");
@@ -347,25 +378,24 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         massPreservingToolButton.style.backgroundColor = new StyleColor(Color.gray);
         additiveToolButton.style.backgroundColor = new StyleColor(Color.white);
         subtractiveToolButton.style.backgroundColor = new StyleColor(Color.white);
-        subtractiveMultiToolButton.style.backgroundColor = new StyleColor(Color.white);
-        additiveMultiToolButton.style.backgroundColor = new StyleColor(Color.white);
+
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_triangleTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_squareTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
         cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
     }
 
-  
+    */
     private void OnClickResetButton(ClickEvent evt)
     {
         mainScript.GetComponent<Script>().m_generator.restart();
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_triangleTool.transform.position = new Vector3(1000f, 0f, 0f);
-        mainScript.GetComponent<Script>().m_squareTool.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+        mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
     }
 }

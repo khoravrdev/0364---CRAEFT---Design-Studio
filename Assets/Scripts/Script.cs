@@ -177,7 +177,7 @@ public class Script : MonoBehaviour
 			// We set the tool type to Subtractive (removes material on collision). Finally we set
 			// the tool states to "active" (i.e. enabled). During runtime, press the "1" key on your
 			// keyboard to activate/deactivate the tool.
-			m_generator.addMultiTool(m_squareToolId, voxelCenters, m_squareToolVoxelSize, m_squareTool.transform.localToWorldMatrix, ToolType.MultiAdditive, true);
+			m_generator.addMultiTool(m_squareToolId, voxelCenters, m_squareToolVoxelSize, m_squareTool.transform.localToWorldMatrix, ToolType.MultiSubtractive, true);
 		}
 		// Note that you can add or remove tools during runtime. You can add as many tools as you
 		// want but keep in mind that tools consume CPU time when active (no CPU impact when the
@@ -530,18 +530,21 @@ public class Script : MonoBehaviour
 				/*
 				m_triangleTool.transform.position = hit.point;
 				m_triangleTool.transform.rotation = Quaternion.LookRotation(objectToCenterSolidDirection);
+				*/
 				m_additiveTool.SetActive(false);
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool.SetActive(false);
 				m_triangleTool.SetActive(true);
 				m_squareTool.SetActive(false);
-				*/
+				
 				
 			}
 			else if (toolIndex == 5)
 			{
+				/*
 				m_squareTool.transform.position = hit.point;
 				m_squareTool.transform.rotation = Quaternion.LookRotation(objectToCenterSolidDirection);
+				*/
 				m_additiveTool.SetActive(false);
 				m_massPreservingTool.SetActive(false);
 				m_subtractiveTool.SetActive(false);
