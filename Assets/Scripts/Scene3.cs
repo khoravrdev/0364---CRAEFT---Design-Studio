@@ -221,7 +221,7 @@ public class Scene3 : MonoBehaviour
 	void Update()
 	{
 		processKeyboard();
-
+	/*
 		if (m_turntableOn)
 		{
 			m_angleStep = Mathf.Min(m_angleStep + m_accelaration, m_maxSpeed);
@@ -256,7 +256,7 @@ public class Scene3 : MonoBehaviour
 				m_solid.transform.localRotation = rotation;
 			}
 		}
-
+*/
 		if (m_solid != null)
 		{
 			m_voxelCarvingSimulator.setSolidTransform(m_solid.transform.localToWorldMatrix);
@@ -307,6 +307,7 @@ public class Scene3 : MonoBehaviour
 				Debug.Log("No solid available");
 			}
 		}
+		/*
 		else if (Input.GetKeyDown(KeyCode.S))
 		{
 			saveSolid(Application.streamingAssetsPath + "/Solid.bin");
@@ -319,6 +320,7 @@ public class Scene3 : MonoBehaviour
 		{
 			exportSolidMeshObj(Application.streamingAssetsPath + "/Solid.obj");
 		}
+		*/
 	}
 
 	void updateSolidMesh()

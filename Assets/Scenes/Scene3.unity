@@ -232,6 +232,7 @@ MonoBehaviour:
   m_sensitivityY: 0.25
   m_sensitivityWheel: 0.1
   Solid: {fileID: 0}
+  enableCameraMode: 0
 --- !u!1 &591454506
 GameObject:
   m_ObjectHideFlags: 0
