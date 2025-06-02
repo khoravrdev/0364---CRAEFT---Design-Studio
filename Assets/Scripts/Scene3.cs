@@ -114,11 +114,11 @@ public class Scene3 : MonoBehaviour
 	[Header("Turntable")]
 
 	[SerializeField]
-	bool m_turntableOn = false;
+	public bool m_turntableOn = false;
 
 	[SerializeField]
-	[Range(0.0f, 10.0f)]
-	float m_maxSpeed = 1.0f;
+	[Range(0.0f, 5.0f)]
+	public float m_maxSpeed = 1.0f;
 
 	[SerializeField]
 	[Range(0.0f, 1.0f)]
@@ -221,7 +221,7 @@ public class Scene3 : MonoBehaviour
 	void Update()
 	{
 		processKeyboard();
-	/*
+	
 		if (m_turntableOn)
 		{
 			m_angleStep = Mathf.Min(m_angleStep + m_accelaration, m_maxSpeed);
@@ -256,7 +256,7 @@ public class Scene3 : MonoBehaviour
 				m_solid.transform.localRotation = rotation;
 			}
 		}
-*/
+
 		if (m_solid != null)
 		{
 			m_voxelCarvingSimulator.setSolidTransform(m_solid.transform.localToWorldMatrix);
@@ -307,7 +307,7 @@ public class Scene3 : MonoBehaviour
 				Debug.Log("No solid available");
 			}
 		}
-		/*
+		
 		else if (Input.GetKeyDown(KeyCode.S))
 		{
 			saveSolid(Application.streamingAssetsPath + "/Solid.bin");
@@ -320,7 +320,7 @@ public class Scene3 : MonoBehaviour
 		{
 			exportSolidMeshObj(Application.streamingAssetsPath + "/Solid.obj");
 		}
-		*/
+		
 	}
 
 	void updateSolidMesh()

@@ -227,7 +227,7 @@ MonoBehaviour:
   m_orbitRadius: 2
   m_orbitAngle: 0
   m_elevation: 30
-  m_height: 0
+  m_height: 0.3
   m_sensitivityX: 0.25
   m_sensitivityY: 0.25
   m_sensitivityWheel: 0.1
@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 702703032}
   - component: {fileID: 702703031}
   - component: {fileID: 702703034}
+  - component: {fileID: 702703035}
   m_Layer: 0
   m_Name: Solid
   m_TagString: Untagged
@@ -439,8 +440,22 @@ MonoBehaviour:
   m_kernelSize: 5
   m_sigma: 0
   m_turntableOn: 0
-  m_maxSpeed: 1
+  m_maxSpeed: 0.5
   m_accelaration: 0.01
+--- !u!114 &702703035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702703030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b356cd81fd195504ca345e077a586e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uIDocument: {fileID: 0}
+  camera: {fileID: 0}
 --- !u!1 &870024636
 GameObject:
   m_ObjectHideFlags: 0

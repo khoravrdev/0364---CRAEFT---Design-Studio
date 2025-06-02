@@ -86,8 +86,11 @@ public class WindowSwitcher : MonoBehaviour
         
         if (potterySimulatorWindow != null)
             potterySimulatorWindow.style.display = DisplayStyle.None;
+        if (woodCurvingSimulatorWindow != null)
+            woodCurvingSimulatorWindow.style.display = DisplayStyle.None;
 
         if (windowToShow != null)
+        {
             if (windowToShow != potterySimulatorWindow)
             {
                 if (SceneManager.GetSceneByName("Scene").isLoaded)
@@ -99,7 +102,7 @@ public class WindowSwitcher : MonoBehaviour
                 }
 
             }
-            else if (windowToShow != woodCurvingSimulatorWindow)
+            if (windowToShow != woodCurvingSimulatorWindow)
             {
                 if (SceneManager.GetSceneByName("Scene3").isLoaded)
                 {
@@ -110,6 +113,7 @@ public class WindowSwitcher : MonoBehaviour
                 }
             }
             windowToShow.style.display = DisplayStyle.Flex;
+        }
     }
 
 

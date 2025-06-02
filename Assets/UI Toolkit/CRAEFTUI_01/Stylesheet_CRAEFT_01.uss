@@ -136,3 +136,11 @@
     transition-delay: 0s;
     background-color: rgba(252, 225, 225, 0.94);
 }
+
+.button:active {
+    background-color: rgb(255, 182, 0);
+}
+
+.unity-button:active {
+    background-color: rgb(234, 0, 0);
+}
