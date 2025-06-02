@@ -17,6 +17,8 @@ public class WindowSwitcher : MonoBehaviour
 
     private VisualElement potterySimulatorWindow;
 
+    private VisualElement woodCurvingSimulatorWindow;
+
     private VisualElement backgroundImage;
     // Button names (as defined in your UXML)
     private const string visualizationButtonName = "VisualizationToolboxButton";
@@ -24,6 +26,7 @@ public class WindowSwitcher : MonoBehaviour
     private const string designStudioButtonName = "Menu_HomeButton"; // Button to open DesignStudioWindow
 
     private const string potterySimulatorButtonName = "PotteryButton"; // Button to open pottery simulator window
+
 
     // Root VisualElement from the UIDocument
     private VisualElement root;
@@ -38,6 +41,7 @@ public class WindowSwitcher : MonoBehaviour
         simulationsWindow = root.Q<VisualElement>("SimulationsWindow");
         designStudioWindow = root.Q<VisualElement>("DesignStudioWindow");
         potterySimulatorWindow = root.Q<VisualElement>("PotterySimulationWindow");
+        woodCurvingSimulatorWindow = root.Q<VisualElement>("WoodCurvingSimulationWindow");
         backgroundImage = root.Q<VisualElement>("BackgroundImage");
 
         // Query for all buttons with the given names (even if they share the same name but different parents)
@@ -82,18 +86,28 @@ public class WindowSwitcher : MonoBehaviour
         
         if (potterySimulatorWindow != null)
             potterySimulatorWindow.style.display = DisplayStyle.None;
-       
+
         if (windowToShow != null)
-            if(windowToShow != potterySimulatorWindow)
+            if (windowToShow != potterySimulatorWindow)
             {
-                if(SceneManager.GetSceneByName("Scene").isLoaded)
+                if (SceneManager.GetSceneByName("Scene").isLoaded)
                 {
                     SceneManager.UnloadSceneAsync("Scene");
                     backgroundImage.style.height = Length.Percent(100);
                     backgroundImage.style.maxHeight = Length.Percent(100);
                     backgroundImage.style.minHeight = Length.Percent(100);
                 }
-               
+
+            }
+            else if (windowToShow != woodCurvingSimulatorWindow)
+            {
+                if (SceneManager.GetSceneByName("Scene3").isLoaded)
+                {
+                    SceneManager.UnloadSceneAsync("Scene3");
+                    backgroundImage.style.height = Length.Percent(100);
+                    backgroundImage.style.maxHeight = Length.Percent(100);
+                    backgroundImage.style.minHeight = Length.Percent(100);
+                }
             }
             windowToShow.style.display = DisplayStyle.Flex;
     }

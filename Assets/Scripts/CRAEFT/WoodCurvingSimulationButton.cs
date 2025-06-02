@@ -1,47 +1,43 @@
-using System.ComponentModel.Design.Serialization;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using System;
-using NUnit.Framework.Constraints;
-using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
-public class PotterySimulatorButton : MonoBehaviour
+public class WoodCurvingSimulationButton : MonoBehaviour
 {
     public UIDocument uIDocument;
 
-    private VisualElement potterySimulatorButton;
+    private VisualElement woodCurvingSimulatorButton;
     public WindowSwitcher windowSwitch;
     private VisualElement root;
 
-    private VisualElement potterySimulatorWindow;
+    private VisualElement woodCurvingSimulatorWindow;
     private VisualElement mainWindow;
     private VisualElement backgroundImage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         root = uIDocument.rootVisualElement;
-        potterySimulatorWindow = root.Q<VisualElement>("PotterySimulationWindow");
+        woodCurvingSimulatorWindow = root.Q<VisualElement>("WoodCurvingSimulationWindow");
         mainWindow = root.Q<VisualElement>("MainWindow");
         backgroundImage = root.Q<VisualElement>("BackgroundImage");
         backgroundImage.SendToBack();
         backgroundImage.SendToBack();        
         backgroundImage.visible = true;
         
-       potterySimulatorButton = root.Q<VisualElement>("PotteryButton");
-        if (potterySimulatorButton == null)
+       woodCurvingSimulatorButton = root.Q<VisualElement>("WoodturningButton");
+        if (woodCurvingSimulatorButton == null)
         {
-            Debug.LogError("PotteryButton not found in the UI.");
+            Debug.LogError("WoodCurvingButton not found in the UI.");
             return;
         }
 
-        potterySimulatorButton.RegisterCallback<ClickEvent>(OnClickPotteryButton);
+        woodCurvingSimulatorButton.RegisterCallback<ClickEvent>(OnClickWoodCurvingButton);
     }
 
-    private void OnClickPotteryButton(ClickEvent evt)
+    private void OnClickWoodCurvingButton(ClickEvent evt)
     {
-        SceneManager.LoadScene("Scene", LoadSceneMode.Additive);
-        windowSwitch.ShowWindow(potterySimulatorWindow);
+        SceneManager.LoadScene("Scene3", LoadSceneMode.Additive);
+        windowSwitch.ShowWindow(woodCurvingSimulatorWindow);
         backgroundImage.style.height = Length.Percent(13);
         backgroundImage.style.maxHeight = Length.Percent(13);
         backgroundImage.style.minHeight = Length.Percent(13);
