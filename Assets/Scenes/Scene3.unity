@@ -219,19 +219,19 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47241507}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8a6d2e254924b64fa1d7ef4b23c2672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_orbitRadius: 3
+  m_orbitRadius: 2
   m_orbitAngle: 0
   m_elevation: 30
   m_height: 0
   m_sensitivityX: 0.25
   m_sensitivityY: 0.25
   m_sensitivityWheel: 0.1
-  Solid: {fileID: 0}
+  Solid: {fileID: 702703030}
   enableCameraMode: 0
 --- !u!1 &591454506
 GameObject:

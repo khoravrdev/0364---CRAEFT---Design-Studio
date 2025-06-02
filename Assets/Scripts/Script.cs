@@ -85,6 +85,8 @@ public class Script : MonoBehaviour
 		m_massPreservingTool = GameObject.Find("MassPreservingTool");
 		m_triangleTool = GameObject.Find("TriangleToolTip");
 		m_squareTool = GameObject.Find("SquareToolTip");
+		triangleToolFullObject = GameObject.Find("TriangleTool");
+		squareToolFullObject = GameObject.Find("SquareTool");
 		subtractiveToolStrength = 0.17f;
 		// Set up debug logging for the DLL. Messages will be printed if something goes wrong (for
 		// example invalid argument passed to method). You should comment out this in release build.

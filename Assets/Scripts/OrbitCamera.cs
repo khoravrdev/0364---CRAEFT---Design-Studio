@@ -30,9 +30,13 @@ public class OrbitCamera : MonoBehaviour
 	public bool enableCameraMode;
 	void Start()
 	{
-		raycastHitFromScript = Solid.GetComponent<Script>().raycastHit;
-		enableCameraMode = Solid.GetComponent<Script>().enableOrbitCameraMode;
-		enableCameraMode = false;
+		if (Solid.GetComponent<Script>() != null)
+		{
+			raycastHitFromScript = Solid.GetComponent<Script>().raycastHit;	
+			enableCameraMode = Solid.GetComponent<Script>().enableOrbitCameraMode;
+			enableCameraMode = false;
+		}
+		
     }
     void Update()
 	{
