@@ -43,6 +43,11 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
     private Button triangleTool;
     private Button squareTool;
 
+    //Axis visual elements
+    public VisualElement groupAxis;
+    public VisualElement xAxis;
+    public VisualElement yAxis;
+    public VisualElement zAxis;
     public int toolIndex;
 
     public GameObject mainScript;
@@ -81,6 +86,14 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
 
             triangleTool = root.Q<Button>("TriangleToolTip");
             squareTool = root.Q<Button>("SquareToolTip");
+
+            groupAxis = root.Q<VisualElement>("AxisGroup");
+            xAxis = root.Q<VisualElement>("XAxis");
+            yAxis = root.Q<VisualElement>("YAxis");
+            zAxis = root.Q<VisualElement>("ZAxis");
+
+            groupAxis.visible = false;
+
             toolIndex = 0;
 
             // Detect when user starts interacting with the slider
@@ -157,7 +170,8 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
-    
+
+        groupAxis.visible = true;
 
         toolIndex = 4;
     }
@@ -184,6 +198,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
 
+        groupAxis.visible = true;
         toolIndex = 5;
     }
 
@@ -243,6 +258,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_massPreservingTool.SetActive(false);
         mainScript.GetComponent<Script>().m_triangleTool.SetActive(false);
         mainScript.GetComponent<Script>().m_squareTool.SetActive(false);
+        groupAxis.visible = false; 
     }
 
     private void OnTurntableValueChange(ChangeEvent<bool> evt)
@@ -347,7 +363,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
-
+        groupAxis.visible = false; 
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
         cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
@@ -368,6 +384,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+        groupAxis.visible = false; 
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
         cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
@@ -406,6 +423,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+            groupAxis.visible = false; 
             //If other button than orbit camera pressed resest values
             camera.GetComponent<OrbitCamera>().enableCameraMode = false;
             cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);

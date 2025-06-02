@@ -392,11 +392,11 @@ public class Script : MonoBehaviour
 			// stack at specific moments of their choice.
 			m_generator.pushUndo();
 		}
-		else if (Input.GetKeyDown(KeyCode.Z))
-		{
+		//else if (Input.GetKeyDown(KeyCode.Z))
+		//{
 			// Restore the last pushed geometry. Nothing happens if the undo stack is empty.
-			m_generator.popUndo();
-		}
+			//m_generator.popUndo();
+		//}
 		else if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			// Activate or deactivate the tool. Intended use of the active/inactive state of tools

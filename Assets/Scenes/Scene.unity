@@ -983,9 +983,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4475a8dd7ecd5b40acf72f43a2d2bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlsEnabled: 0
-  moveSpeed: 0.5
+  tool: {fileID: 0}
   rotationSpeed: 100
+  moveSpeed: 0.5
+  controlsEnabled: 0
+  toolUIConnector: {fileID: 1072526420}
 --- !u!1 &984139561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1802,9 +1804,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4475a8dd7ecd5b40acf72f43a2d2bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlsEnabled: 0
-  moveSpeed: 0.5
+  tool: {fileID: 0}
   rotationSpeed: 100
+  moveSpeed: 0.5
+  controlsEnabled: 0
+  toolUIConnector: {fileID: 1072526420}
 --- !u!1 &1972377936
 GameObject:
   m_ObjectHideFlags: 0
