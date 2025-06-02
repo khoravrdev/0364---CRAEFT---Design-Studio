@@ -1191,6 +1191,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIDocument: {fileID: 0}
   toolIndex: 0
+  useToolTipText: Press W,A,S or D to move the tool up, left, down, or right. To
+    rotate it, press X,Y, or Z and move your mouse to spin it on the matching axis.
   mainScript: {fileID: 1102368672}
   camera: {fileID: 829961424}
 --- !u!4 &1072526422

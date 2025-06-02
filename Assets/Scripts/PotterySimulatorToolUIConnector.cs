@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 
+
 public class PotterySimulatorToolUIConnector : MonoBehaviour
 {
     public UIDocument uIDocument;
@@ -50,6 +51,9 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
     public VisualElement zAxis;
     public int toolIndex;
 
+    //Help bar text
+    public Label helpPanelText;
+    public string useToolTipText;
     public GameObject mainScript;
     public GameObject camera;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -94,6 +98,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
 
             groupAxis.visible = false;
 
+            helpPanelText = root.Q<Label>("HelpPanelText");
             toolIndex = 0;
 
             // Detect when user starts interacting with the slider
@@ -167,10 +172,15 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().EnableToolControls(mainScript.GetComponent<Script>().triangleToolFullObject);
 		mainScript.GetComponent<Script>().DisableToolControl(mainScript.GetComponent<Script>().squareToolFullObject);
 
+        yAxis.style.backgroundColor = new StyleColor(Color.white);
+        xAxis.style.backgroundColor = new StyleColor(Color.white);
+        zAxis.style.backgroundColor = new StyleColor(Color.white);
+
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
 
+        helpPanelText.text = useToolTipText;
         groupAxis.visible = true;
 
         toolIndex = 4;
@@ -193,11 +203,16 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
 
         mainScript.GetComponent<Script>().EnableToolControls(mainScript.GetComponent<Script>().squareToolFullObject);
         mainScript.GetComponent<Script>().DisableToolControl(mainScript.GetComponent<Script>().triangleToolFullObject);
+
+        yAxis.style.backgroundColor = new StyleColor(Color.white);
+        xAxis.style.backgroundColor = new StyleColor(Color.white);
+        zAxis.style.backgroundColor = new StyleColor(Color.white);
         
         mainScript.GetComponent<Script>().m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
 
+        helpPanelText.text = useToolTipText;
         groupAxis.visible = true;
         toolIndex = 5;
     }
@@ -258,7 +273,8 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().m_massPreservingTool.SetActive(false);
         mainScript.GetComponent<Script>().m_triangleTool.SetActive(false);
         mainScript.GetComponent<Script>().m_squareTool.SetActive(false);
-        groupAxis.visible = false; 
+        groupAxis.visible = false;
+        helpPanelText.text = "";
     }
 
     private void OnTurntableValueChange(ChangeEvent<bool> evt)
@@ -364,6 +380,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         groupAxis.visible = false; 
+        helpPanelText.text = "";
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
         cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
@@ -385,6 +402,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
         mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
         groupAxis.visible = false; 
+        helpPanelText.text = "";
         //If other button than orbit camera pressed resest values
         camera.GetComponent<OrbitCamera>().enableCameraMode = false;
         cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
@@ -424,6 +442,7 @@ public class PotterySimulatorToolUIConnector : MonoBehaviour
             mainScript.GetComponent<Script>().triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
             mainScript.GetComponent<Script>().squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
             groupAxis.visible = false; 
+            helpPanelText.text = "";
             //If other button than orbit camera pressed resest values
             camera.GetComponent<OrbitCamera>().enableCameraMode = false;
             cameraOrbitingButton.style.backgroundColor = new StyleColor(Color.white);
