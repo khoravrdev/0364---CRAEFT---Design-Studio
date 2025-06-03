@@ -38,6 +38,9 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
     //Save File button and text input
     private VisualElement saveSolidButton;
     public TextField saveSolidText;
+    string selectedFile;
+    //Export obj
+    private Button exportObjButton;
     void Start()
     {
         if (SceneManager.GetSceneByName("CRAEFTUI").isLoaded)
@@ -65,7 +68,7 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
             helpPanel = root.Q<Label>("WoodTurningHelpPanelText");
             saveSolidButton = root.Q<Button>("SaveTemplateWood");
             saveSolidText = root.Q<TextField>("SavedFileNameWood");
-
+            exportObjButton = root.Q<Button>("ExportObjWood");
             loadSolidButton = root.Q<Button>("LoadedSolidWood");
             loadListSolids = root.Q<DropdownField>("ListSolidsWood");
 
@@ -74,12 +77,9 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
             turnTableToggle.RegisterCallback<ChangeEvent<bool>>(OnTurntableValueChange);
             turnTableSpeed.RegisterCallback<ChangeEvent<float>>(OnTurntableSpeedChange);
             turnTableSpeed.visible = false;
-
-            saveSolidButton.RegisterCallback<ClickEvent>(OnClickSaveSolidButton);
-            //saveTemplateText.RegisterCallback<ChangeEvent<string>>(OnSaveTemplateTextChange);
-
-            //loadTemplateButton.RegisterCallback<ClickEvent>(OnClickLoadTemplateButton);
+            saveSolidButton.RegisterCallback<ClickEvent>(OnClickSaveSolidButton);           
             loadListSolids.RegisterCallback<ChangeEvent<string>>(OnDropDownListChanged);
+            exportObjButton.RegisterCallback<ClickEvent>(OnClickExportObjButton);
 
 
             OnTurntableSliderCheck();
@@ -88,14 +88,20 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
         }
     }
 
+    private void OnClickExportObjButton(ClickEvent evt)
+    {
+        string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(selectedFile);
+        this.GetComponent<Scene3>().exportSolidMeshObj(Application.streamingAssetsPath + "/" + fileNameWithoutExtension + ".obj");
+    }
+
      private void OnDropDownListChanged(ChangeEvent<string> evt)
     {
-    
-        string selectedFile = evt.newValue;
+
+        selectedFile = evt.newValue;
         string fullPath = Path.Combine(Application.streamingAssetsPath, selectedFile);
         this.GetComponent<Scene3>().loadSolid(fullPath);
         Debug.Log("Selected file: " + fullPath);
-        
+
     }
     private void PopulateDropdown()
     {
