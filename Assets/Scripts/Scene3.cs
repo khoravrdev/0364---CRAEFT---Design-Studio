@@ -133,12 +133,15 @@ public class Scene3 : MonoBehaviour
 	GameObject m_tool;
 	GameObject m_turntable;
 
+	public GameObject chiselFullObject;
+
 	VoxelCarvingSimulator m_voxelCarvingSimulator = null;
 
 	void Start()
 	{
 		m_solid = GameObject.Find("Solid");
 		m_tool = GameObject.Find("ToolTip");
+		chiselFullObject = GameObject.Find("Tool");
 		m_turntable = GameObject.Find("Turntable");
 
 		VoxelCarvingSimulator.setLoggingCallback(onMessage);
@@ -289,23 +292,27 @@ public class Scene3 : MonoBehaviour
 		}
 	}
 
+	public void ResetSolid()
+	{
+		if (m_solid != null)
+		{
+			m_voxelCarvingSimulator.setSolid(m_solidVoxelsX, m_solidVoxelsY, m_solidVoxelsZ, m_solidVoxelSize);
+			m_voxelCarvingSimulator.setSolidTransform(m_solid.transform.localToWorldMatrix);
+
+			updateSolidMesh();
+
+			Debug.Log("Solid reset");
+		}
+		else
+		{
+			Debug.Log("No solid available");
+		}
+	}
 	void processKeyboard()
 	{
 		if (Input.GetKeyDown(KeyCode.Home))
 		{
-			if (m_solid != null)
-			{
-				m_voxelCarvingSimulator.setSolid(m_solidVoxelsX, m_solidVoxelsY, m_solidVoxelsZ, m_solidVoxelSize);
-				m_voxelCarvingSimulator.setSolidTransform(m_solid.transform.localToWorldMatrix);
-
-				updateSolidMesh();
-
-				Debug.Log("Solid reset");
-			}
-			else
-			{
-				Debug.Log("No solid available");
-			}
+			ResetSolid();
 		}
 		
 		else if (Input.GetKeyDown(KeyCode.O))

@@ -41,6 +41,9 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
     string selectedFile;
     //Export obj
     private Button exportObjButton;
+
+    //Reset object
+    private Button resetObjectButton;
     void Start()
     {
         if (SceneManager.GetSceneByName("CRAEFTUI").isLoaded)
@@ -71,21 +74,29 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
             exportObjButton = root.Q<Button>("ExportObjWood");
             loadSolidButton = root.Q<Button>("LoadedSolidWood");
             loadListSolids = root.Q<DropdownField>("ListSolidsWood");
+            resetObjectButton = root.Q<Button>("ResetButtonWood");
 
             orbitCameraButton.RegisterCallback<ClickEvent>(OnClickCameraOrbitingButton);
             chiselButton.RegisterCallback<ClickEvent>(OnClickChiselButton);
             turnTableToggle.RegisterCallback<ChangeEvent<bool>>(OnTurntableValueChange);
             turnTableSpeed.RegisterCallback<ChangeEvent<float>>(OnTurntableSpeedChange);
             turnTableSpeed.visible = false;
-            saveSolidButton.RegisterCallback<ClickEvent>(OnClickSaveSolidButton);           
+            saveSolidButton.RegisterCallback<ClickEvent>(OnClickSaveSolidButton);
             loadListSolids.RegisterCallback<ChangeEvent<string>>(OnDropDownListChanged);
             exportObjButton.RegisterCallback<ClickEvent>(OnClickExportObjButton);
+            resetObjectButton.RegisterCallback<ClickEvent>(OnClickResetObjectButton);
 
 
             OnTurntableSliderCheck();
             OnDisabledChisel();
             PopulateDropdown();
+            this.GetComponent<Scene3>().chiselFullObject.SetActive(false);
         }
+    }
+
+    private void OnClickResetObjectButton(ClickEvent evt)
+    {
+        this.GetComponent<Scene3>().ResetSolid();
     }
 
     private void OnClickExportObjButton(ClickEvent evt)
@@ -149,12 +160,14 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
         //DisableAllOtherButtons(chiselButton);
         if (chiselButton.style.backgroundColor == new StyleColor(Color.grey))
         {
+            this.GetComponent<Scene3>().chiselFullObject.SetActive(false);
             chiselButton.style.backgroundColor = new StyleColor(Color.white);
             groupAxis.visible = false;
             helpPanel.text = "";
         }
         else
         {
+            this.GetComponent<Scene3>().chiselFullObject.SetActive(true);
             chiselButton.style.backgroundColor = new StyleColor(Color.grey);
             groupAxis.visible = true;
             xAxis.style.backgroundColor = new StyleColor(Color.white);
