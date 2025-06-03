@@ -639,7 +639,9 @@ namespace RevolutionSolid
 		///   before calling <see cref="generate"/>.<br/>
 		/// Typically you call this method for all tools from MonoBehaviour's Update() method, then
 		///   call <see cref="generate"/> to generate the solid's triangle mesh and finally
-		///   <see cref="getMesh"/> to retrieve the generated mesh.
+		///   <see cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out int[])"/>
+		///   or <see cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out UnityEngine.Vector2[], out int[])"/>
+		///   to retrieve the generated mesh.
 		/// </remarks>
 		/// <param name="tool">The ID of the tool that was created with the <see cref="addTool"/>
 		///   method.</param>
@@ -687,7 +689,9 @@ namespace RevolutionSolid
 		///   GameObject.GetComponent&lt;Renderer&gt;().worldToLocalMatrix.<br/>
 		/// Typically you call this method from MonoBehaviour's Update() method, then call
 		///   <see cref="generate"/> to generate the solid's triangle mesh and finally
-		///   <see cref="getMesh"/> to retrieve the generated mesh.
+		///   <see cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out int[])"/>
+		///   or <see cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out UnityEngine.Vector2[], out int[])"/>
+		///   to retrieve the generated mesh.
 		/// </remarks>
 		/// <param name="worldToLocalMatrix">The 4x4 transformation matrix, typicaly acquired from
 		///   Unity.</param>
@@ -808,15 +812,18 @@ namespace RevolutionSolid
 		/// <item>Call <see cref="setToolLocalToWorldMatrix"/> for all tools whose transformations
 		///   have changed.</item>
 		/// <item>Call <see cref="generate"/>.</item>
-		/// <item>If <see cref="generate"/> returned true, call <see cref="getMesh"/> to retrieve
-		///   the generated mesh.</item>
+		/// <item>If <see cref="generate"/> returned true, call
+		///   <see cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out int[])"/>
+		///   or <see cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out UnityEngine.Vector2[], out int[])"/>
+		///   to retrieve the generated mesh.</item>
 		/// <item>Update your renderer with the generated mesh.</item>
 		/// </list>
 		/// </remarks>
 		/// <returns>true if the mesh has changed since the last call to <see cref="generate"/>. If
 		///   this method returns false, the mesh has not changed, so you do not need to update
 		///   your renderer.</returns>
-		/// <seealso cref="getMesh"/>
+		/// <seealso cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out int[])"/>
+		/// <seealso cref="getMesh(out UnityEngine.Vector3[], out UnityEngine.Vector3[], out UnityEngine.Vector2[], out int[])"/>
 		public bool generate()
 		{
 			return NativeMethods.RevolutionSolid_generate(m_handle);
