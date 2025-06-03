@@ -308,7 +308,7 @@ public class Scene3 : MonoBehaviour
 			}
 		}
 		
-		else if (Input.GetKeyDown(KeyCode.S))
+		else if (Input.GetKeyDown(KeyCode.O))
 		{
 			saveSolid(Application.streamingAssetsPath + "/Solid.bin");
 		}
@@ -316,7 +316,7 @@ public class Scene3 : MonoBehaviour
 		{
 			loadSolid(Application.streamingAssetsPath + "/Solid.bin");
 		}
-		else if (Input.GetKeyDown(KeyCode.E))
+		else if (Input.GetKeyDown(KeyCode.P))
 		{
 			exportSolidMeshObj(Application.streamingAssetsPath + "/Solid.obj");
 		}

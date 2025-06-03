@@ -455,6 +455,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIDocument: {fileID: 0}
+  woodTurningToolTipText: Press W,A,S or D to move the tool forwards, left, backwards,
+    or right and Q, E to move it up and down. To rotate it, press X,Y, or Z and move
+    your mouse to spin it on the matching axis.
   camera: {fileID: 0}
 --- !u!1 &870024636
 GameObject:
@@ -736,6 +739,7 @@ GameObject:
   - component: {fileID: 1779575809}
   - component: {fileID: 1779575808}
   - component: {fileID: 1779575807}
+  - component: {fileID: 1779575810}
   m_Layer: 0
   m_Name: Tool
   m_TagString: Untagged
@@ -813,6 +817,23 @@ Transform:
   - {fileID: 870024637}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1779575810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779575806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e141a9305d49c4fb2a230a950f323b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.2
+  rotationSpeed: 100
+  minPosition: {x: -0.5, y: 0, z: -0.5}
+  maxPosition: {x: 0.5, y: 0.5, z: 0.5}
+  solidGameObject: {fileID: 0}
 --- !u!1 &1985236838
 GameObject:
   m_ObjectHideFlags: 0

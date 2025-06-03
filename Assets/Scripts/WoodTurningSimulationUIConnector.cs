@@ -15,13 +15,17 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
 
     //Axis visual elementes
     private VisualElement groupAxis;
-    private VisualElement xAxis;
-    private VisualElement yAxis;
-    private VisualElement zAxis;
+    public VisualElement xAxis;
+    public VisualElement yAxis;
+    public VisualElement zAxis;
 
     //Turntable variables    
     private VisualElement turnTableToggle;
     private VisualElement turnTableSpeed;
+
+    //Help bar text
+    public Label helpPanel;
+    public string woodTurningToolTipText;
 
     //Main Camera
     public GameObject camera;
@@ -41,14 +45,15 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
             root = uIDocument.rootVisualElement;
 
             //Initiallize Visual Elements
-            groupAxis = root.Q<VisualElement>("AxisGroup");
-            xAxis = root.Q<VisualElement>("XAxis");
-            yAxis = root.Q<VisualElement>("YAxis");
-            zAxis = root.Q<VisualElement>("ZAxis");
+            groupAxis = root.Q<VisualElement>("WoodAxisGroup");
+            xAxis = root.Q<VisualElement>("XAxisWood");
+            yAxis = root.Q<VisualElement>("YAxisWood");
+            zAxis = root.Q<VisualElement>("ZAxisWood");
             orbitCameraButton = root.Q<Button>("WoodCurvingOrbitingCameraButton");
             chiselButton = root.Q<Button>("ChiselToolButton");
             turnTableSpeed = root.Q<Slider>("WoodTurningTurntableSpeedSlider");
             turnTableToggle = root.Q<Toggle>("WoodTurningToggleTurntableAnimation");
+            helpPanel = root.Q<Label>("WoodTurningHelpPanelText");
 
             orbitCameraButton.RegisterCallback<ClickEvent>(OnClickCameraOrbitingButton);
             chiselButton.RegisterCallback<ClickEvent>(OnClickChiselButton);
@@ -58,6 +63,7 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
 
 
             OnTurntableSliderCheck();
+            OnDisabledChisel();
 
         }
     }
@@ -71,7 +77,22 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
     private void OnClickChiselButton(ClickEvent evt)
     {
         //DisableAllOtherButtons(chiselButton);
-        chiselButton.style.backgroundColor = new StyleColor(Color.grey);
+        if (chiselButton.style.backgroundColor == new StyleColor(Color.grey))
+        {
+            chiselButton.style.backgroundColor = new StyleColor(Color.white);
+            groupAxis.visible = false;
+            helpPanel.text = "";
+        }
+        else
+        {
+            chiselButton.style.backgroundColor = new StyleColor(Color.grey);
+            groupAxis.visible = true;
+            xAxis.style.backgroundColor = new StyleColor(Color.white);
+            yAxis.style.backgroundColor = new StyleColor(Color.white);
+            zAxis.style.backgroundColor = new StyleColor(Color.white);
+            helpPanel.text = woodTurningToolTipText;
+        }
+        
     }
 
     private void DisableAllOtherButtons(Button clickedButton)
@@ -155,6 +176,15 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
             }
 
         });
+    }
+
+    private void OnDisabledChisel()
+    {
+        if (chiselButton.style.backgroundColor == new StyleColor(Color.white))
+        {
+            helpPanel.text = "";
+        }
+
     }
 }
 
