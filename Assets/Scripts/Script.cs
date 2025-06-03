@@ -294,10 +294,34 @@ public class Script : MonoBehaviour
 		// this demo we assume that, in order to do the "carving", you change these transformations
 		// with your mouse (or some other controller) from within Unity's editor.
 		m_generator.setSolidWorldToLocalMatrix(m_solid.GetComponent<Renderer>().worldToLocalMatrix);
-		m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.GetComponent<Renderer>().localToWorldMatrix);
-		m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.GetComponent<Renderer>().localToWorldMatrix);
-		m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.GetComponent<Renderer>().localToWorldMatrix);
+		//m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.GetComponent<Renderer>().localToWorldMatrix);
+		//m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.GetComponent<Renderer>().localToWorldMatrix);
+		//m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.GetComponent<Renderer>().localToWorldMatrix);
 
+		// Update: Call setToolLocalToWorldMatrix only if the transformation has changed from within
+		//   Unity (3D editing). This allows the 2D editing from the debug window to work. Otherwise,
+		//   the setToolLocalToWorldMatrix calls here overwrite the changes made from the 2D debug
+		//   window (the debug window also calls setToolLocalToWorldMatrix internally when the user
+		//   moves the tools). Note that we only need to do this for single-type tools, because moving
+		//   multi-type tools is not supported from the debug window (ie the window does not change
+		//   the transformation of multi-tools).
+		if (m_subtractiveTool.transform.hasChanged)
+		{
+			m_subtractiveTool.transform.hasChanged = false;
+			m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.transform.localToWorldMatrix);
+		}
+
+		if (m_additiveTool.transform.hasChanged)
+		{
+			m_additiveTool.transform.hasChanged = false;
+			m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.transform.localToWorldMatrix);
+		}
+
+		if (m_massPreservingTool.transform.hasChanged)
+		{
+			m_massPreservingTool.transform.hasChanged = false;
+			m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.transform.localToWorldMatrix);
+		}
 		if (m_triangleTool != null)
 		{
 			m_generator.setToolLocalToWorldMatrix(m_triangleTool1Id, m_triangleTool.transform.localToWorldMatrix);
