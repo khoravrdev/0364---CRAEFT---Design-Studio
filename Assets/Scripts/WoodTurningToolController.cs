@@ -27,6 +27,16 @@ public class WoodTurningToolController : MonoBehaviour
     }
     void Update()
     {
+
+        if (solidGameObject.GetComponent<WoodTurningSimulationUIConnector>().saveSolidText != null && solidGameObject.GetComponent<WoodTurningSimulationUIConnector>().saveSolidText.panel != null)
+        {
+            var focusedElement = solidGameObject.GetComponent<WoodTurningSimulationUIConnector>().saveSolidText.panel.focusController.focusedElement;
+            if (focusedElement == solidGameObject.GetComponent<WoodTurningSimulationUIConnector>().saveSolidText)
+            {
+                // TextField is focused; skip movement input processing
+                return;
+            }
+        }
         HandleMovement();
         HandleAxisSelection();
         HandleRotation();

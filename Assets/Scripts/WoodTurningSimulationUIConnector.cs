@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -29,6 +31,13 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
 
     //Main Camera
     public GameObject camera;
+
+    //Load template button and drop menu
+    private Button loadSolidButton;
+    private DropdownField loadListSolids;
+    //Save File button and text input
+    private VisualElement saveSolidButton;
+    public TextField saveSolidText;
     void Start()
     {
         if (SceneManager.GetSceneByName("CRAEFTUI").isLoaded)
@@ -54,6 +63,11 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
             turnTableSpeed = root.Q<Slider>("WoodTurningTurntableSpeedSlider");
             turnTableToggle = root.Q<Toggle>("WoodTurningToggleTurntableAnimation");
             helpPanel = root.Q<Label>("WoodTurningHelpPanelText");
+            saveSolidButton = root.Q<Button>("SaveTemplateWood");
+            saveSolidText = root.Q<TextField>("SavedFileNameWood");
+
+            loadSolidButton = root.Q<Button>("LoadedSolidWood");
+            loadListSolids = root.Q<DropdownField>("ListSolidsWood");
 
             orbitCameraButton.RegisterCallback<ClickEvent>(OnClickCameraOrbitingButton);
             chiselButton.RegisterCallback<ClickEvent>(OnClickChiselButton);
@@ -61,13 +75,63 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
             turnTableSpeed.RegisterCallback<ChangeEvent<float>>(OnTurntableSpeedChange);
             turnTableSpeed.visible = false;
 
+            saveSolidButton.RegisterCallback<ClickEvent>(OnClickSaveSolidButton);
+            //saveTemplateText.RegisterCallback<ChangeEvent<string>>(OnSaveTemplateTextChange);
+
+            //loadTemplateButton.RegisterCallback<ClickEvent>(OnClickLoadTemplateButton);
+            loadListSolids.RegisterCallback<ChangeEvent<string>>(OnDropDownListChanged);
+
 
             OnTurntableSliderCheck();
             OnDisabledChisel();
-
+            PopulateDropdown();
         }
     }
 
+     private void OnDropDownListChanged(ChangeEvent<string> evt)
+    {
+    
+        string selectedFile = evt.newValue;
+        string fullPath = Path.Combine(Application.streamingAssetsPath, selectedFile);
+        this.GetComponent<Scene3>().loadSolid(fullPath);
+        Debug.Log("Selected file: " + fullPath);
+        
+    }
+    private void PopulateDropdown()
+    {
+        string[] files = Directory.GetFiles(Path.Combine(Application.streamingAssetsPath));
+        List<string> fileNames = new List<string>();
+
+        foreach (var file in files)
+        {
+            Debug.Log("File name:" + file);
+             if (Path.GetExtension(file).Equals(".bin", System.StringComparison.OrdinalIgnoreCase))
+            {
+                fileNames.Add(Path.GetFileName(file));
+            }           
+        }
+
+        loadListSolids.choices = fileNames;
+
+        if (fileNames.Count > 0)
+            loadListSolids.value = fileNames[0]; // Select first by default
+        else
+            loadListSolids.value = ""; // Empty state
+    }
+
+    private void OnClickSaveSolidButton(ClickEvent evt)
+    {
+        
+        if (!string.IsNullOrWhiteSpace(saveSolidText.value))
+        {
+            this.GetComponent<Scene3>().saveSolid(Application.streamingAssetsPath + "/" + saveSolidText.value + ".bin");
+            Debug.Log("Save template text:" + saveSolidText.value);
+            PopulateDropdown();
+
+            saveSolidText.value = "";
+        }
+        
+    }
 
     private void OnClickCameraOrbitingButton(ClickEvent evt)
     {

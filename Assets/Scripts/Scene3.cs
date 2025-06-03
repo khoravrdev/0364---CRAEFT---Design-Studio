@@ -348,7 +348,7 @@ public class Scene3 : MonoBehaviour
 		Debug.Log("Mesh updated. Vertices: " + vertices.Length + ". Triangles: " + triangles.Length / 3);
 	}
 
-	void saveSolid(string filename)
+	public void saveSolid(string filename)
 	{
 		if (m_solid == null)
 		{
@@ -362,7 +362,7 @@ public class Scene3 : MonoBehaviour
 		Debug.Log("Solid saved to " + filename);
 	}
 
-	void loadSolid(string filename)
+	public void loadSolid(string filename)
 	{
 		if (m_solid == null)
 		{
