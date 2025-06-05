@@ -323,29 +323,49 @@ public class Script : MonoBehaviour
 		//   moves the tools). Note that we only need to do this for single-type tools, because moving
 		//   multi-type tools is not supported from the debug window (ie the window does not change
 		//   the transformation of multi-tools).
-		if (m_2DsubtractiveTool.transform.hasChanged)
+		if (Application.isFocused)
 		{
-			m_2DsubtractiveTool.transform.hasChanged = false;
-			m_generator.setToolLocalToWorldMatrix(4, m_2DsubtractiveTool.transform.localToWorldMatrix);
+			m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.GetComponent<Renderer>().localToWorldMatrix);
+			m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.GetComponent<Renderer>().localToWorldMatrix);
+			m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.GetComponent<Renderer>().localToWorldMatrix);
+			/*
+			if (m_subtractiveTool.transform.hasChanged)
+			{
+				m_subtractiveTool.transform.hasChanged = false;
+				m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.transform.localToWorldMatrix);
+			}
+			if (m_additiveTool.transform.hasChanged)
+			{
+				m_additiveTool.transform.hasChanged = false;
+				m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.transform.localToWorldMatrix);
+			}
+			if (m_massPreservingTool.transform.hasChanged)
+			{
+				m_massPreservingTool.transform.hasChanged = false;
+				m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.transform.localToWorldMatrix);
+			}
+			*/
 		}
-		if (m_subtractiveTool.transform.hasChanged)
+		else
 		{
-			m_subtractiveTool.transform.hasChanged = false;
-			m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.transform.localToWorldMatrix);
+			if (m_2DsubtractiveTool.transform.hasChanged)
+			{
+				m_2DsubtractiveTool.transform.hasChanged = false;
+				m_generator.setToolLocalToWorldMatrix(4, m_2DsubtractiveTool.transform.localToWorldMatrix);
+			}
+			if (m_2DadditiveTool.transform.hasChanged)
+			{
+				m_2DadditiveTool.transform.hasChanged = false;
+				m_generator.setToolLocalToWorldMatrix(5, m_2DadditiveTool.transform.localToWorldMatrix);
+			}
+			if (m_2DmassPreservingTool.transform.hasChanged)
+			{
+				m_2DmassPreservingTool.transform.hasChanged = false;
+				m_generator.setToolLocalToWorldMatrix(6, m_2DmassPreservingTool.transform.localToWorldMatrix);
+			}
 		}
-
-		if (m_2DadditiveTool.transform.hasChanged)
-		{
-			m_2DadditiveTool.transform.hasChanged = false;
-			m_generator.setToolLocalToWorldMatrix(5, m_2DadditiveTool.transform.localToWorldMatrix);
-		}
-
-
-		if (m_2DmassPreservingTool.transform.hasChanged)
-		{
-			m_2DmassPreservingTool.transform.hasChanged = false;
-			m_generator.setToolLocalToWorldMatrix(6, m_2DmassPreservingTool.transform.localToWorldMatrix);
-		}
+		
+	
 	
 		if (m_triangleTool != null)
 		{
