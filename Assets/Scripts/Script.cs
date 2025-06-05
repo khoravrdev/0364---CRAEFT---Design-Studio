@@ -22,6 +22,9 @@ public class Script : MonoBehaviour
 	public GameObject m_additiveTool = null;
 	public GameObject m_massPreservingTool = null;
 
+	public GameObject m_2DsubtractiveTool = null;
+	public GameObject m_2DadditiveTool = null;
+	public GameObject m_2DmassPreservingTool = null;
 	public GameObject m_triangleTool = null;
 	public GameObject m_squareTool = null;
 	int m_triangleTool1Id = 4;
@@ -87,6 +90,9 @@ public class Script : MonoBehaviour
 		m_squareTool = GameObject.Find("SquareToolTip");
 		triangleToolFullObject = GameObject.Find("TriangleTool");
 		squareToolFullObject = GameObject.Find("SquareTool");
+		m_2DadditiveTool = GameObject.Find("2DAdditiveTool");
+		m_2DsubtractiveTool = GameObject.Find("2DSubtractiveTool");
+		m_2DmassPreservingTool = GameObject.Find("2DMassPreservingTool");
 		subtractiveToolStrength = 0.17f;
 		// Set up debug logging for the DLL. Messages will be printed if something goes wrong (for
 		// example invalid argument passed to method). You should comment out this in release build.
@@ -114,11 +120,19 @@ public class Script : MonoBehaviour
 		m_generator.addTool(2, m_additiveTool.GetComponent<Renderer>().localToWorldMatrix, ToolType.Additive, true);
 		m_generator.addTool(3, m_massPreservingTool.GetComponent<Renderer>().localToWorldMatrix, ToolType.MassPreserving, true);
 
+		m_generator.addTool(7, m_2DsubtractiveTool.GetComponent<Renderer>().localToWorldMatrix, ToolType.Subtractive, true);
+		m_generator.addTool(8, m_2DadditiveTool.GetComponent<Renderer>().localToWorldMatrix, ToolType.Additive, true);
+		m_generator.addTool(9, m_2DmassPreservingTool.GetComponent<Renderer>().localToWorldMatrix, ToolType.MassPreserving, true);
+
 		// We choose to indicate the "active" tool state with a bright color and the "inactive" with
 		// a dark color. The state and corresponding color is changed in processKeyboard().
 		m_subtractiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(1) ? new Color(1, 0, 0) : new Color(0.25f, 0, 0);
 		m_additiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(2) ? new Color(0, 1, 0) : new Color(0, 0.25f, 0);
 		m_massPreservingTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(3) ? new Color(1, 1, 0) : new Color(0.25f, 0.25f, 0);
+
+		m_2DsubtractiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(4) ? new Color(1, 0, 0) : new Color(0.25f, 0, 0);
+		m_2DadditiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(5) ? new Color(0, 1, 0) : new Color(0, 0.25f, 0);
+		m_2DmassPreservingTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(6) ? new Color(1, 1, 0) : new Color(0.25f, 0.25f, 0);
 
 		// Add tool 1
 		if (m_triangleTool != null)
@@ -217,6 +231,10 @@ public class Script : MonoBehaviour
 		m_massPreservingTool.SetActive(false);
 		triangleToolFullObject.SetActive(false);
 		squareToolFullObject.SetActive(false);
+
+		m_2DadditiveTool.SetActive(false);
+		m_2DsubtractiveTool.SetActive(false);
+		m_2DmassPreservingTool.SetActive(false);
 	}
 
 	void OnApplicationQuit()
@@ -305,23 +323,30 @@ public class Script : MonoBehaviour
 		//   moves the tools). Note that we only need to do this for single-type tools, because moving
 		//   multi-type tools is not supported from the debug window (ie the window does not change
 		//   the transformation of multi-tools).
+		if (m_2DsubtractiveTool.transform.hasChanged)
+		{
+			m_2DsubtractiveTool.transform.hasChanged = false;
+			m_generator.setToolLocalToWorldMatrix(4, m_2DsubtractiveTool.transform.localToWorldMatrix);
+		}
 		if (m_subtractiveTool.transform.hasChanged)
 		{
 			m_subtractiveTool.transform.hasChanged = false;
 			m_generator.setToolLocalToWorldMatrix(1, m_subtractiveTool.transform.localToWorldMatrix);
 		}
 
-		if (m_additiveTool.transform.hasChanged)
+		if (m_2DadditiveTool.transform.hasChanged)
 		{
-			m_additiveTool.transform.hasChanged = false;
-			m_generator.setToolLocalToWorldMatrix(2, m_additiveTool.transform.localToWorldMatrix);
+			m_2DadditiveTool.transform.hasChanged = false;
+			m_generator.setToolLocalToWorldMatrix(5, m_2DadditiveTool.transform.localToWorldMatrix);
 		}
 
-		if (m_massPreservingTool.transform.hasChanged)
+
+		if (m_2DmassPreservingTool.transform.hasChanged)
 		{
-			m_massPreservingTool.transform.hasChanged = false;
-			m_generator.setToolLocalToWorldMatrix(3, m_massPreservingTool.transform.localToWorldMatrix);
+			m_2DmassPreservingTool.transform.hasChanged = false;
+			m_generator.setToolLocalToWorldMatrix(6, m_2DmassPreservingTool.transform.localToWorldMatrix);
 		}
+	
 		if (m_triangleTool != null)
 		{
 			m_generator.setToolLocalToWorldMatrix(m_triangleTool1Id, m_triangleTool.transform.localToWorldMatrix);
@@ -420,8 +445,8 @@ public class Script : MonoBehaviour
 		}
 		//else if (Input.GetKeyDown(KeyCode.Z))
 		//{
-			// Restore the last pushed geometry. Nothing happens if the undo stack is empty.
-			//m_generator.popUndo();
+		// Restore the last pushed geometry. Nothing happens if the undo stack is empty.
+		//m_generator.popUndo();
 		//}
 		else if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
@@ -471,6 +496,54 @@ public class Script : MonoBehaviour
 				m_massPreservingTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
 			}
 		}
+		else if (Input.GetKeyDown(KeyCode.Alpha4))
+		{
+			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
+			// is to prevent accidental modification of the solid as you move the tools or solid.
+
+			if (m_generator.isToolActive(4))
+			{
+				m_generator.activateTool(4, false);
+				m_2DmassPreservingTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
+			}
+			else
+			{
+				m_generator.activateTool(4, true);
+				m_2DmassPreservingTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
+			}
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha5))
+		{
+			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
+			// is to prevent accidental modification of the solid as you move the tools or solid.
+
+			if (m_generator.isToolActive(5))
+			{
+				m_generator.activateTool(5, false);
+				m_2DadditiveTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
+			}
+			else
+			{
+				m_generator.activateTool(5, true);
+				m_2DadditiveTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
+			}
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha6))
+		{
+			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
+			// is to prevent accidental modification of the solid as you move the tools or solid.
+
+			if (m_generator.isToolActive(6))
+			{
+				m_generator.activateTool(6, false);
+				m_2DsubtractiveTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
+			}
+			else
+			{
+				m_generator.activateTool(6, true);
+				m_2DsubtractiveTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
+			}
+		}
 		else if (Input.GetKeyDown(KeyCode.Alpha8))
 		{
 			//m_generator.setTemplate(Application.streamingAssetsPath + "/template.png");
@@ -492,6 +565,11 @@ public class Script : MonoBehaviour
 		{
 			// Show/hide the debug visualization window.
 			m_generator.enableVisualization(!m_generator.isVisualizationEnabled());
+			m_additiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+			m_subtractiveTool.transform.position = new Vector3(1000f, 0f, 0f);
+			m_massPreservingTool.transform.position = new Vector3(1000f, 0f, 0f);
+			triangleToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
+			squareToolFullObject.transform.position = new Vector3(1000f, 0f, 0f);
 		}
 	}
 

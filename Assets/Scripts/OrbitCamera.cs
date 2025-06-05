@@ -39,27 +39,29 @@ public class OrbitCamera : MonoBehaviour
 		enableCameraMode = false;
 		
     }
-    void Update()
+	void Update()
 	{
-		if (enableCameraMode == true)
+		if (Application.isFocused)
 		{
-			if (Input.GetMouseButtonDown(0))
+			if (enableCameraMode == true)
 			{
-				m_lastMouse = Input.mousePosition;
+				if (Input.GetMouseButtonDown(0))
+				{
+					m_lastMouse = Input.mousePosition;
+				}
+				else if (Input.GetMouseButton(0))
+				{
+
+					float dx = Input.mousePosition.x - m_lastMouse.x;
+					float dy = Input.mousePosition.y - m_lastMouse.y;
+
+					m_lastMouse = Input.mousePosition;
+
+					m_orbitAngle += dx * m_sensitivityX;
+
+					m_elevation = Mathf.Clamp(m_elevation - dy * m_sensitivityY, -90.0f, 90.0f);
+				}
 			}
-			else if (Input.GetMouseButton(0))
-			{
-
-				float dx = Input.mousePosition.x - m_lastMouse.x;
-				float dy = Input.mousePosition.y - m_lastMouse.y;
-
-				m_lastMouse = Input.mousePosition;
-
-				m_orbitAngle += dx * m_sensitivityX;
-
-				m_elevation = Mathf.Clamp(m_elevation - dy * m_sensitivityY, -90.0f, 90.0f);
-			}
-		}
 			if (Input.mouseScrollDelta.y < 0.0f)
 			{
 				m_orbitRadius = Mathf.Clamp(m_orbitRadius * (1.0f - m_sensitivityWheel), 0.1f, 10.0f);
@@ -68,7 +70,7 @@ public class OrbitCamera : MonoBehaviour
 			{
 				m_orbitRadius = Mathf.Clamp(m_orbitRadius * (1.0f + m_sensitivityWheel), 0.1f, 10.0f);
 			}
-
+		}
 			Matrix4x4 m = Matrix4x4.identity;
 
 			m *= Matrix4x4.Rotate(Quaternion.AngleAxis(m_orbitAngle, new Vector3(0, 1, 0)));
@@ -78,6 +80,7 @@ public class OrbitCamera : MonoBehaviour
 
 			transform.position = m.GetColumn(3);
 			transform.rotation = m.rotation;
+		
 
 		
 	}
