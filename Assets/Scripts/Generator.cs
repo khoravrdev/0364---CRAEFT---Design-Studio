@@ -430,6 +430,15 @@ namespace RevolutionSolid
 		}
 
 		/// <summary>
+		/// Returns the window handle of the visualization window.
+		/// </summary>
+		/// <returns>The native window handle (HWND) of the visualization window, cast as IntPtr.</returns>
+		public IntPtr getVisualizationWindowHandle()
+		{
+			return NativeMethods.RevolutionSolid_getVisualizationWindowHandle(m_handle);
+		}
+
+		/// <summary>
 		/// Add a tool which you will use to modify the solid.
 		/// </summary>
 		/// <remarks>

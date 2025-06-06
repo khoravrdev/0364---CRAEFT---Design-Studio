@@ -79,6 +79,9 @@ namespace RevolutionSolid
 		internal static extern VisualizationFlags RevolutionSolid_getVisualizationFlags(IntPtr potteryGenerator);
 
 		[DllImport(DLL_FILENAME, CallingConvention = CallingConvention.Cdecl)]
+		internal static extern IntPtr RevolutionSolid_getVisualizationWindowHandle(IntPtr potteryGenerator);
+
+		[DllImport(DLL_FILENAME, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void RevolutionSolid_addTool(IntPtr potteryGenerator, int tool, ref UnityEngine.Matrix4x4 localToWorldMatrix, ToolType toolType, [MarshalAs(UnmanagedType.U1)] bool active);
 
 		[DllImport(DLL_FILENAME, CallingConvention = CallingConvention.Cdecl)]
