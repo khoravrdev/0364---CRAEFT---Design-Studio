@@ -130,9 +130,9 @@ public class Script : MonoBehaviour
 		m_additiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(2) ? new Color(0, 1, 0) : new Color(0, 0.25f, 0);
 		m_massPreservingTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(3) ? new Color(1, 1, 0) : new Color(0.25f, 0.25f, 0);
 
-		m_2DsubtractiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(4) ? new Color(1, 0, 0) : new Color(0.25f, 0, 0);
-		m_2DadditiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(5) ? new Color(0, 1, 0) : new Color(0, 0.25f, 0);
-		m_2DmassPreservingTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(6) ? new Color(1, 1, 0) : new Color(0.25f, 0.25f, 0);
+		m_2DsubtractiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(7) ? new Color(1, 0, 0) : new Color(0.25f, 0, 0);
+		m_2DadditiveTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(8) ? new Color(0, 1, 0) : new Color(0, 0.25f, 0);
+		m_2DmassPreservingTool.GetComponent<Renderer>().material.color = m_generator.isToolActive(9) ? new Color(1, 1, 0) : new Color(0.25f, 0.25f, 0);
 
 		// Add tool 1
 		if (m_triangleTool != null)
@@ -165,7 +165,7 @@ public class Script : MonoBehaviour
 			m_generator.addMultiTool(m_triangleTool1Id, voxelCenters, m_triangleTool1VoxelSize, m_triangleTool.transform.localToWorldMatrix, ToolType.MultiSubtractive, true);
 		}
 
-		// Add additive multi tool 
+		// Add additive multi tool
 		if (m_squareTool != null)
 		{
 			Mesh mesh = m_squareTool.GetComponent<MeshFilter>().sharedMesh;
@@ -348,25 +348,84 @@ public class Script : MonoBehaviour
 		}
 		else
 		{
+#if true
+			// Enable this code block if:
+			// - you want to manipulate the 2D editor tools from the 3D editor (this is the "if" statement)
+			// - you want the tools to be updated in the 3D editor when you manipulate them in the 2D editor (this is the "else" statement)
+			// Note: you can also keep only the "if" or "else" statement if you want
+
 			if (m_2DsubtractiveTool.transform.hasChanged)
 			{
 				m_2DsubtractiveTool.transform.hasChanged = false;
-				m_generator.setToolLocalToWorldMatrix(4, m_2DsubtractiveTool.transform.localToWorldMatrix);
+				m_generator.setToolLocalToWorldMatrix(7, m_2DsubtractiveTool.transform.localToWorldMatrix);
 			}
+			else
+			{
+				// Currently, the RevolutionSolid API does not provide a way to notify us if a
+				//   tool's transform has changed from the 2D editor, so we call these every frame
+
+				Matrix4x4 m = m_generator.getToolLocalToWorldMatrix(7);
+
+				m_2DsubtractiveTool.transform.rotation = extractRotation(m);
+				m_2DsubtractiveTool.transform.position = extractPosition(m);
+				m_2DsubtractiveTool.transform.localScale = extractScale(m);
+
+				// hasChanged becomes true when we change the transform above and this interferes with
+				//   the "if" statement above, so we set it to false
+
+				m_2DsubtractiveTool.transform.hasChanged = false;
+			}
+
 			if (m_2DadditiveTool.transform.hasChanged)
 			{
 				m_2DadditiveTool.transform.hasChanged = false;
-				m_generator.setToolLocalToWorldMatrix(5, m_2DadditiveTool.transform.localToWorldMatrix);
+				m_generator.setToolLocalToWorldMatrix(8, m_2DadditiveTool.transform.localToWorldMatrix);
 			}
+			else
+			{
+				// Currently, the RevolutionSolid API does not provide a way to notify us if a
+				//   tool's transform has changed from the 2D editor, so we call these every frame
+
+				Matrix4x4 m = m_generator.getToolLocalToWorldMatrix(8);
+
+				m_2DadditiveTool.transform.rotation = extractRotation(m);
+				m_2DadditiveTool.transform.position = extractPosition(m);
+				m_2DadditiveTool.transform.localScale = extractScale(m);
+
+				// hasChanged becomes true when we change the transform above and this interferes with
+				//   the "if" statement above, so we set it to false
+
+				m_2DadditiveTool.transform.hasChanged = false;
+			}
+
 			if (m_2DmassPreservingTool.transform.hasChanged)
 			{
 				m_2DmassPreservingTool.transform.hasChanged = false;
-				m_generator.setToolLocalToWorldMatrix(6, m_2DmassPreservingTool.transform.localToWorldMatrix);
+				m_generator.setToolLocalToWorldMatrix(9, m_2DmassPreservingTool.transform.localToWorldMatrix);
 			}
+			else
+			{
+				// Currently, the RevolutionSolid API does not provide a way to notify us if a
+				//   tool's transform has changed from the 2D editor, so we call these every frame
+
+				Matrix4x4 m = m_generator.getToolLocalToWorldMatrix(9);
+
+				m_2DmassPreservingTool.transform.rotation = extractRotation(m);
+				m_2DmassPreservingTool.transform.position = extractPosition(m);
+				m_2DmassPreservingTool.transform.localScale = extractScale(m);
+
+				// hasChanged becomes true when we change the transform above and this interferes with
+				//   the "if" statement above, so we set it to false
+
+				m_2DmassPreservingTool.transform.hasChanged = false;
+			}
+#else
+			// If you don't want any of the aforementioned functionality, then you don't have to do
+			//   anything else here. In this case, you can also delete the extractRotation,
+			//   extractPosition and extractScale methods that I've added to the end of this file.
+#endif
 		}
-		
-	
-	
+
 		if (m_triangleTool != null)
 		{
 			m_generator.setToolLocalToWorldMatrix(m_triangleTool1Id, m_triangleTool.transform.localToWorldMatrix);
@@ -425,7 +484,7 @@ public class Script : MonoBehaviour
 			meshCollider.sharedMesh = sculptMesh;
 		}
 
-		Debug.Log("Mesh updated: " + vertices.Length + " vertices, " + indices.Length / 3 + " triangles");
+		//Debug.Log("Mesh updated: " + vertices.Length + " vertices, " + indices.Length / 3 + " triangles");
 
 	}
 
@@ -516,55 +575,55 @@ public class Script : MonoBehaviour
 				m_massPreservingTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
 			}
 		}
-		else if (Input.GetKeyDown(KeyCode.Alpha4))
+		else if (Input.GetKeyDown(KeyCode.Alpha7))
 		{
 			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
 			// is to prevent accidental modification of the solid as you move the tools or solid.
 
-			if (m_generator.isToolActive(4))
+			if (m_generator.isToolActive(7))
 			{
-				m_generator.activateTool(4, false);
-				m_2DmassPreservingTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
-			}
-			else
-			{
-				m_generator.activateTool(4, true);
-				m_2DmassPreservingTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
-			}
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha5))
-		{
-			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
-			// is to prevent accidental modification of the solid as you move the tools or solid.
-
-			if (m_generator.isToolActive(5))
-			{
-				m_generator.activateTool(5, false);
-				m_2DadditiveTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
-			}
-			else
-			{
-				m_generator.activateTool(5, true);
-				m_2DadditiveTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
-			}
-		}
-		else if (Input.GetKeyDown(KeyCode.Alpha6))
-		{
-			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
-			// is to prevent accidental modification of the solid as you move the tools or solid.
-
-			if (m_generator.isToolActive(6))
-			{
-				m_generator.activateTool(6, false);
+				m_generator.activateTool(7, false);
 				m_2DsubtractiveTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
 			}
 			else
 			{
-				m_generator.activateTool(6, true);
+				m_generator.activateTool(7, true);
 				m_2DsubtractiveTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
 			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha8))
+		{
+			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
+			// is to prevent accidental modification of the solid as you move the tools or solid.
+
+			if (m_generator.isToolActive(8))
+			{
+				m_generator.activateTool(8, false);
+				m_2DadditiveTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
+			}
+			else
+			{
+				m_generator.activateTool(8, true);
+				m_2DadditiveTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
+			}
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha9))
+		{
+			// Activate or deactivate the tool. Intended use of the active/inactive state of tools
+			// is to prevent accidental modification of the solid as you move the tools or solid.
+
+			if (m_generator.isToolActive(9))
+			{
+				m_generator.activateTool(9, false);
+				m_2DmassPreservingTool.GetComponent<Renderer>().material.color = new Color(0.25f, 0.25f, 0);
+			}
+			else
+			{
+				m_generator.activateTool(9, true);
+				m_2DmassPreservingTool.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
+			}
+		}
+		/*else if (Input.GetKeyDown(KeyCode.Alpha8))
 		{
 			//m_generator.setTemplate(Application.streamingAssetsPath + "/template.png");
 			updateTexturingShader();
@@ -573,7 +632,7 @@ public class Script : MonoBehaviour
 		{
 			//m_generator.setTemplate(Application.streamingAssetsPath + "/customTemplate.png");
 			updateTexturingShader();
-		}
+		}*/
 		else if (Input.GetKeyDown(KeyCode.T))
 		{
 			// Save the current geometry as a file. Intended use is to create different "starting
@@ -660,8 +719,8 @@ public class Script : MonoBehaviour
 				m_subtractiveTool.SetActive(false);
 				m_triangleTool.SetActive(true);
 				m_squareTool.SetActive(false);
-				
-				
+
+
 			}
 			else if (toolIndex == 5)
 			{
@@ -705,5 +764,42 @@ public class Script : MonoBehaviour
 		tool.GetComponent<ToolController>().controlsEnabled = false;
 	}
 
-    
+	static Quaternion extractRotation(Matrix4x4 matrix)
+	{
+		Vector3 forward;
+
+		forward.x = matrix.m02;
+		forward.y = matrix.m12;
+		forward.z = matrix.m22;
+
+		Vector3 upwards;
+
+		upwards.x = matrix.m01;
+		upwards.y = matrix.m11;
+		upwards.z = matrix.m21;
+
+		return Quaternion.LookRotation(forward, upwards);
+	}
+
+	static Vector3 extractPosition(Matrix4x4 matrix)
+	{
+		Vector3 position;
+
+		position.x = matrix.m03;
+		position.y = matrix.m13;
+		position.z = matrix.m23;
+
+		return position;
+	}
+
+	static Vector3 extractScale(Matrix4x4 matrix)
+	{
+		Vector3 scale;
+
+		scale.x = matrix.GetColumn(0).magnitude;
+		scale.y = matrix.GetColumn(1).magnitude;
+		scale.z = matrix.GetColumn(2).magnitude;
+
+		return scale;
+	}
 }
