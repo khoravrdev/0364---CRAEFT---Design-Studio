@@ -27,6 +27,7 @@ public class PotterySimulatorButton : MonoBehaviour
         backgroundImage.SendToBack();
         backgroundImage.SendToBack();        
         backgroundImage.visible = true;
+        potterySimulatorWindow.BringToFront();
         
        potterySimulatorButton = root.Q<VisualElement>("PotteryButton");
         if (potterySimulatorButton == null)
