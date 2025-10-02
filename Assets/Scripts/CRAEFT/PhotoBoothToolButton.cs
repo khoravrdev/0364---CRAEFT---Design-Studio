@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class PhotoBoothToolButton : MonoBehaviour
@@ -13,6 +14,7 @@ public class PhotoBoothToolButton : MonoBehaviour
     private VisualElement photoBoothToolWindow;
     private VisualElement mainWindow;
     private VisualElement backgroundImage;
+    private GameObject panelSettingsObject;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,7 +35,8 @@ public class PhotoBoothToolButton : MonoBehaviour
         }
 
         photoBoothToolButton.RegisterCallback<ClickEvent>(OnClickPhotoBoothButton);
-        uIDocument.rootVisualElement.RegisterCallback<PointerDownEvent>(e => Debug.Log("Clicked" + e.target));
+        //uIDocument.rootVisualElement.RegisterCallback<PointerDownEvent>(e => Debug.Log("Clicked" + e.target));
+       
     }
 
     private void OnClickPhotoBoothButton(ClickEvent evt)
@@ -44,22 +47,14 @@ public class PhotoBoothToolButton : MonoBehaviour
         backgroundImage.style.maxHeight = Length.Percent(0);
         backgroundImage.style.minHeight = Length.Percent(0);
         // Find the generated PanelSettings GameObject under the EventSystem
-        
+        panelSettingsObject = GameObject.Find("New Panel Settings");
+
     }
 
     // Update is called once per frame
-    void Update()
+     void Update()
     {
-        /*
-        var panelSettingsObject = GameObject.Find("New Panel Settings");
-
-        if (panelSettingsObject != null)
-        {
-            // Remove the components that are causing the conflict
-            Destroy(panelSettingsObject.GetComponent<PanelEventHandler>());
-            Destroy(panelSettingsObject.GetComponent<PanelRaycaster>());
-            Destroy(panelSettingsObject); // Remove the PanelSettings GameObject entirely
-        }
-        */
+        
     }
+
 }
