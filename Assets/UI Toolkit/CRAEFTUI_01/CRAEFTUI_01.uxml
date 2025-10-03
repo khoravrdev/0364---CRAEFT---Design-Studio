@@ -170,7 +170,7 @@
                 <engine:Button text="Export Obj" name="ExportObjWood" focusable="false" style="top: -3%; font-size: 26px; background-image: url(&quot;project://database/Assets/Images/BakGround/Background.png?fileID=2800000&amp;guid=3b97f1e2a6e6dbb458bde49a43fd46a1&amp;type=3#Background&quot;); left: auto; border-top-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; border-bottom-left-radius: 20px;" />
             </engine:GroupBox>
         </engine:VisualElement>
-        <engine:VisualElement name="PhotoBoothSimulationWindow" focusable="true" style="flex-grow: 1; display: none;" />
+        <engine:VisualElement name="PhotoBoothSimulationWindow" focusable="false" style="flex-grow: 1; display: none;" />
         <engine:Button name="Burgerbutton" class="burger" style="position: absolute; top: 40px; left: 40px; height: 50px; width: 50px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" />
         <engine:VisualElement name="menuBar" class="menustyle MenuOptionsFont shootout" style="background-color: rgb(255, 255, 255);">
             <engine:Button text="Home" name="Menu_HomeButton" style="background-color: rgba(0, 0, 0, 0);" />

@@ -92,42 +92,44 @@ public class WindowSwitcher : MonoBehaviour
             potterySimulatorWindow.style.display = DisplayStyle.None;
         if (woodCurvingSimulatorWindow != null)
             woodCurvingSimulatorWindow.style.display = DisplayStyle.None;
+        if (photoBoothToolWindow != null)
+            photoBoothToolWindow.style.display = DisplayStyle.None;
 
         if (windowToShow != null)
-        {
-            if (windowToShow != potterySimulatorWindow)
             {
-                if (SceneManager.GetSceneByName("Scene").isLoaded)
+                if (windowToShow != potterySimulatorWindow)
                 {
-                    SceneManager.UnloadSceneAsync("Scene");
-                    backgroundImage.style.height = Length.Percent(100);
-                    backgroundImage.style.maxHeight = Length.Percent(100);
-                    backgroundImage.style.minHeight = Length.Percent(100);
-                }
+                    if (SceneManager.GetSceneByName("Scene").isLoaded)
+                    {
+                        SceneManager.UnloadSceneAsync("Scene");
+                        backgroundImage.style.height = Length.Percent(100);
+                        backgroundImage.style.maxHeight = Length.Percent(100);
+                        backgroundImage.style.minHeight = Length.Percent(100);
+                    }
 
-            }
-            if (windowToShow != woodCurvingSimulatorWindow)
-            {
-                if (SceneManager.GetSceneByName("Scene3").isLoaded)
-                {
-                    SceneManager.UnloadSceneAsync("Scene3");
-                    backgroundImage.style.height = Length.Percent(100);
-                    backgroundImage.style.maxHeight = Length.Percent(100);
-                    backgroundImage.style.minHeight = Length.Percent(100);
                 }
-            }
-            if (windowToShow != photoBoothToolWindow)
-            {
-                if (SceneManager.GetSceneByName("SampleScene").isLoaded)
+                if (windowToShow != woodCurvingSimulatorWindow)
                 {
-                    SceneManager.UnloadSceneAsync("SampleScene");
-                    backgroundImage.style.height = Length.Percent(100);
-                    backgroundImage.style.maxHeight = Length.Percent(100);
-                    backgroundImage.style.minHeight = Length.Percent(100);
+                    if (SceneManager.GetSceneByName("Scene3").isLoaded)
+                    {
+                        SceneManager.UnloadSceneAsync("Scene3");
+                        backgroundImage.style.height = Length.Percent(100);
+                        backgroundImage.style.maxHeight = Length.Percent(100);
+                        backgroundImage.style.minHeight = Length.Percent(100);
+                    }
                 }
+                if (windowToShow != photoBoothToolWindow)
+                {
+                    if (SceneManager.GetSceneByName("SampleScene").isLoaded)
+                    {
+                        SceneManager.UnloadSceneAsync("SampleScene");
+                        backgroundImage.style.height = Length.Percent(100);
+                        backgroundImage.style.maxHeight = Length.Percent(100);
+                        backgroundImage.style.minHeight = Length.Percent(100);
+                    }
+                }
+                windowToShow.style.display = DisplayStyle.Flex;
             }
-            windowToShow.style.display = DisplayStyle.Flex;
-        }
     }
 
 
