@@ -21,6 +21,7 @@ public class WindowSwitcher : MonoBehaviour
 
     private VisualElement photoBoothToolWindow;
 
+    private VisualElement exitButton;
     private VisualElement backgroundImage;
     // Button names (as defined in your UXML)
     private const string visualizationButtonName = "VisualizationToolboxButton";
@@ -30,6 +31,8 @@ public class WindowSwitcher : MonoBehaviour
     private const string potterySimulatorButtonName = "PotteryButton"; // Button to open pottery simulator window
 
     private const string photoBoothButtonName = "PhotoBoothButton";
+
+    private const string exitButtonName = "Menu_ExitButton";
 
     // Root VisualElement from the UIDocument
     private VisualElement root;
@@ -47,6 +50,7 @@ public class WindowSwitcher : MonoBehaviour
         woodCurvingSimulatorWindow = root.Q<VisualElement>("WoodCurvingSimulationWindow");
         photoBoothToolWindow = root.Q<VisualElement>("PhotoBoothSimulationWindow");
         backgroundImage = root.Q<VisualElement>("BackgroundImage");
+        exitButton = root.Q<VisualElement>("Menu_ExitButton");
 
         // Query for all buttons with the given names (even if they share the same name but different parents)
         List<Button> visualizationButtons = root.Query<Button>(visualizationButtonName).ToList();
@@ -70,6 +74,8 @@ public class WindowSwitcher : MonoBehaviour
         {
             btn.RegisterCallback<ClickEvent>(evt => ShowWindow(designStudioWindow));
         }
+
+        exitButton.RegisterCallback<ClickEvent>(evt => Application.Quit());
 
         // Optionally, show a default window (e.g., DesignStudioWindow)
         ShowWindow(designStudioWindow);
