@@ -9,6 +9,7 @@ public class Scene3 : MonoBehaviour
 		Voxels,
 		Convex
 	}
+	public bool ToolReady { get; private set; } = false;  // ✱ CHANGED
 
 	enum KernelSize
 	{
@@ -214,6 +215,13 @@ public class Scene3 : MonoBehaviour
 				meshDebug.triangles = triangles;
 			}
 		}
+
+		 // ✱ CHANGED: mark the tool as ready AFTER we’ve found and configured ToolTip
+        ToolReady = (m_tool != null);  // ✱ CHANGED
+
+        // ✱ CHANGED: now that everything is initialized, apply your desired default (chisel OFF)
+        if (chiselFullObject != null)
+            chiselFullObject.SetActive(false);  // ✱ CHANGED
 	}
 
 	void OnApplicationQuit()
