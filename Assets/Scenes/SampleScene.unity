@@ -2339,7 +2339,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1188007544}
         m_TargetAssemblyTypeName: RenderCaller, Assembly-CSharp
-        m_MethodName: RunRender
+        m_MethodName: OnRenderButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3038,7 +3038,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 606066199}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.62522, y: 0.62522, z: 0.62522}
   m_ConstrainProportionsScale: 0
@@ -3047,7 +3047,7 @@ RectTransform:
   - {fileID: 919208113}
   - {fileID: 1801614737}
   - {fileID: 1345234154}
-  m_Father: {fileID: 1872436649}
+  m_Father: {fileID: 1324076043}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7247,7 +7247,7 @@ MonoBehaviour:
   renderButtonText: {fileID: 214087489}
   backToPresetsButton: {fileID: 978356204}
   backToRendererOptionsButton: {fileID: 1436334094}
-  filePickerSaver: {fileID: 0}
+  filePickerSaver: {fileID: 1872436644}
   selectFiledButton: {fileID: 511199485}
   rawImagesPanel: {fileID: 606066199}
 --- !u!114 &1188007545
@@ -7553,6 +7553,7 @@ RectTransform:
   - {fileID: 1866423462}
   - {fileID: 511199484}
   - {fileID: 479530613}
+  - {fileID: 606066200}
   m_Father: {fileID: 1872436649}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -9524,7 +9525,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1324076043}
-  - {fileID: 606066200}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
