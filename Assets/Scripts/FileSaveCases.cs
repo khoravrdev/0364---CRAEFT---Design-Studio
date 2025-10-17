@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.IO;
 using SFB; 
+using TMPro;
 
-public class FilePickerSaver : MonoBehaviour
+public class FileSaveCases : MonoBehaviour
 {
     public enum CaseId { Case1, Case2, Case3, Case4 }
 
@@ -35,7 +36,7 @@ public class FilePickerSaver : MonoBehaviour
     public CaseRule case1 = new CaseRule {
         displayName = "SimpleCPU",
         expectedFileCount = 1,
-        targetFilenames = new string[] { "input.obj" },
+        targetFilenames = new string[] { "input" },
         desktopRelativeSubpath = "MitsubaFiles/photobooth_cpu",
         absoluteFolder = ""                             // leave empty to use Desktop path above
     };
@@ -43,7 +44,7 @@ public class FilePickerSaver : MonoBehaviour
     public CaseRule case2 = new CaseRule {
         displayName = "SimpleGPU",
         expectedFileCount = 1,
-        targetFilenames = new string[] { "input.obj" },
+        targetFilenames = new string[] { "input" },
         desktopRelativeSubpath = "MitsubaFiles/photobooth_gpu",
         absoluteFolder = ""
     };
@@ -51,7 +52,7 @@ public class FilePickerSaver : MonoBehaviour
     public CaseRule case3 = new CaseRule {
         displayName = "TexturedCPU",
         expectedFileCount = 2,
-        targetFilenames = new string[] { "input_with_texture.obj", "texturemap.jpg" },
+        targetFilenames = new string[] { "input_with_texture", "texturemap.jpg" },
         desktopRelativeSubpath = "MitsubaFiles/photobooth2_cpu",
         absoluteFolder = ""
     };
@@ -59,7 +60,7 @@ public class FilePickerSaver : MonoBehaviour
     public CaseRule case4 = new CaseRule {
         displayName = "TexturedGPU",
         expectedFileCount = 2,
-        targetFilenames = new string[] { "input_with_texture.obj", "texturemap.jpg" },
+        targetFilenames = new string[] { "input_with_texture", "texturemap.jpg" },
         desktopRelativeSubpath = "MitsubaFiles/photobooth2_gpu",
         absoluteFolder = ""
     };
@@ -67,6 +68,13 @@ public class FilePickerSaver : MonoBehaviour
     [Header("Optional: File Type Filters in the picker")]
     // >>> EDIT HERE (optional): Turn on to restrict visible extensions
     public bool useFilters = false;
+
+    // =============== UI HOOKS ===============
+    [Header("UI Label (set ONE of these)")]
+    [SerializeField] private TextMeshProUGUI tmpTextLabel;      // <<< NEW: TMP Text (assign in Inspector)
+    //[SerializeField] private Button buttonToRename;             // <<< NEW: Optional—if you want to edit Button.interactable or read its current label child
+
+    // =======================================
 
     public void PickFilesAndSave()
     {
@@ -118,6 +126,13 @@ public class FilePickerSaver : MonoBehaviour
             return;
         }
 
+        if (picked.Length != rule.expectedFileCount)
+        {
+            Debug.LogWarning($"Expected {rule.expectedFileCount} file(s), but got {picked.Length}. Nothing copied.");
+            SetLoadedCountOnButton(0); // <<< NEW
+            return;
+        }
+
         // Validate target names array if provided
         string[] names = rule.targetFilenames != null ? (string[])rule.targetFilenames.Clone() : null;
         if (names != null && names.Length != rule.expectedFileCount)
@@ -125,6 +140,7 @@ public class FilePickerSaver : MonoBehaviour
             Debug.LogWarning($"targetFilenames length ({names.Length}) != expectedFileCount ({rule.expectedFileCount}). Using original names.");
             names = null;
         }
+        int copiedCount = 0; // <<< NEW: track how many actually copied
 
         for (int i = 0; i < rule.expectedFileCount; i++)
         {
@@ -140,7 +156,7 @@ public class FilePickerSaver : MonoBehaviour
                 ? names[i]
                 : Path.GetFileNameWithoutExtension(src);
 
-            string destPath = Path.Combine(destFolder, baseName + ext);
+            string destPath = Path.Combine(destFolder, baseName);
 
             // Choose one behavior:
             // 1) Do NOT overwrite (default here): make a unique name if a file already exists.
@@ -151,7 +167,8 @@ public class FilePickerSaver : MonoBehaviour
 
             try
             {
-                File.Copy(src, destPath, false);
+                File.Copy(src, destPath, true);
+                copiedCount++;
                 Debug.Log($"Copied: {src} -> {destPath}");
             }
             catch (IOException ioEx)
@@ -163,7 +180,7 @@ public class FilePickerSaver : MonoBehaviour
                 Debug.LogError($"Copy failed: {ex.Message}");
             }
         }
-
+        SetLoadedCountOnButton(copiedCount);
         Debug.Log($"✅ Copied {rule.expectedFileCount} file(s) into existing folder: {destFolder}");
 #else
         Debug.LogWarning("Works in Editor and Windows/macOS/Linux Standalone (not WebGL/mobile).");
@@ -212,5 +229,35 @@ public class FilePickerSaver : MonoBehaviour
             i++;
         } while (File.Exists(candidate));
         return candidate;
+    }
+
+     // ---------- UI Update (label on the button) ----------
+    private void SetLoadedCountOnButton(int count)
+    {
+        // Prefer TMP if assigned
+        if (tmpTextLabel != null)
+        {
+            if (count == 1)
+            {
+                tmpTextLabel.text = $"{count} file selected";
+            }
+            else
+            {
+                tmpTextLabel.text = $"{count} files selected";
+            }            
+            return;
+        }  
+
+        /* Optional: if you didn't drag a label, try to find one under the assigned Button
+        if (buttonToRename != null)
+        {
+            var tmp = buttonToRename.GetComponentInChildren<TextMeshProUGUI>();
+            if (tmp != null) { tmp.text = $"Loaded: {count}"; return; }
+
+            var txt = buttonToRename.GetComponentInChildren<Text>();
+            if (txt != null) { txt.text = $"Loaded: {count}"; return; }
+        }
+
+       */ 
     }
 }

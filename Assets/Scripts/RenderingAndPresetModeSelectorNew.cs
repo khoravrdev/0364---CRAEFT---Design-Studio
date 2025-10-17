@@ -14,6 +14,11 @@ public class RenderingModeSelector : MonoBehaviour
     public GameObject cpuDescription;
     public GameObject gpuDescription;
 
+    [Header("Preset Toggles")]
+    public Toggle toggleSimple;
+    public Toggle toggleTextured;
+    public GameObject fileSaver;
+
     public PresetPicker presetPickerScript; // Assign ImageLoaderManager in inspector
 
     void Start()
@@ -24,9 +29,20 @@ public class RenderingModeSelector : MonoBehaviour
             {
                 presetPickerScript.useGPU = false;
                 //ShowCPUDescription();
-                Debug.Log("CPU mode selected.");
+                //Debug.Log("CPU mode selected.");
                 //StopAllCoroutines();
                 //StartCoroutine(DelayedCanvasSwitch());
+                if (toggleSimple.isOn)
+                {
+                    fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case1;
+                    Debug.Log("[UI] SimpleTextured preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
+                }
+                else if (toggleTextured.isOn)
+                {
+                    fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case3;
+                    Debug.Log("[UI] Textured preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
+                }
+
             }
         });
 
@@ -36,7 +52,16 @@ public class RenderingModeSelector : MonoBehaviour
             {
                 presetPickerScript.useGPU = true;
                 //ShowGPUDescription();
-                Debug.Log("GPU mode selected.");
+                if (toggleSimple.isOn)
+                {
+                    fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case2;
+                    Debug.Log("[UI] Simple preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
+                }
+                else if(toggleTextured.isOn)
+                {
+                    fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case4;                  
+                    Debug.Log("[UI] Textured preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
+                }
                 //StopAllCoroutines();
                 //StartCoroutine(DelayedCanvasSwitch());
             }

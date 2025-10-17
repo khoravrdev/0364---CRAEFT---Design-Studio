@@ -65,8 +65,17 @@ public class PresetPicker : MonoBehaviour
             selectedConfig = useGPU
                 ? @"photobooth2_gpu\config_photobooth_004.json"
                 : @"photobooth2_cpu\config_photobooth_004.json";
-            fileSaver.GetComponent<FilePickerSaver>().currentCase = CaseId.Case1;
-            Debug.Log("[UI] Textured preset selected. useGPU=" + useGPU);
+
+            if (useGPU == true)
+            {
+                fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case4;
+            }
+            else
+            {
+                fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case3;  
+            }
+
+            Debug.Log("[UI] Textured preset selected. useGPU=" + useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
             //descriptionA.SetActive(false);
             //descriptionB.SetActive(true);
             yield return new WaitForSeconds(0f);
@@ -79,7 +88,16 @@ public class PresetPicker : MonoBehaviour
                 ? @"photobooth_gpu\config_photobooth_000.json"
                 : @"photobooth_cpu\config_photobooth_000.json";
 
-            Debug.Log("[UI] Simple preset selected. useGPU=" + useGPU);
+            if (useGPU == true)
+            {
+                fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case2;
+            }
+            else
+            {
+                fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case1;  
+            }
+
+            Debug.Log("[UI] Simple preset selected. useGPU=" + useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
             //descriptionB.SetActive(false);
             //descriptionA.SetActive(true);
             yield return new WaitForSeconds(0f);
@@ -88,12 +106,12 @@ public class PresetPicker : MonoBehaviour
 
         // Pass the picked config (just a marker; RenderCaller expands to full set)
         renderCaller.SetSelectedConfig(selectedConfig);
-        Debug.Log("[UI] Config passed: " + selectedConfig);
+        //Debug.Log("[UI] Config passed: " + selectedConfig);
 
         // Switch canvases
         //pickPresetsCanvas.SetActive(false);
         //studioCanvas.SetActive(true);
-        Debug.Log("[UI] Switched to StudioCanvas.");
+        //Debug.Log("[UI] Switched to StudioCanvas.");
     }
 
     public void OnBackToPresets()
