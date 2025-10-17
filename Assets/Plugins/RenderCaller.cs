@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.IO;
 using UnityEngine.UI;
@@ -22,6 +22,9 @@ public class RenderCaller : MonoBehaviour
     public Button renderButton;
     public Button backToPresetsButton;
     public Button backToRendererOptionsButton;
+
+    public GameObject filePickerSaver;
+    public Button selectFiledButton;
     /// <summary>
     /// Main entry from the UI "Render" button.
     /// Decides which set of JSONs to run (simple vs textured, cpu vs gpu),
@@ -49,6 +52,7 @@ public class RenderCaller : MonoBehaviour
         if (backToRendererOptionsButton) backToRendererOptionsButton.gameObject.SetActive(!busy);
     }
 
+    
 
     public async void RunRender()
     {
@@ -86,9 +90,6 @@ public class RenderCaller : MonoBehaviour
         string baseFolder = isTextured
             ? (isGPU ? "photobooth2_gpu" : "photobooth2_cpu")
             : (isGPU ? "photobooth_gpu" : "photobooth_cpu");
-
-
-
 
         // Choose which config JSONs to run and which PNGs to load afterward
         string[] configPaths;

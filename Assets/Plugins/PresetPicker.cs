@@ -21,6 +21,8 @@ public class PresetPicker : MonoBehaviour
     [Header("Renderer")]
     public RenderCaller renderCaller;
 
+    public GameObject fileSaver;
+
     // Set this from your CPU/GPU first canvas controller
     [Header("Mode")]
     public bool useGPU = false;
@@ -63,12 +65,12 @@ public class PresetPicker : MonoBehaviour
             selectedConfig = useGPU
                 ? @"photobooth2_gpu\config_photobooth_004.json"
                 : @"photobooth2_cpu\config_photobooth_004.json";
-
+            fileSaver.GetComponent<FilePickerSaver>().currentCase = CaseId.Case1;
             Debug.Log("[UI] Textured preset selected. useGPU=" + useGPU);
-            descriptionA.SetActive(false);
-            descriptionB.SetActive(true);
-            yield return new WaitForSeconds(5f);
-            descriptionB.SetActive(false);
+            //descriptionA.SetActive(false);
+            //descriptionB.SetActive(true);
+            yield return new WaitForSeconds(0f);
+            //descriptionB.SetActive(false);
         }
         else
         {
@@ -78,10 +80,10 @@ public class PresetPicker : MonoBehaviour
                 : @"photobooth_cpu\config_photobooth_000.json";
 
             Debug.Log("[UI] Simple preset selected. useGPU=" + useGPU);
-            descriptionB.SetActive(false);
-            descriptionA.SetActive(true);
-            yield return new WaitForSeconds(5f);
-            descriptionA.SetActive(false);
+            //descriptionB.SetActive(false);
+            //descriptionA.SetActive(true);
+            yield return new WaitForSeconds(0f);
+            //descriptionA.SetActive(false);
         }
 
         // Pass the picked config (just a marker; RenderCaller expands to full set)
@@ -89,8 +91,8 @@ public class PresetPicker : MonoBehaviour
         Debug.Log("[UI] Config passed: " + selectedConfig);
 
         // Switch canvases
-        pickPresetsCanvas.SetActive(false);
-        studioCanvas.SetActive(true);
+        //pickPresetsCanvas.SetActive(false);
+        //studioCanvas.SetActive(true);
         Debug.Log("[UI] Switched to StudioCanvas.");
     }
 
