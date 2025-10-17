@@ -2,6 +2,7 @@ using UnityEngine;
 using System.IO;
 using SFB; 
 using TMPro;
+using UnityEngine.UI;
 
 public class FileSaveCases : MonoBehaviour
 {
@@ -72,10 +73,17 @@ public class FileSaveCases : MonoBehaviour
     // =============== UI HOOKS ===============
     [Header("UI Label (set ONE of these)")]
     [SerializeField] private TextMeshProUGUI tmpTextLabel;      // <<< NEW: TMP Text (assign in Inspector)
-    //[SerializeField] private Button buttonToRename;             // <<< NEW: Optional—if you want to edit Button.interactable or read its current label child
+                                                                //[SerializeField] private Button buttonToRename;             // <<< NEW: Optional—if you want to edit Button.interactable or read its current label child
 
     // =======================================
-
+    [Header("Rendering button to enable")]
+    [SerializeField] private Button renderingButton; 
+     private void Awake()
+    {
+        // <<< NEW: make sure dependent button starts disabled
+        if (renderingButton != null)
+            renderingButton.interactable = false;     
+    }
     public void PickFilesAndSave()
     {
 #if UNITY_STANDALONE || UNITY_EDITOR
@@ -181,6 +189,15 @@ public class FileSaveCases : MonoBehaviour
             }
         }
         SetLoadedCountOnButton(copiedCount);
+        if (renderingButton != null)
+        {
+            if(copiedCount > 0)
+            {
+                renderingButton.interactable = true;
+                Debug.Log("EEEEEEEEEEEE");
+            }
+        }           
+
         Debug.Log($"✅ Copied {rule.expectedFileCount} file(s) into existing folder: {destFolder}");
 #else
         Debug.LogWarning("Works in Editor and Windows/macOS/Linux Standalone (not WebGL/mobile).");

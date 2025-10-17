@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine.UI;
 using MitsubaRendererLibrary; // Your DLL
 using System.Threading.Tasks;
+using TMPro;
 
 public class RenderCaller : MonoBehaviour
 {
@@ -20,11 +21,14 @@ public class RenderCaller : MonoBehaviour
 
     //FREEZE During Rendering
     public Button renderButton;
+    public TextMeshProUGUI renderButtonText;
     public Button backToPresetsButton;
     public Button backToRendererOptionsButton;
 
     public GameObject filePickerSaver;
     public Button selectFiledButton;
+
+    public GameObject rawImagesPanel;
     /// <summary>
     /// Main entry from the UI "Render" button.
     /// Decides which set of JSONs to run (simple vs textured, cpu vs gpu),
@@ -46,10 +50,13 @@ public class RenderCaller : MonoBehaviour
 
     private void SetUIBusy(bool busy)
     {
+        selectFiledButton.interactable = false;
+
+        renderButtonText.text = "Stop rendering";
         // Hide buttons while busy, show them when done
-        if (renderButton) renderButton.gameObject.SetActive(!busy);
-        if (backToPresetsButton) backToPresetsButton.gameObject.SetActive(!busy);
-        if (backToRendererOptionsButton) backToRendererOptionsButton.gameObject.SetActive(!busy);
+        //if (renderButton) renderButton.gameObject.SetActive(!busy);
+        //if (backToPresetsButton) backToPresetsButton.gameObject.SetActive(!busy);
+        //if (backToRendererOptionsButton) backToRendererOptionsButton.gameObject.SetActive(!busy);
     }
 
     
@@ -65,10 +72,11 @@ public class RenderCaller : MonoBehaviour
         // Prevent double-clicks while already rendering
         if (_isRendering)
         {
-            Debug.LogWarning("[Render] Render already in progress.");
+            Debug.LogWarning("[Render] Stop rendering");
+
             return;
         }
-
+       
         _isRendering = true;
 
         // Show spinner and start rotating
@@ -144,13 +152,12 @@ public class RenderCaller : MonoBehaviour
                 string relativeConfig = configPaths[i];
                 MitsubaRunner.RunRender(venvPath, workingDir, relativeConfig);
                 //string result = MitsubaRunner.RunRender(venvPath, workingDir, relativeConfig);
-
             }
         });
 
         // Back on main thread: load images & stop spinner
         LoadImages(workingDir, outputImagePaths);
-
+        rawImagesPanel.SetActive(true);
         _spinning = false;
         if (spinner != null) spinner.gameObject.SetActive(false);
         SetUIBusy(false);

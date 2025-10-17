@@ -19,6 +19,8 @@ public class RenderingModeSelector : MonoBehaviour
     public Toggle toggleTextured;
     public GameObject fileSaver;
 
+    public RenderCaller renderCaller;
+
     public PresetPicker presetPickerScript; // Assign ImageLoaderManager in inspector
 
     void Start()
@@ -35,11 +37,13 @@ public class RenderingModeSelector : MonoBehaviour
                 if (toggleSimple.isOn)
                 {
                     fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case1;
+                    renderCaller.SetSelectedConfig(@"photobooth_cpu\config_photobooth_000.json");
                     Debug.Log("[UI] SimpleTextured preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
                 }
                 else if (toggleTextured.isOn)
                 {
                     fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case3;
+                    renderCaller.SetSelectedConfig(@"photobooth2_cpu\config_photobooth_004.json");
                     Debug.Log("[UI] Textured preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
                 }
 
@@ -55,11 +59,13 @@ public class RenderingModeSelector : MonoBehaviour
                 if (toggleSimple.isOn)
                 {
                     fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case2;
+                    renderCaller.SetSelectedConfig(@"photobooth_gpu\config_photobooth_000.json");         
                     Debug.Log("[UI] Simple preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
                 }
                 else if(toggleTextured.isOn)
                 {
                     fileSaver.GetComponent<FileSaveCases>().currentCase = FileSaveCases.CaseId.Case4;                  
+                    renderCaller.SetSelectedConfig(@"photobooth2_gpu\config_photobooth_004.json");                            
                     Debug.Log("[UI] Textured preset selected. useGPU=" + presetPickerScript.useGPU + " case : " + fileSaver.GetComponent<FileSaveCases>().currentCase);
                 }
                 //StopAllCoroutines();

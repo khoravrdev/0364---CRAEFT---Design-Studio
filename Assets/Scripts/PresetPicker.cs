@@ -43,6 +43,10 @@ public class PresetPicker : MonoBehaviour
     public GameObject cpuModeDescription;
     public GameObject gpuModeDescription;
 
+    public void Awake()
+    {
+        renderCaller.SetSelectedConfig(@"photobooth_cpu\config_photobooth_000.json");
+    }
     public void OnPresetSelected()
     {
         // (Optional) ensure one is selected
