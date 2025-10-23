@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Diagnostics;
 using System;
 using System.IO;
 using UnityEngine.UI;
@@ -6,6 +7,10 @@ using MitsubaRendererLibrary; // Your DLL
 using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
+using UnityEditor.Search;
+using SFB;
+using Debug = UnityEngine.Debug;
+
 
 public class RenderCaller : MonoBehaviour
 {
@@ -18,6 +23,8 @@ public class RenderCaller : MonoBehaviour
 
     public Button renderButton;
     public TextMeshProUGUI renderButtonText;
+
+    public Button showRenderedFilesButton;
     public Button backToPresetsButton;
     public Button backToRendererOptionsButton;
 
@@ -29,6 +36,7 @@ public class RenderCaller : MonoBehaviour
     private bool _spinning = false;
     public bool _isRendering = false;
 
+    private string outputFolder;
     // <<< NEW: cancellation support
     private CancellationTokenSource _cts;
 
@@ -184,6 +192,10 @@ public class RenderCaller : MonoBehaviour
         // Completed all renders -> load images
         LoadImages(workingDir, outputImagePaths);
         rawImagesPanel.SetActive(true);
+        renderButton.gameObject.SetActive(false);
+        showRenderedFilesButton.gameObject.SetActive(true);
+        outputFolder = workingDir + "\\" + baseFolder;
+        //Add here button to go to the output folder depending on what kind of rendering we are doing
         Debug.Log("[Render] Finished. Images assigned and spinner hidden.");
     }
 
@@ -206,6 +218,21 @@ public class RenderCaller : MonoBehaviour
             {
                 Debug.LogWarning("[Render] Image not found: " + imagePath);
             }
+        }
+    }
+
+    public void ShowOutputFolder()
+    {
+        string outputPath = outputFolder;
+        //StandaloneFileBrowser.OpenFilePanel("Output Folder", "@" + outputFolder, "", false);
+        if (System.IO.Directory.Exists(outputPath))
+        {
+            // Open the folder in the file explorer
+            Process.Start("explorer.exe", outputPath);
+        }
+        else
+        {
+            Debug.LogError("Folder path does not exist: " + outputPath);
         }
     }
 
