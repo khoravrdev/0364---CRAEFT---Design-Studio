@@ -47,6 +47,27 @@ public class PresetPicker : MonoBehaviour
     {
         renderCaller.SetSelectedConfig(@"photobooth_cpu\config_photobooth_000.json");
     }
+
+    public void Update()
+    {
+        if(renderCaller != null)
+        {
+            if (renderCaller._isRendering == true)
+            {
+                cpuToggle.interactable = false;
+                gpuToggle.interactable = false;
+                toggleSimple.interactable = false;
+                toggleTextured.interactable = false;
+            }
+            else
+            {
+                cpuToggle.interactable = true;
+                gpuToggle.interactable = true;
+                toggleSimple.interactable = true;
+                toggleTextured.interactable = true;
+            }
+        }
+    }
     public void OnPresetSelected()
     {
         // (Optional) ensure one is selected

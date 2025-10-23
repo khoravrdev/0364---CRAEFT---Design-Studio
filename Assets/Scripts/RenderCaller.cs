@@ -27,7 +27,7 @@ public class RenderCaller : MonoBehaviour
     public GameObject rawImagesPanel;
 
     private bool _spinning = false;
-    private bool _isRendering = false;
+    public bool _isRendering = false;
 
     // <<< NEW: cancellation support
     private CancellationTokenSource _cts;

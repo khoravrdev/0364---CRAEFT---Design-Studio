@@ -7250,6 +7250,7 @@ MonoBehaviour:
   filePickerSaver: {fileID: 1872436644}
   selectFiledButton: {fileID: 511199485}
   rawImagesPanel: {fileID: 606066199}
+  _isRendering: 0
 --- !u!114 &1188007545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7272,8 +7273,8 @@ MonoBehaviour:
   fileSaver: {fileID: 1872436644}
   useGPU: 0
   modeSelectCanvas: {fileID: 2140581168}
-  cpuToggle: {fileID: 1338689222}
-  gpuToggle: {fileID: 1408061191}
+  cpuToggle: {fileID: 2140027909}
+  gpuToggle: {fileID: 919440880}
   cpuModeDescription: {fileID: 607652609}
   gpuModeDescription: {fileID: 1418674333}
 --- !u!114 &1188007546
@@ -11110,13 +11111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a079f73da5076d4293b69d4762cb85e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cpuToggle: {fileID: 1338689222}
-  gpuToggle: {fileID: 1408061191}
-  presetPickerCanvas: {fileID: 134291804}
-  thisCanvas: {fileID: 2140581168}
-  cpuDescription: {fileID: 607652609}
-  gpuDescription: {fileID: 1418674333}
-  presetPickerScript: {fileID: 1188007545}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
