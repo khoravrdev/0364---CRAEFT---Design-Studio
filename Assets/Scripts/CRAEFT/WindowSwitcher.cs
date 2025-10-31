@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System;
 using UnityEngine.SceneManagement;
+using MitsubaRendererLibrary;
 
 public class WindowSwitcher : MonoBehaviour
 {
     // Reference to the UI Document
     public UIDocument uiDocument;
+
+    public GameObject photoBoothRenderCaller;
 
     // UI Windows (VisualElements)
     private VisualElement visualizationWindow;
@@ -127,7 +130,8 @@ public class WindowSwitcher : MonoBehaviour
                 if (windowToShow != photoBoothToolWindow)
                 {
                     if (SceneManager.GetSceneByName("SampleScene").isLoaded)
-                    {
+                    {                     
+                        MitsubaRunner.RequestHardKill();
                         SceneManager.UnloadSceneAsync("SampleScene");
                         backgroundImage.style.height = Length.Percent(100);
                         backgroundImage.style.maxHeight = Length.Percent(100);

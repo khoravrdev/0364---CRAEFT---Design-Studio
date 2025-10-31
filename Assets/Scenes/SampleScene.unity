@@ -6883,7 +6883,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 176, y: -130}
+  m_AnchoredPosition: {x: 176, y: -181}
   m_SizeDelta: {x: 177.7, y: 70.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1103048202
@@ -7643,6 +7643,11 @@ MonoBehaviour:
   selectFiledButton: {fileID: 511199485}
   rawImagesPanel: {fileID: 606066199}
   _isRendering: 0
+  previewTargets:
+  - {fileID: 28521254}
+  - {fileID: 919208114}
+  - {fileID: 1801614738}
+  - {fileID: 1345234155}
 --- !u!114 &1188007545
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ using TMPro;
 using UnityEditor.Search;
 using SFB;
 using Debug = UnityEngine.Debug;
+using System.Collections.Generic;
+using System.Linq;
 
 
 public class RenderCaller : MonoBehaviour
@@ -39,6 +41,15 @@ public class RenderCaller : MonoBehaviour
     private string outputFolder;
     // <<< NEW: cancellation support
     private CancellationTokenSource _cts;
+
+
+    // --- Internal state ---
+    private string _workingDir;            // e.g. "C:\\Users\\John\\Desktop\\MitsubaFiles"
+    private List<string> _configList;      // relative config paths passed to DLL
+    private string[] _expectedPngs;        // relative output PNGs to show afterwards
+
+     [Header("Optional preview targets")]
+    public RawImage[] previewTargets;  // 4 for Simple, 3 for Textured (leave empty if not needed)
 
     private void Update()
     {
@@ -71,7 +82,8 @@ public class RenderCaller : MonoBehaviour
     public void OnRenderButtonClicked()
     {
         if (_isRendering)
-            CancelRender();
+            //CancelRender();
+            HardKill();
         else
             RunRender();
     }
@@ -98,8 +110,8 @@ public class RenderCaller : MonoBehaviour
         SetUIBusy(true);
 
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        string workingDir = Path.Combine(desktopPath, "MitsubaFiles");
-        string venvPath   = Path.Combine(workingDir, @"mitsuba3-util-main\venv\Scripts\activate");
+        _workingDir = Path.Combine(desktopPath, "MitsubaFiles");
+        string venvPath   = Path.Combine(_workingDir, @"mitsuba3-util-main\venv\Scripts");
 
         bool isTextured = selectedConfigPath.Contains("photobooth2");
         bool isGPU      = selectedConfigPath.Contains("_gpu");
@@ -143,38 +155,37 @@ public class RenderCaller : MonoBehaviour
                 $@"{baseFolder}\output_003.png"
             };
         }
-
-        Debug.Log($"[Render] WorkingDir: {workingDir}");
+        _configList = configPaths.ToList();
+        _expectedPngs = outputImagePaths;
+        
+        Debug.Log($"[Render] WorkingDir: {_workingDir}");
         Debug.Log($"[Render] venv:       {venvPath}");
         Debug.Log($"[Render] BaseFolder: {baseFolder}");
 
         bool cancelled = false; // <<< NEW
 
+         // Kick off async rendering (returns immediately)
         try
         {
-            // Run Mitsuba for each JSON in a background thread, with cancellation checks
-            await Task.Run(() =>
-            {
-                for (int i = 0; i < configPaths.Length; i++)
-                {
-                    if (_cts.IsCancellationRequested) { cancelled = true; break; } // <<< NEW
+            MitsubaRunner.StartSequence(
+                workingDir: _workingDir,
+                relativeConfigs: _configList,
+                venvDirRel: venvPath, // default
+                pythonRel: "python.exe",
+                allowSystemPythonFallback: true
+            );           
 
-                    string relativeConfig = configPaths[i];
-                    MitsubaRunner.RunRender(venvPath, workingDir, relativeConfig);
+            // Optionally await completion here (so we can load previews afterwards)
+            var task = MitsubaRunner.CurrentTask;
+            if (task != null) await task;
 
-                    // After each render returns, check again
-                    if (_cts.IsCancellationRequested) { cancelled = true; break; } // <<< NEW
-                }
-            }, _cts.Token); // token is attached (useful if you add ThrowIfCancellationRequested in future)
+            // If we got here without a stop, try to display results
+            TryLoadResults();           
         }
-        catch (OperationCanceledException)
+        catch (Exception ex)
         {
-            cancelled = true;
-        }
-        finally
-        {
-            _cts?.Dispose();
-            _cts = null;
+            Debug.LogError("[Bridge] StartSequence failed: " + ex.Message);
+            
         }
 
         // Back on main thread: stop spinner and update UI
@@ -183,20 +194,42 @@ public class RenderCaller : MonoBehaviour
         SetUIBusy(false);
         _isRendering = false;
 
-        if (cancelled)
-        {
-            Debug.Log("[Render] Cancelled by user.");
-            return; // do not load images if cancelled (or change if you want partial loads)
-        }
-
         // Completed all renders -> load images
-        LoadImages(workingDir, outputImagePaths);
+        //LoadImages(_workingDir, outputImagePaths);
         rawImagesPanel.SetActive(true);
         renderButton.gameObject.SetActive(false);
         showRenderedFilesButton.gameObject.SetActive(true);
-        outputFolder = workingDir + "\\" + baseFolder;
+        outputFolder = _workingDir + "\\" + baseFolder;
         //Add here button to go to the output folder depending on what kind of rendering we are doing
         Debug.Log("[Render] Finished. Images assigned and spinner hidden.");
+    }
+
+    public void HardKill()
+    {
+        MitsubaRunner.RequestHardKill();
+        Debug.Log("HARD KILLED");
+        //if (statusText) statusText.text = "Hard stop requested.";
+    }
+
+    private void TryLoadResults()
+    {
+        if (previewTargets == null || previewTargets.Length == 0) return;
+
+        for (int i = 0; i < _expectedPngs.Length && i < previewTargets.Length; i++)
+        {
+            string abs = Path.Combine(_workingDir, _expectedPngs[i]);
+            if (!File.Exists(abs))
+            {
+                Debug.LogWarning("[Bridge] Result not found: " + abs);
+                continue;
+            }
+
+            byte[] bytes = File.ReadAllBytes(abs);
+            var tex = new Texture2D(2, 2);
+            tex.LoadImage(bytes);
+            if (i < rawImages.Length)
+                previewTargets[i].texture = tex;
+        }
     }
 
     private void LoadImages(string workingDir, string[] relativePaths)
