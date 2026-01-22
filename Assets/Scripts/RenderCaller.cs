@@ -26,6 +26,17 @@ public class RenderCaller : MonoBehaviour
     public Button renderButton;
     public TextMeshProUGUI renderButtonText;
 
+    [Header("Guide UI")]
+    public Button guideButton;
+    public GameObject guidePanel;
+    public TextMeshProUGUI guideContentText; 
+    [Tooltip("Color of the guide button when the guide is open")]
+    public Color guideButtonActiveColor = Color.cyan; 
+    private Color _guideButtonOriginalColor; 
+
+    [Header("Error Feedback")]
+    public TextMeshProUGUI errorMessageText;
+
     public Button showRenderedFilesButton;
     public Button backToPresetsButton;
     public Button backToRendererOptionsButton;
@@ -50,6 +61,48 @@ public class RenderCaller : MonoBehaviour
 
      [Header("Optional preview targets")]
     public RawImage[] previewTargets;  // 4 for Simple, 3 for Textured (leave empty if not needed)
+
+    private void Start()
+    {
+        if (guideButton != null)
+        {
+            guideButton.onClick.AddListener(ToggleGuide);
+            if (guideButton.image != null)
+            {
+                _guideButtonOriginalColor = guideButton.image.color;
+            }
+        }
+
+        if (errorMessageText != null)
+        {
+            errorMessageText.gameObject.SetActive(false);
+        }
+
+        if (guideContentText != null)
+        {
+             guideContentText.text = GUIDE_TEXT;
+             // Force readable defaults
+             guideContentText.color = Color.black; 
+             //guideContentText.alignment = TextAlignmentOptions.MiddleTop;
+             guideContentText.fontSize = 35;
+             guideContentText.enableWordWrapping = true;
+        }
+    }
+
+    public void ToggleGuide()
+    {
+        if (guidePanel != null)
+        {
+            bool isActive = !guidePanel.activeSelf;
+            guidePanel.SetActive(isActive);
+
+            // Toggle Button Color
+            if (guideButton != null && guideButton.image != null)
+            {
+                guideButton.image.color = isActive ? guideButtonActiveColor : _guideButtonOriginalColor;
+            }
+        }
+    }
 
     private void Update()
     {
@@ -111,7 +164,24 @@ public class RenderCaller : MonoBehaviour
 
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         _workingDir = Path.Combine(desktopPath, "MitsubaFiles");
-        string venvPath   = Path.Combine(_workingDir, @"mitsuba3-util-main\venv\Scripts");
+
+        if (!Directory.Exists(_workingDir))
+        {
+             Debug.LogError($"[Render] MitsubaFiles not found at: {_workingDir}");
+             ShowMitsubaFilesMissingError();
+             
+             // Reset state since we are aborting
+             _isRendering = false;
+             SetUIBusy(false);
+             if (spinner != null) spinner.gameObject.SetActive(false);
+             _spinning = false;
+             return;
+        }
+        else
+        {
+            HideMitsubaFilesError();
+        }
+        string venvPath   = "";
 
         bool isTextured = selectedConfigPath.Contains("photobooth2");
         bool isGPU      = selectedConfigPath.Contains("_gpu");
@@ -167,13 +237,13 @@ public class RenderCaller : MonoBehaviour
          // Kick off async rendering (returns immediately)
         try
         {
-            MitsubaRunner.StartSequence(
-                workingDir: _workingDir,
-                relativeConfigs: _configList,
-                venvDirRel: venvPath, // default
-                pythonRel: "python.exe",
-                allowSystemPythonFallback: true
-            );           
+         MitsubaRunner.StartSequence(
+            workingDir: _workingDir,
+            relativeConfigs: _configList,
+            venvDirRel: venvPath,      // <--- Explicitly pass null here
+            pythonRel: "python",   // <--- Change "python.exe" to just "python"
+            allowSystemPythonFallback: true
+        );        
 
             // Optionally await completion here (so we can load previews afterwards)
             var task = MitsubaRunner.CurrentTask;
@@ -272,4 +342,65 @@ public class RenderCaller : MonoBehaviour
     public void SetSelectedConfig(string configPath)  { selectedConfigPath = configPath; }
     public void ClearSelectedConfig()                 { selectedConfigPath = null; }
     public void ClearImages()                         { foreach (RawImage img in rawImages) img.texture = null; }
+
+    public void ShowMitsubaFilesMissingError()
+    {
+        if (errorMessageText != null)
+        {
+            errorMessageText.text = "Error: 'MitsubaFiles' folder not found on Desktop.\n<size=80%>Please run the setup file first, and make sure MitsubaFiles folder is on the Desktop.</size>";
+            errorMessageText.color = Color.red;
+            errorMessageText.gameObject.SetActive(true);
+        }
+    }
+
+    public void HideMitsubaFilesError()
+    {
+        if (errorMessageText != null)
+        {
+            errorMessageText.gameObject.SetActive(false);
+        }
+    }
+
+    private const string GUIDE_TEXT = @"<b>Instructions For Using The Design Studio App</b>
+
+<b>1. Choose Rendering Method</b>
+When the app starts, you will see two options:
+- <b>CPU Renderer</b>: Uses Scalar_RGB Mode (Slower, compatible with any PC).
+- <b>GPU Renderer</b>: Uses Cuda_RGB Mode (Faster, NVIDIA only).
+
+<b>2. Select a Preset Type</b>
+After Rendering Options, choose:
+- <b>Simple Obj</b>: Renders a 3D Model without textures.
+- <b>Textured Obj</b>: Renders a 3D Model with a texture map.
+
+<b>3. Rendering Phase</b>
+Once you choose a preset:
+- Click <b>Select FIle</b>.
+- Select the input.obj file you want to render.
+- Open the file.
+- Click <b>Start rendering</b>.
+- The process runs in the background (may take a few minutes).
+- Rendered PNGs appear on screen when finished.
+- Files saved to the pipeline folder (e.g., photobooth_cpu) under MitsubaFiles.
+
+<b>4. Using New Obj Models</b>
+You can replace files in the rendering presets.
+
+    <b>For Simple Obj (No Texture):</b>
+    - Go to MitsubaFiles/photobooth_cpu (or gpu).
+    - Replace <i>input.obj</i> with your model (must be named <i>input.obj</i>).
+
+    <b>For Textured Obj:</b>
+    - Go to MitsubaFiles/photobooth2_cpu (or gpu).
+    - Replace <i>input_with_texture.obj</i> with your model.
+    - Replace <i>texturemap.jpg</i> with your texture.
+    - Keep filenames exactly the same.
+
+<b>5. Where are the Rendered Images Saved?</b>
+- Photobooth folder for simple mesh.
+- Photobooth2 folder for textured.
+- Named output_000.png ... output_N.png.
+
+<i>Only .obj files are supported.</i>
+";
 }

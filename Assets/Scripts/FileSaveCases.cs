@@ -77,7 +77,9 @@ public class FileSaveCases : MonoBehaviour
 
     // =======================================
     [Header("Rendering button to enable")]
-    [SerializeField] private Button renderingButton; 
+    [SerializeField] private Button renderingButton;
+    [Header("Reference to Render Logic (for error display)")]
+    [SerializeField] private RenderCaller renderCaller;  // <<< New reference 
      private void Awake()
     {
         // <<< NEW: make sure dependent button starts disabled
@@ -105,7 +107,19 @@ public class FileSaveCases : MonoBehaviour
         if (!Directory.Exists(destFolder))
         {
             Debug.LogError($"Destination folder does not exist: {destFolder}");
+            if (renderCaller != null)
+            {
+                 renderCaller.ShowMitsubaFilesMissingError();
+            }
             return; // <-- Do NOT create it; just stop
+        }
+        else
+        {
+             // Clear error if it was previously shown
+             if (renderCaller != null)
+             {
+                 renderCaller.HideMitsubaFilesError();
+             }
         }
 
         // (Optional) filters
