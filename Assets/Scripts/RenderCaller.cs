@@ -7,7 +7,7 @@ using MitsubaRendererLibrary; // Your DLL
 using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
-using UnityEditor.Search;
+
 using SFB;
 using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
@@ -38,6 +38,7 @@ public class RenderCaller : MonoBehaviour
     public TextMeshProUGUI errorMessageText;
 
     public Button showRenderedFilesButton;
+    public Button restartButton; // <<< NEW
     public Button backToPresetsButton;
     public Button backToRendererOptionsButton;
 
@@ -87,6 +88,12 @@ public class RenderCaller : MonoBehaviour
              guideContentText.fontSize = 35;
              guideContentText.enableWordWrapping = true;
         }
+
+        if (restartButton != null)
+        {
+            restartButton.onClick.AddListener(RestartRenderer);
+            restartButton.gameObject.SetActive(false);
+        }
     }
 
     public void ToggleGuide()
@@ -115,7 +122,7 @@ public class RenderCaller : MonoBehaviour
         selectFiledButton.interactable = !busy;
 
         // Toggle render button text based on state
-        renderButtonText.text = busy ? "Stop rendering" : "Render";
+        renderButtonText.text = busy ? "Stop rendering" : "Start rendering";
         // (Uncomment if you want to hide other buttons during render)
         // if (backToPresetsButton) backToPresetsButton.gameObject.SetActive(!busy);
         // if (backToRendererOptionsButton) backToRendererOptionsButton.gameObject.SetActive(!busy);
@@ -269,6 +276,7 @@ public class RenderCaller : MonoBehaviour
         rawImagesPanel.SetActive(true);
         renderButton.gameObject.SetActive(false);
         showRenderedFilesButton.gameObject.SetActive(true);
+        if (restartButton != null) restartButton.gameObject.SetActive(true); // <<< NEW
         outputFolder = _workingDir + "\\" + baseFolder;
         //Add here button to go to the output folder depending on what kind of rendering we are doing
         Debug.Log("[Render] Finished. Images assigned and spinner hidden.");
@@ -359,6 +367,25 @@ public class RenderCaller : MonoBehaviour
         {
             errorMessageText.gameObject.SetActive(false);
         }
+    }
+
+    public void RestartRenderer()
+    {
+        // Hide results
+        rawImagesPanel.SetActive(false);
+        showRenderedFilesButton.gameObject.SetActive(false);
+        if (restartButton != null) restartButton.gameObject.SetActive(false);
+
+        // Show render button
+        if (renderButton != null)
+        {
+            renderButton.gameObject.SetActive(true);
+            renderButtonText.text = "Start rendering"; // ensuring text is reset
+        }
+        
+        // Reset state
+        _isRendering = false;
+        ClearImages();
     }
 
     private const string GUIDE_TEXT = @"<b>Instructions For Using The Design Studio App</b>
