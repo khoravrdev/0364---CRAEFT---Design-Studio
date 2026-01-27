@@ -1,0 +1,358 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UIText_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 56cfdb9ffb25c264b9029b86df9766cc, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 65851928576
+    m_Localized: Design Studio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65935814656
+    m_Localized: Interactive Simulations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65940008960
+    m_Localized: Simulators to implement additive, subtractive, interlocking, and
+      shaping actions and are specialised to the specific craft action.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65940008961
+    m_Localized: Visualization Toolbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203264
+    m_Localized: To simplify the creation of artefact designs and predict the appearance
+      of products that implement these designs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203265
+    m_Localized: Moulded and Cast
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203266
+    m_Localized: Visualize the mould in 3D for the designs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203267
+    m_Localized: Photo booth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203268
+    m_Localized: Renders images from obj files
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203269
+    m_Localized: Tiffany Lamps
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203270
+    m_Localized: Preview the ambience a Tiffany lamp create from a design
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203271
+    m_Localized: Coloured Windows
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203272
+    m_Localized: Performs colour quantisation according to the number of colours
+      determined by the user from an image
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203273
+    m_Localized: Sculpture
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203274
+    m_Localized: Visualize sculptures composed of multiple pieces that can be assembled
+      by the user
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203275
+    m_Localized: Cane Working
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203276
+    m_Localized: Visualize the appearance of cane work compositions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203277
+    m_Localized: Metal Engraving
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203278
+    m_Localized: Visualize the appearance of engraved pieces of metal by converting
+      carving designs into 3D models of carved items
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203279
+    m_Localized: Ceramics and Glazes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203280
+    m_Localized: Visualize glazing to any given 3D model
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203281
+    m_Localized: Interactive Simulations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203282
+    m_Localized: Plaster Turning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203283
+    m_Localized: Simulation of the shaping of clay of the potter's wheel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203284
+    m_Localized: Wood carving
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203285
+    m_Localized: Simulation of subtractive functions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203286
+    m_Localized: Glassblowing
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203287
+    m_Localized: Simulation of Glassblowing actions
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203288
+    m_Localized: Textile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203289
+    m_Localized: Simulation of the loom weaving process, utilizing 3D yarn models
+      to create various weave patterns
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203290
+    m_Localized: Plaster Turning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203292
+    m_Localized: Remove Clay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203293
+    m_Localized: Add Clay
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203294
+    m_Localized: Mass Preserving
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203295
+    m_Localized: Tool Tip Type
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203296
+    m_Localized: X
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203297
+    m_Localized: Y
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203298
+    m_Localized: Z
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203299
+    m_Localized: Undo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203300
+    m_Localized: Reset Object
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203301
+    m_Localized: Turntable Animation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203302
+    m_Localized: Turntable Speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203303
+    m_Localized: Save Template
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203304
+    m_Localized: file name (without .png)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203305
+    m_Localized: Loaded Template
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203306
+    m_Localized: Help Panel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203307
+    m_Localized: Wood carving
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203308
+    m_Localized: Camera Orbit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203309
+    m_Localized: Chisel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203310
+    m_Localized: X
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203311
+    m_Localized: Y
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203312
+    m_Localized: Z
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203313
+    m_Localized: Reset Object
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203314
+    m_Localized: Turntable Animation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203315
+    m_Localized: Turntable Speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203316
+    m_Localized: Help Panel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203317
+    m_Localized: Save Solid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203318
+    m_Localized: file name (without .bin)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203319
+    m_Localized: Loaded Solid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203320
+    m_Localized: Export Obj
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203321
+    m_Localized: Home
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203322
+    m_Localized: 'Visualization
+
+      Toolbox'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203323
+    m_Localized: 'Interactive
+
+      Simulations'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 65944203324
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12454131445760
+    m_Localized: Camera Orbit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 22770928103424
+    m_Localized: CPU-based renderer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23586263052288
+    m_Localized: Uses the Scalar_RGB Mode Of The Mitsuba Renderer To Perform Rendering
+      Using The System's CPU. It Loads Config Files From The Photobooth Folder and
+      Returns The FInal Rendered 3D.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23796456402944
+    m_Localized: GPU-based renderer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24247008538624
+    m_Localized: Uses The Cuda_RGB Mode Of The Mitsuba Renderer To Perform High Speed
+      Rendering using the System's GPU.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24441095761920
+    m_Localized: Renderer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24703319453696
+    m_Localized: Simple Obj
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24838971633664
+    m_Localized: Uses Mitsuba Renderer and the Photobooth folder to return the 3D
+      object with a simple mesh.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25104022286336
+    m_Localized: Textured Obj
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25257550589952
+    m_Localized: Uses Mitsuba renderer and the Photobooth2 folder to return the 3D
+      object with an applied texture map using UV mapping.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25410374250496
+    m_Localized: Preset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25516620165120
+    m_Localized: Select Files
+    m_Metadata:
+      m_Items: []
+  - m_Id: 25587063500800
+    m_Localized: Start Rendering
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26004111536128
+    m_Localized: Show Rendered Files
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26170491187200
+    m_Localized: Restart Renderer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 26399592460288
+    m_Localized: Guide
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
