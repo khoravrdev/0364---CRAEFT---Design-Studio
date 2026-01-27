@@ -27,8 +27,8 @@ public class WindowSwitcher : MonoBehaviour
     private VisualElement exitButton;
     private VisualElement backgroundImage;
     // Button names (as defined in your UXML)
-    private const string visualizationButtonName = "Visualization_toolboxButton";
-    private const string simulationsButtonName = "Simulations_Button";
+    private const string visualizationButtonName = "Visualization_toolbox";
+    private const string simulationsButtonName = "Simulations";
     private const string designStudioButtonName = "Menu_HomeButton"; // Button to open DesignStudioWindow
 
     private const string potterySimulatorButtonName = "PotteryButton"; // Button to open pottery simulator window

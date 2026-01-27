@@ -264,11 +264,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 65944203322
-    m_Key: Visualization_toolboxButton
+    m_Key: Visualization_toolbox
     m_Metadata:
       m_Items: []
   - m_Id: 65944203323
-    m_Key: Simulations_Button
+    m_Key: Simulations
     m_Metadata:
       m_Items: []
   - m_Id: 65944203324
@@ -333,6 +333,16 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26399592460288
     m_Key: guide_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30478523740160
+    m_Key: label_visualization_heading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34554607087616
+    m_Key: 'photobooth_title
+
+'
     m_Metadata:
       m_Items: []
   m_Metadata:

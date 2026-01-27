@@ -353,6 +353,14 @@ MonoBehaviour:
     m_Localized: Guide
     m_Metadata:
       m_Items: []
+  - m_Id: 30478523740160
+    m_Localized: Visualization Toolbox
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34554607087616
+    m_Localized: Photo booth
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

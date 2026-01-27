@@ -222,7 +222,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 65944203310
-    m_Localized: "inc\xF3gnita"
+    m_Localized: X
     m_Metadata:
       m_Items: []
   - m_Id: 65944203311
@@ -350,6 +350,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26399592460288
     m_Localized: "Gu\xEDa del renderizador"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30478523740160
+    m_Localized: "Caja de herramientas de visualizaci\xF3n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34554607087616
+    m_Localized: "Fotomat\xF3n"
     m_Metadata:
       m_Items: []
   references:

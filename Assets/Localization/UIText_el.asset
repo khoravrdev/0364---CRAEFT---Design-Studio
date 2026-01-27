@@ -375,7 +375,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 24441095761920
-    m_Localized: Moteur de rendu
+    m_Localized: "\u0391\u03C0\u03B5\u03B9\u03BA\u03BF\u03BD\u03B9\u03C3\u03C4\u03AE\u03C2"
     m_Metadata:
       m_Items: []
   - m_Id: 24703319453696
@@ -427,6 +427,16 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26399592460288
     m_Localized: "\u039F\u03B4\u03B7\u03B3\u03CC\u03C2 \u03B1\u03C0\u03B5\u03B9\u03BA\u03BF\u03BD\u03B9\u03C3\u03C4\u03AE"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30478523740160
+    m_Localized: "\u0395\u03C1\u03B3\u03B1\u03BB\u03B5\u03B9\u03BF\u03B8\u03AE\u03BA\u03B7
+      \u03BF\u03C0\u03C4\u03B9\u03BA\u03BF\u03C0\u03BF\u03AF\u03B7\u03C3\u03B7\u03C2"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34554607087616
+    m_Localized: "\u03A6\u03C9\u03C4\u03BF\u03B3\u03C1\u03B1\u03C6\u03B9\u03BA\u03CC
+      \u03C0\u03B5\u03C1\u03AF\u03C0\u03C4\u03B5\u03C1\u03BF"
     m_Metadata:
       m_Items: []
   references:

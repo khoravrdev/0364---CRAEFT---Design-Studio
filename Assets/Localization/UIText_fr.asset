@@ -308,7 +308,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 24441095761920
-    m_Localized: "\u0391\u03C0\u03B5\u03B9\u03BA\u03BF\u03BD\u03B9\u03C3\u03C4\u03AE\u03C2"
+    m_Localized: Moteur de rendu
     m_Metadata:
       m_Items: []
   - m_Id: 24703319453696
@@ -351,6 +351,14 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 26399592460288
     m_Localized: Guide de rendu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 30478523740160
+    m_Localized: "Bo\xEEte \xE0 outils de visualisation"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34554607087616
+    m_Localized: Cabine photo
     m_Metadata:
       m_Items: []
   references:
