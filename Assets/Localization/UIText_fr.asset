@@ -370,21 +370,21 @@ MonoBehaviour:
       un type de pr\xE9r\xE9glage</b> Apr\xE8s les options de rendu, choisissez :\n\n<b>Simple
       Obj</b> : Rend un mod\xE8le 3D sans textures.\n\n<b>Textured Obj</b> : Rend
       un mod\xE8le 3D avec une carte de texture.\n\n<b>3. Phase de rendu</b> Une
-      fois que vous avez choisi un pr\xE9r\xE9glage :\n\nCliquez sur <b>Select File</b>.\n\nS\xE9lectionnez
-      le fichier input.obj que vous souhaitez rendre.\n\nOuvrez le fichier.\n\nCliquez
-      sur <b>Start rendering</b>.\n\nLe processus s'ex\xE9cute en arri\xE8re-plan
-      (cela peut prendre quelques minutes).\n\nLes PNG rendus apparaissent \xE0 l'\xE9cran
-      une fois termin\xE9s.\n\nFichiers enregistr\xE9s dans le dossier pipeline (par
-      exemple, photobooth_cpu) sous MitsubaFiles.\n\n<b>4. Utilisation de nouveaux
-      mod\xE8les Obj</b> Vous pouvez remplacer les fichiers dans les pr\xE9r\xE9glages
-      de rendu.\n\n\_ \_ <b>Pour Simple Obj (Sans Texture) :</b> \_ \_ - Allez dans
-      MitsubaFiles/photobooth_cpu (ou gpu). \_ \_ - Remplacez <i>input.obj</i> par
-      votre mod\xE8le (doit \xEAtre nomm\xE9 <i>input.obj</i>).\n\n\_ \_ <b>Pour
-      Textured Obj :</b> \_ \_ - Allez dans MitsubaFiles/photobooth2_cpu (ou gpu).
-      \_ \_ - Remplacez <i>input_with_texture.obj</i> par votre mod\xE8le. \_ \_
-      - Remplacez <i>texturemap.jpg</i> par votre texture. \_ \_ - Gardez les noms
-      de fichiers exactement les m\xEAmes.\n\n<b>5. O\xF9 sont enregistr\xE9es les
-      images rendues ?</b>\n\nDossier Photobooth pour maillage simple.\n\nDossier
+      fois que vous avez choisi un pr\xE9r\xE9glage :\n\nCliquez sur <b>S\xE9lectionner
+      fichiers</b>.\n\nS\xE9lectionnez le fichier input.obj que vous souhaitez rendre.\n\nOuvrez
+      le fichier.\n\nCliquez sur <b>Lancer le rendu</b>.\n\nLe processus s'ex\xE9cute
+      en arri\xE8re-plan (cela peut prendre quelques minutes).\n\nLes PNG rendus
+      apparaissent \xE0 l'\xE9cran une fois termin\xE9s.\n\nFichiers enregistr\xE9s
+      dans le dossier pipeline (par exemple, photobooth_cpu) sous MitsubaFiles.\n\n<b>4.
+      Utilisation de nouveaux mod\xE8les Obj</b> Vous pouvez remplacer les fichiers
+      dans les pr\xE9r\xE9glages de rendu.\n\n\_ \_ <b>Pour Simple Obj (Sans Texture)
+      :</b> \_ \_ - Allez dans MitsubaFiles/photobooth_cpu (ou gpu). \_ \_ - Remplacez
+      <i>input.obj</i> par votre mod\xE8le (doit \xEAtre nomm\xE9 <i>input.obj</i>).\n\n\_
+      \_ <b>Pour Textured Obj :</b> \_ \_ - Allez dans MitsubaFiles/photobooth2_cpu
+      (ou gpu). \_ \_ - Remplacez <i>input_with_texture.obj</i> par votre mod\xE8le.
+      \_ \_ - Remplacez <i>texturemap.jpg</i> par votre texture. \_ \_ - Gardez les
+      noms de fichiers exactement les m\xEAmes.\n\n<b>5. O\xF9 sont enregistr\xE9es
+      les images rendues ?</b>\n\nDossier Photobooth pour maillage simple.\n\nDossier
       Photobooth2 pour textur\xE9.\n\nNomm\xE9s output_000.png ... output_N.png.\n\n<i>Seuls
       les fichiers .obj sont pris en charge.</i>"
     m_Metadata:

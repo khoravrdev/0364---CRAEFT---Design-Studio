@@ -369,11 +369,11 @@ MonoBehaviour:
       Despu\xE9s de las opciones de renderizado, elija:\n\n<b>Simple Obj</b>: Renderiza
       un modelo 3D sin texturas.\n\n<b>Textured Obj</b>: Renderiza un modelo 3D con
       un mapa de texturas.\n\n<b>3. Fase de renderizado</b> Una vez que elija un
-      preajuste:\n\nHaga clic en <b>Select File</b>.\n\nSeleccione el archivo input.obj
-      que desea renderizar.\n\nAbra el archivo.\n\nHaga clic en <b>Start rendering</b>.\n\nEl
-      proceso se ejecuta en segundo plano (puede tardar unos minutos).\n\nLos PNG
-      renderizados aparecen en la pantalla cuando termina.\n\nArchivos guardados
-      en la carpeta pipeline (por ejemplo, photobooth_cpu) bajo MitsubaFiles.\n\n<b>4.
+      preajuste:\n\nHaga clic en <b>Seleccionar archivos</b>.\n\nSeleccione el archivo
+      input.obj que desea renderizar.\n\nAbra el archivo.\n\nHaga clic en <b>Iniciar
+      renderizado</b>.\n\nEl proceso se ejecuta en segundo plano (puede tardar unos
+      minutos).\n\nLos PNG renderizados aparecen en la pantalla cuando termina.\n\nArchivos
+      guardados en la carpeta pipeline (por ejemplo, photobooth_cpu) bajo MitsubaFiles.\n\n<b>4.
       Uso de nuevos modelos Obj</b> Puede reemplazar archivos en los preajustes de
       renderizado.\n\n\_ \_ <b>Para Simple Obj (Sin Textura):</b> \_ \_ - Vaya a
       MitsubaFiles/photobooth_cpu (o gpu). \_ \_ - Reemplace <i>input.obj</i> con
