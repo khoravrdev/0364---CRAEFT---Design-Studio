@@ -63,7 +63,19 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         TryInitializeUIAndRegisterCallbacks();
         Debug.Log($"UI refs: chisel={chiselButton != null}, orbit={orbitCameraButton != null}, toggle={turnTableToggle != null}, slider={turnTableSpeed != null}");
+        uIDocument.rootVisualElement.Blur();
 
+        if (saveSolidText != null)
+        {
+            // When the user presses Enter/Return, release focus (Blur)
+           saveSolidText.RegisterCallback<KeyDownEvent>(evt => 
+            {
+                if (evt.keyCode == KeyCode.Return || evt.keyCode == KeyCode.KeypadEnter)
+                {
+                    saveSolidText.Blur(); // Stop typing
+                }
+            });
+        }
     }
 
     // ✱ CHANGED: always unregister to break dangling delegates
@@ -143,6 +155,27 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
         if (resetObjectButton != null) resetObjectButton.RegisterCallback<ClickEvent>(OnClickResetObjectButton);     // ✱ CHANGED
 
         if (turnTableSpeed != null) turnTableSpeed.visible = false;
+
+        
+        if (saveSolidText != null)
+        {
+            // Step 1: Ensure it starts "Ignored" by the navigation system
+           saveSolidText.focusable = false;
+
+            // Step 2: When clicked, WAKE IT UP
+            saveSolidText.RegisterCallback<PointerDownEvent>(evt => 
+            {
+               saveSolidText.focusable = true; // Allow focus
+               saveSolidText.schedule.Execute(() => saveSolidText.Focus());
+                //saveSolidText.Focus(); // Force focus immediately
+            }, TrickleDown.TrickleDown);
+
+            // Step 3: When looking away (Blur), GO BACK TO SLEEP
+            saveSolidText.RegisterCallback<BlurEvent>(evt => 
+            {
+                saveSolidText.focusable = false; // Make it invisible to WASD again
+            });
+        }
 
         OnTurntableSliderCheck(); // registers focus/pointer callbacks (handled in Unregister too)
         OnDisabledChisel();

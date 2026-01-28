@@ -264,11 +264,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 65944203322
-    m_Key: Visualization_toolbox
+    m_Key: Visualization_toolboxButton
     m_Metadata:
       m_Items: []
   - m_Id: 65944203323
-    m_Key: Simulations
+    m_Key: Simulations_Button
     m_Metadata:
       m_Items: []
   - m_Id: 65944203324
@@ -343,6 +343,14 @@ MonoBehaviour:
     m_Key: 'photobooth_title
 
 '
+    m_Metadata:
+      m_Items: []
+  - m_Id: 291907730452480
+    m_Key: guide_content
+    m_Metadata:
+      m_Items: []
+  - m_Id: 294449453510656
+    m_Key: mitsuba_error
     m_Metadata:
       m_Items: []
   m_Metadata:

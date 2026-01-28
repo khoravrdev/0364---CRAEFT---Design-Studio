@@ -33,7 +33,7 @@
 .menustyle {
     position: absolute;
     top: 39px;
-    left: 148px;
+    left: 157px;
     background-color: rgb(255, 255, 255);
     border-top-width: 5px;
     border-right-width: 5px;
@@ -49,6 +49,7 @@
     border-bottom-left-radius: 15px;
     margin-left: 0;
     padding-left: 0;
+    width: auto;
 }
 
 .MenuOptionsFont {
@@ -75,6 +76,9 @@
     translate: -400px 0;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
+    position: absolute;
+    left: 8%;
+    width: 13%;
 }
 
 .burger {

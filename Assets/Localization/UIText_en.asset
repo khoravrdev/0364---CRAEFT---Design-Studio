@@ -361,6 +361,35 @@ MonoBehaviour:
     m_Localized: Photo booth
     m_Metadata:
       m_Items: []
+  - m_Id: 291907730452480
+    m_Localized: "<b>Instructions For Using The Design Studio App</b>\r\n\r\n<b>1.
+      Choose Rendering Method</b>\r\nWhen the app starts, you will see two options:\r\n-
+      <b>CPU Renderer</b>: Uses Scalar_RGB Mode (Slower, compatible with any PC).\r\n-
+      <b>GPU Renderer</b>: Uses Cuda_RGB Mode (Faster, NVIDIA only).\r\n\r\n<b>2.
+      Select a Preset Type</b>\r\nAfter Rendering Options, choose:\r\n- <b>Simple
+      Obj</b>: Renders a 3D Model without textures.\r\n- <b>Textured Obj</b>: Renders
+      a 3D Model with a texture map.\r\n\r\n<b>3. Rendering Phase</b>\r\nOnce you
+      choose a preset:\r\n- Click <b>Select FIle</b>.\r\n- Select the input.obj file
+      you want to render.\r\n- Open the file.\r\n- Click <b>Start rendering</b>.\r\n-
+      The process runs in the background (may take a few minutes).\r\n- Rendered
+      PNGs appear on screen when finished.\r\n- Files saved to the pipeline folder
+      (e.g., photobooth_cpu) under MitsubaFiles.\r\n\r\n<b>4. Using New Obj Models</b>\r\nYou
+      can replace files in the rendering presets.\r\n\r\n    <b>For Simple Obj (No
+      Texture):</b>\r\n    - Go to MitsubaFiles/photobooth_cpu (or gpu).\r\n    -
+      Replace <i>input.obj</i> with your model (must be named <i>input.obj</i>).\r\n\r\n   
+      <b>For Textured Obj:</b>\r\n    - Go to MitsubaFiles/photobooth2_cpu (or gpu).\r\n   
+      - Replace <i>input_with_texture.obj</i> with your model.\r\n    - Replace <i>texturemap.jpg</i>
+      with your texture.\r\n    - Keep filenames exactly the same.\r\n\r\n<b>5. Where
+      are the Rendered Images Saved?</b>\r\n- Photobooth folder for simple mesh.\r\n-
+      Photobooth2 folder for textured.\r\n- Named output_000.png ... output_N.png.\r\n\r\n<i>Only
+      .obj files are supported.</i>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 294449453510656
+    m_Localized: 'Error: ''MitsubaFiles'' folder not found on Desktop.\n<size=80%>Please
+      run the setup file first, and make sure MitsubaFiles folder is on the Desktop.</size>'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -81,12 +81,13 @@ public class RenderCaller : MonoBehaviour
 
         if (guideContentText != null)
         {
-             guideContentText.text = GUIDE_TEXT;
+            
+             //guideContentText.text = GUIDE_TEXT;
              // Force readable defaults
              guideContentText.color = Color.black; 
              //guideContentText.alignment = TextAlignmentOptions.MiddleTop;
              guideContentText.fontSize = 35;
-             guideContentText.enableWordWrapping = true;
+             guideContentText.enableWordWrapping = true;            
         }
 
         if (restartButton != null)
@@ -355,7 +356,7 @@ public class RenderCaller : MonoBehaviour
     {
         if (errorMessageText != null)
         {
-            errorMessageText.text = "Error: 'MitsubaFiles' folder not found on Desktop.\n<size=80%>Please run the setup file first, and make sure MitsubaFiles folder is on the Desktop.</size>";
+            //errorMessageText.text = "Error: 'MitsubaFiles' folder not found on Desktop.\n<size=80%>Please run the setup file first, and make sure MitsubaFiles folder is on the Desktop.</size>";
             errorMessageText.color = Color.red;
             errorMessageText.gameObject.SetActive(true);
         }

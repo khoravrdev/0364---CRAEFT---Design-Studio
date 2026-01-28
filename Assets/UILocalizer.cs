@@ -4,6 +4,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Collections;
 
 public class UILocalizer : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class UILocalizer : MonoBehaviour
         LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
     }
 
-    private System.Collections.IEnumerator InitializeAndLoad()
+    private IEnumerator InitializeAndLoad()
     {
         yield return LocalizationSettings.InitializationOperation;
         UpdateUIText();
@@ -33,13 +34,11 @@ public class UILocalizer : MonoBehaviour
         UpdateUIText();
     }
 
-    void UpdateUIText()
+    public void UpdateUIText()
     {
         if (uiDocument == null) return;
-
         var root = uiDocument.rootVisualElement;
         
-        // Load the String Table
         var stringTableOp = LocalizationSettings.StringDatabase.GetTableAsync(tableCollectionName);
         
         stringTableOp.Completed += (op) =>
@@ -48,38 +47,54 @@ public class UILocalizer : MonoBehaviour
             {
                 var table = op.Result;
 
-                // Loop through SharedData to get the "Keys" (the names you gave your UI elements)
                 foreach (var sharedEntry in table.SharedData.Entries)
                 {
                     string keyName = sharedEntry.Key;
-                    
-                    // Get the translation for the current language using the ID
                     var entry = table.GetEntry(sharedEntry.Id);
                     
-                    // FIX 1: Check if entry is null or the Value is empty
                     if (entry == null || string.IsNullOrEmpty(entry.Value)) continue;
 
-                    // FIX 2: Use .Value to get the raw string directly
                     string translatedText = entry.Value;
 
-                    // Update Labels
-                    var label = root.Q<Label>(keyName);
-                    if (label != null)
-                    {
-                        label.text = translatedText;
-                    }
+                    // --- NEW LOGIC: FIND ALL INSTANCES ---
+                    // "Query" finds ALL elements with this name, not just the first one.
+                    // We loop through the results and update them all.
+
+                    // 1. LABELS
+                    var labels = root.Query<Label>(keyName).Build();
+                    foreach (var label in labels) label.text = translatedText;
+
+                    // 2. BUTTONS
+                    var buttons = root.Query<Button>(keyName).Build();
+                    foreach (var btn in buttons) btn.text = translatedText;
+
+                    // 3. TOGGLES
+                    var toggles = root.Query<Toggle>(keyName).Build();
+                    foreach (var toggle in toggles) toggle.label = translatedText;
+
+                    // 4. SLIDERS
+                    var sliders = root.Query<Slider>(keyName).Build();
+                    foreach (var slider in sliders) slider.label = translatedText;
                     
-                    // Update Buttons
-                    var button = root.Q<Button>(keyName);
-                    if (button != null)
-                    {
-                        button.text = translatedText;
-                    }
+                    var slidersInt = root.Query<SliderInt>(keyName).Build();
+                    foreach (var slider in slidersInt) slider.label = translatedText;
+
+                    // 5. TEXT FIELDS
+                    var textFields = root.Query<TextField>(keyName).Build();
+                    foreach (var field in textFields) field.label = translatedText;
+
+                    // 6. DROPDOWNS
+                    var dropdowns = root.Query<DropdownField>(keyName).Build();
+                    foreach (var dropdown in dropdowns) dropdown.label = translatedText;
+
+                    // 7. GROUP BOXES (Headings)
+                    var groupBoxes = root.Query<GroupBox>(keyName).Build();
+                    foreach (var box in groupBoxes) box.text = translatedText;
+                    
+                    // 8. RADIO BUTTONS
+                    var radios = root.Query<RadioButton>(keyName).Build();
+                    foreach (var radio in radios) radio.label = translatedText;
                 }
-            }
-            else
-            {
-                Debug.LogError($"Could not load String Table: {tableCollectionName}");
             }
         };
     }

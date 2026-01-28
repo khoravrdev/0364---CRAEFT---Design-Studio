@@ -360,6 +360,38 @@ MonoBehaviour:
     m_Localized: "Fotomat\xF3n"
     m_Metadata:
       m_Items: []
+  - m_Id: 291907730452480
+    m_Localized: "<b>Instrucciones para usar la aplicaci\xF3n Design Studio</b>\n\n<b>1.
+      Elija el m\xE9todo de renderizado</b> Cuando se inicie la aplicaci\xF3n, ver\xE1
+      dos opciones:\n\n<b>CPU Renderer</b>: Utiliza el modo Scalar_RGB (M\xE1s lento,
+      compatible con cualquier PC).\n\n<b>GPU Renderer</b>: Utiliza el modo Cuda_RGB
+      (M\xE1s r\xE1pido, solo NVIDIA).\n\n<b>2. Seleccione un tipo de preajuste</b>
+      Despu\xE9s de las opciones de renderizado, elija:\n\n<b>Simple Obj</b>: Renderiza
+      un modelo 3D sin texturas.\n\n<b>Textured Obj</b>: Renderiza un modelo 3D con
+      un mapa de texturas.\n\n<b>3. Fase de renderizado</b> Una vez que elija un
+      preajuste:\n\nHaga clic en <b>Select File</b>.\n\nSeleccione el archivo input.obj
+      que desea renderizar.\n\nAbra el archivo.\n\nHaga clic en <b>Start rendering</b>.\n\nEl
+      proceso se ejecuta en segundo plano (puede tardar unos minutos).\n\nLos PNG
+      renderizados aparecen en la pantalla cuando termina.\n\nArchivos guardados
+      en la carpeta pipeline (por ejemplo, photobooth_cpu) bajo MitsubaFiles.\n\n<b>4.
+      Uso de nuevos modelos Obj</b> Puede reemplazar archivos en los preajustes de
+      renderizado.\n\n\_ \_ <b>Para Simple Obj (Sin Textura):</b> \_ \_ - Vaya a
+      MitsubaFiles/photobooth_cpu (o gpu). \_ \_ - Reemplace <i>input.obj</i> con
+      su modelo (debe llamarse <i>input.obj</i>).\n\n\_ \_ <b>Para Textured Obj:</b>
+      \_ \_ - Vaya a MitsubaFiles/photobooth2_cpu (o gpu). \_ \_ - Reemplace <i>input_with_texture.obj</i>
+      con su modelo. \_ \_ - Reemplace <i>texturemap.jpg</i> con su textura. \_ \_
+      - Mantenga los nombres de archivo exactamente iguales.\n\n<b>5. \xBFD\xF3nde
+      se guardan las im\xE1genes renderizadas?</b>\n\nCarpeta Photobooth para malla
+      simple.\n\nCarpeta Photobooth2 para texturizado.\n\nNombrados output_000.png
+      ... output_N.png.\n\n<i>Solo se admiten archivos .obj.</i>"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 294449453510656
+    m_Localized: "Error: No se encontr\xF3 la carpeta 'MitsubaFiles' en el Escritorio.\\n<size=80%>Por
+      favor, ejecute primero el archivo de instalaci\xF3n y aseg\xFArese de que la
+      carpeta MitsubaFiles est\xE9 en el Escritorio.</size>"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

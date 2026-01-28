@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="LanguageDropdown" style="flex-grow: 1; width: 100px; height: 100px;">
+        <ui:Button name="DropdownHeader" enable-rich-text="true" emoji-fallback-support="true" style="background-color: rgba(255, 255, 255, 0); height: 100%; display: flex; visibility: visible; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement name="CurrentFlagIcon" style="flex-grow: 1; width: 55px; height: 50px; background-image: url(&quot;project://database/Assets/Images/Flag_ENG.png?fileID=2800000&amp;guid=5e74248d29619684da797f561ae4d3c6&amp;type=3#Flag_ENG&quot;); align-items: stretch; justify-content: flex-start; align-self: center;" />
+        </ui:Button>
+        <ui:VisualElement name="OptionsList" style="flex-grow: 1; position: absolute; top: 76px; display: none; background-color: rgba(255, 255, 255, 0); align-self: center;">
+            <ui:Button name="Btn_en" style="width: 55px; height: 50px; background-image: url(&quot;project://database/Assets/Images/Flag_ENG.png?fileID=2800000&amp;guid=5e74248d29619684da797f561ae4d3c6&amp;type=3#Flag_ENG&quot;);" />
+            <ui:Button name="Btn_el" style="width: 55px; height: 50px; background-image: url(&quot;project://database/Assets/Images/Flag_EL.png?fileID=2800000&amp;guid=f5bc7cca0bb00ea4094c2103f6a4cd97&amp;type=3#Flag_EL&quot;);" />
+            <ui:Button name="Btn_fr" style="width: 55px; height: 50px; background-image: url(&quot;project://database/Assets/Images/Flag_FR.png?fileID=2800000&amp;guid=78b716df9dd8091478a4c42449235ca4&amp;type=3#Flag_FR&quot;);" />
+            <ui:Button name="Btn_es" style="width: 55px; height: 50px; background-image: url(&quot;project://database/Assets/Images/Flag_ES.png?fileID=2800000&amp;guid=e4d352b969f890e438308b84d7dbc14f&amp;type=3#Flag_ES&quot;);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
