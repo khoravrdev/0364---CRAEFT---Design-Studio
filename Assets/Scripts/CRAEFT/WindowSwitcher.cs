@@ -53,6 +53,7 @@ public class WindowSwitcher : MonoBehaviour
         woodCurvingSimulatorWindow = root.Q<VisualElement>("WoodCurvingSimulationWindow");
         photoBoothToolWindow = root.Q<VisualElement>("PhotoBoothSimulationWindow");
         backgroundImage = root.Q<VisualElement>("BackgroundImage");
+        if (backgroundImage != null) backgroundImage.SendToBack();
         exitButton = root.Q<VisualElement>("Menu_ExitButton");
 
         // Query for all buttons with the given names (even if they share the same name but different parents)
@@ -99,8 +100,10 @@ public class WindowSwitcher : MonoBehaviour
         
         if (potterySimulatorWindow != null)
             potterySimulatorWindow.style.display = DisplayStyle.None;
+                
         if (woodCurvingSimulatorWindow != null)
             woodCurvingSimulatorWindow.style.display = DisplayStyle.None;
+
         if (photoBoothToolWindow != null)
             photoBoothToolWindow.style.display = DisplayStyle.None;
 
@@ -114,6 +117,7 @@ public class WindowSwitcher : MonoBehaviour
                         backgroundImage.style.height = Length.Percent(100);
                         backgroundImage.style.maxHeight = Length.Percent(100);
                         backgroundImage.style.minHeight = Length.Percent(100);
+                        backgroundImage.SendToBack();
                     }
 
                 }
@@ -125,17 +129,19 @@ public class WindowSwitcher : MonoBehaviour
                         backgroundImage.style.height = Length.Percent(100);
                         backgroundImage.style.maxHeight = Length.Percent(100);
                         backgroundImage.style.minHeight = Length.Percent(100);
+                        backgroundImage.SendToBack();
                     }
                 }
                 if (windowToShow != photoBoothToolWindow)
                 {
                     if (SceneManager.GetSceneByName("SampleScene").isLoaded)
-                    {                     
+                    {
                         MitsubaRunner.RequestHardKill();
                         SceneManager.UnloadSceneAsync("SampleScene");
                         backgroundImage.style.height = Length.Percent(100);
                         backgroundImage.style.maxHeight = Length.Percent(100);
                         backgroundImage.style.minHeight = Length.Percent(100);
+                        backgroundImage.SendToBack();
                     }
                 }
                 windowToShow.style.display = DisplayStyle.Flex;

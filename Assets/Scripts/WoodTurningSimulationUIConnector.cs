@@ -228,14 +228,13 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
         if (_scene3 != null)
             _scene3.m_turntableOn = false;
 
-        // 4) Reset ALL button visuals to "not pressed" (white) to avoid leftover pressed state after reload
-        if (root != null)
-        {
-            root.Query<Button>().ForEach(b =>
-            {
-                b.style.backgroundColor = new StyleColor(Color.white);
-            });
-        }
+        // 4) Reset ONLY this tool's buttons
+        if (orbitCameraButton != null) orbitCameraButton.style.backgroundColor = new StyleColor(Color.white);
+        if (chiselButton != null) chiselButton.style.backgroundColor = new StyleColor(Color.white);
+        if (saveSolidButton != null) saveSolidButton.style.backgroundColor = new StyleColor(Color.white);
+        if (exportObjButton != null) exportObjButton.style.backgroundColor = new StyleColor(Color.white);
+        if (loadSolidButton != null) loadSolidButton.style.backgroundColor = new StyleColor(Color.white);
+        if (resetObjectButton != null) resetObjectButton.style.backgroundColor = new StyleColor(Color.white);
     }
 
 

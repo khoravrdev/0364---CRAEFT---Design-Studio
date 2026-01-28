@@ -1,6 +1,10 @@
+using System.ComponentModel.Design.Serialization;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+using System;
+using NUnit.Framework.Constraints;
+using Unity.VisualScripting;
 
 public class WoodCurvingSimulationButton : MonoBehaviour
 {
@@ -21,7 +25,9 @@ public class WoodCurvingSimulationButton : MonoBehaviour
         mainWindow = root.Q<VisualElement>("MainWindow");
         backgroundImage = root.Q<VisualElement>("BackgroundImage");
         backgroundImage.SendToBack();
-        backgroundImage.SendToBack();        
+        backgroundImage.SendToBack();
+        backgroundImage.SendToBack(); 
+        //backgroundImage.SendToBack();           
         backgroundImage.visible = true;
         
        woodCurvingSimulatorButton = root.Q<VisualElement>("WoodturningButton");
