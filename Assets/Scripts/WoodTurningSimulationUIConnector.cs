@@ -185,6 +185,7 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
         //    _scene3.chiselFullObject.SetActive(false);
 
         // ✱ CHANGED: ensure clean visual state on first load and every reload
+        
         ResetUIState();  // ✱ CHANGED
 
         _initialized = true; // ✱ CHANGED
@@ -193,8 +194,10 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
     private void ResetUIState()   // ✱ CHANGED (NEW)
     {
         // 1) Chisel tool disabled
-        //if (_scene3 != null && _scene3.chiselFullObject != null)
-        //    _scene3.chiselFullObject.SetActive(false);
+        if (_scene3 != null && _scene3.chiselFullObject != null)
+        {
+           _scene3.chiselFullObject.SetActive(false);
+        }
 
         if (chiselButton != null)
             chiselButton.style.backgroundColor = new StyleColor(Color.white);
@@ -345,27 +348,43 @@ public class WoodTurningSimulationUIConnector : MonoBehaviour
 
     private void OnClickChiselButton(ClickEvent evt)
     {
+        // 1. Safety Checks
         if (_scene3 == null || chiselButton == null) return;
 
-        // ✱ CHANGED: don’t try to toggle until Scene3 finished initializing the tool
+        // 2. Check if the backend is ready (calculated in Scene3.cs)
         if (!_scene3.ToolReady)
         {
-            Debug.LogWarning("Chisel tool not ready yet.");  // ✱ CHANGED
+            Debug.LogWarning("Chisel tool not ready yet."); 
             return;
         }
 
-        if (chiselButton.style.backgroundColor == new StyleColor(Color.grey))
+        // 3. Determine the TRUE state of the chisel (trust the object, not the button color)
+        bool isChiselCurrentlyActive = false; // <--- This is the variable that was missing
+        
+        if (_scene3.chiselFullObject != null)
         {
+            isChiselCurrentlyActive = _scene3.chiselFullObject.activeSelf;
+        }
+
+        // 4. Toggle Logic based on the TRUE state
+        if (isChiselCurrentlyActive)
+        {
+            // Case: Chisel is ON -> Turn it OFF
             if (_scene3.chiselFullObject != null) _scene3.chiselFullObject.SetActive(false);
+            
+            // Sync Visuals
             chiselButton.style.backgroundColor = new StyleColor(Color.white);
             if (groupAxis != null) groupAxis.visible = false;
             if (helpPanel != null) helpPanel.text = "";
         }
         else
         {
+            // Case: Chisel is OFF -> Turn it ON
             if (_scene3.chiselFullObject != null) _scene3.chiselFullObject.SetActive(true);
+            
+            // Sync Visuals
             chiselButton.style.backgroundColor = new StyleColor(Color.grey);
-            if (groupAxis != null)
+            if (groupAxis != null) 
             {
                 groupAxis.visible = true;
                 if (xAxis != null) xAxis.style.backgroundColor = new StyleColor(Color.white);

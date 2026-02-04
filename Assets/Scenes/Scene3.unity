@@ -442,6 +442,9 @@ MonoBehaviour:
   m_turntableOn: 0
   m_maxSpeed: 0.5
   m_accelaration: 0.01
+  m_solid: {fileID: 702703030}
+  m_tool: {fileID: 1779575806}
+  m_turntable: {fileID: 591454506}
   chiselFullObject: {fileID: 1779575806}
 --- !u!114 &702703035
 MonoBehaviour:
